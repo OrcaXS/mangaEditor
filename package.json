@@ -1,0 +1,39 @@
+{
+  "scripts": {
+    "start": "webpack --mode production",
+    "dev": "webpack-dev-server --mode development"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-html": "^4.0.2",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.0.6",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-hexrgba": "^1.0.0",
+    "postcss-import": "^11.1.0",
+    "postcss-import-resolver": "^1.1.0",
+    "postcss-reporter": "^5.0.0",
+    "postcss-url": "^7.3.1",
+    "stylelint": "^9.1.1",
+    "stylelint-config-recommended": "^2.1.0",
+    "stylelint-processor-html": "^1.0.0",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "fabric": "^2.2.1"
+  }
+}
