@@ -2,20 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link href="src/styles/bulma.css" rel="stylesheet" title="Default Style">
     <title>MangaEditor</title>
   </head>
   <body>
     <div id="app">
-      <form method="post" enctype="multipart/form-data">
+      <form id="uploadForm" method="post" enctype="multipart/form-data">
         <div>
           <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
-          <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png" multiple>
+          <input type="file" id="image_uploads" name="files" accept=".jpg, .jpeg, .png" multiple>
         </div>
         <div class="preview">
           <p>No files currently selected for upload</p>
         </div>
         <div>
-          <button>Submit</button>
+          <input type="submit" value="Submit">
         </div>
       </form>
     </div>

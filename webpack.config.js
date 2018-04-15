@@ -19,6 +19,13 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
+      {
+        test: /\.pug$/,
+        include: path.join(__dirname, 'src'),
+        use: {
+          loader: 'pug-loader',
+        },
+      },
     ],
   },
 
@@ -30,7 +37,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebPackPlugin({
-      template: './src/index.html',
+      template: './src/index.pug',
       filename: './index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),

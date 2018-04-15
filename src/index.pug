@@ -1,0 +1,27 @@
+doctype html
+html(lang='en')
+  head
+    title MangaEditor
+    link(rel='stylesheet' href='src/styles/bulma.css')
+  body
+    #app
+      form#uploadForm(
+        method='post'
+        enctype='multipart/form-data'
+      )
+        .file
+          label.file-label(for='image_uploads')
+            input#image_uploads.file-input(
+              type='file'
+              name='files'
+              accept='.jpg, .jpeg, .png'
+              multiple
+            )
+            span.file-cta
+              span.file-icon
+                i.fas.fa-upload
+              span.file-label Choose a file...
+        .preview
+          p No files currently selected for upload
+        div
+          input(type='submit' value='submit')
