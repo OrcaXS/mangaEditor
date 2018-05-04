@@ -1,12 +1,50 @@
 <template>
-  <v-stage ref="stage" :config="configKonva">
-    <v-layer ref="layer">
-      <v-circle :config="configCircle"></v-circle>
-    </v-layer>
-  </v-stage>
+  <div>
+    <v-stage ref="stage" :config="configKonva">
+      <v-layer ref="layer">
+        <v-circle :config="configCircle"></v-circle>
+      </v-layer>
+    </v-stage>
+
+    <div>
+      <input @change="upload" type="file" id="fileinput" accept="image/gif, image/png, image/jpeg, image/bmp, image/webp" />
+    </div>
+
+    <div id="showcase">
+    </div>
+
+  </div>
+
 </template>
 
 <script>
+import uploadPicture from "../scripts/upload.js";
+import Vue from 'vue';
+
+var stage = {}
+var balloons = []
+var bgLayer = new Konva.Layer()
+var fgLayer = new Konva.Layer()
+
+function loadFromURLs(response, index, maxindex)
+{
+  if (index < maxindex)
+  {
+    Konva.Image.fromURL(response[index].resultURL, image => {
+      console.log(response,index,response[index])
+      image.draggable(true)
+      image.setAttrs({
+        x: response[index].boundingRect.x,
+        y: response[index].boundingRect.y,
+      })
+      balloons.push(image)
+      bgLayer.add(image)
+      bgLayer.draw()
+      loadFromURLs(response, index+1, maxindex)
+    });
+  }
+}
+
 export default {
   name: 'Canvas',
   data() {
@@ -24,6 +62,30 @@ export default {
         strokeWidth: 4,
       }
     };
+  },
+  methods:{
+      upload: async function(e){
+        var data = new FormData()
+        data.append('files', e.srcElement.files[0])
+        var response = await uploadPicture(data)
+        
+        stage = new Konva.Stage({
+          container: 'showcase',
+          width: response.dim.cols,
+          height: response.dim.rows,
+        });
+        
+        stage.add(bgLayer)
+        Konva.Image.fromURL(response.fileName, image => {
+          bgLayer.add(image)
+          bgLayer.draw()
+        });
+
+
+        stage.add(fgLayer)
+        loadFromURLs(response,0,response.balloonCount)
+
+      }
   }
 };
 </script>
