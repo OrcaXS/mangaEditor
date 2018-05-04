@@ -4866,7 +4866,7 @@ known-css-properties@^0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/known-css-properties/-/known-css-properties-0.6.1.tgz#31b5123ad03d8d1a3f36bd4155459c981173478b"
 
-konva@^2.0.2:
+konva@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/konva/-/konva-2.0.3.tgz#80c8b8d0f2ba4b93b8cc86b10c3aabd2438dfaf6"
 
@@ -8704,6 +8704,13 @@ vue-jest@^1.0.2:
     tsconfig "^7.0.0"
     vue-template-es2015-compiler "^1.5.3"
 
+vue-konva@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-konva/-/vue-konva-1.0.6.tgz#e427658d6be862f03ee3f3ff3664c84826004f07"
+  dependencies:
+    vue "^2.5.2"
+    vue-router "^3.0.1"
+
 vue-loader@^15.0.7:
   version "15.0.7"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-15.0.7.tgz#7ee279e7c760e1910e1e7bb0d7ad364c9e9b2954"
@@ -8743,7 +8750,7 @@ vue-template-es2015-compiler@^1.5.3, vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
-vue@^2.5.16:
+vue@^2.5.16, vue@^2.5.2:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 

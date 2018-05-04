@@ -21,6 +21,12 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: 'webpack.config.js',
+      node: {
+        'extensions': [
+          '.js',
+          '.vue',
+        ],
+      },
     },
   },
   // add your custom rules here
@@ -42,6 +48,7 @@ module.exports = {
     'semi': ['error', 'always', { 'omitLastInOneLineBlock': true }],
     'import/extensions': ['error', 'always', {
       'js': 'never',
+      'vue': 'never',
     }],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': 'off',
