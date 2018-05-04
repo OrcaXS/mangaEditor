@@ -1,16 +1,15 @@
-import loadFA from './scripts/fontawesome';
-import uploadPicture from './scripts/upload';
-import updateImageDisplay from './scripts/inputFile';
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
 
-const initialPicInput = document.querySelector('#image_uploads');
-const uploadForm = document.querySelector('#uploadForm');
-const formData = new FormData(uploadForm);
+Vue.config.productionTip = false
 
-loadFA();
-
-initialPicInput.style.opacity = 0;
-initialPicInput.addEventListener('change', updateImageDisplay);
-uploadForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  uploadPicture(formData);
-});
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})

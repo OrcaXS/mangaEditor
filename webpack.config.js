@@ -1,6 +1,8 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const { resolve } = require('path');
+const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
   devServer: {
@@ -21,25 +23,51 @@ module.exports = {
       },
       {
         test: /\.pug$/,
-        include: path.join(__dirname, 'src'),
-        use: {
-          loader: 'pug-loader',
-        },
+        loader: 'pug-plain-loader',
       },
+      {
+        test: /\.vue$/,
+        exclude: /node_modules/,
+        loader: 'vue-loader',
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
+      }
     ],
   },
 
   resolve: {
+    modules: [resolve(__dirname, 'lib'), 'node_modules'],
+    extensions: ['.js', '.vue'],
     alias: {
-      '~': path.resolve(__dirname),
+      vue$: 'vue/dist/vue.esm.js',
+      '~': __dirname,
+      '@': resolve(__dirname, 'src'),
+      // your aliases go here.
     },
   },
 
   plugins: [
-    new HtmlWebPackPlugin({
-      template: './src/index.pug',
-      filename: './index.html',
-    }),
+
     new webpack.HotModuleReplacementPlugin(),
+    new VueLoaderPlugin(),
+    new HtmlWebPackPlugin({
+      // template: './src/index.pug',
+      template: './src/index.html',
+      inject: true,
+    }),
   ],
 };
