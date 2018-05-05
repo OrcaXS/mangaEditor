@@ -15,7 +15,7 @@ module.exports = {
   ],
 
   plugins: [
-    'html'
+    'vue',
   ],
   // check if imports actually resolve
   settings: {
