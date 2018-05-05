@@ -3,56 +3,29 @@
     <v-stage
       ref="stage"
       :config="configKonva">
-      <v-layer ref="layer">
-        <v-circle :config="configCircle"/>
+      <v-layer ref="fgLayer">
+        <v-image
+          v-for="part in parts"
+          :config="configBalloon(val.resultURL)"
+        />
+      </v-layer>
+      <v-layer ref="bgLayer">
+        <v-image :config="imageObjConfig"/>
       </v-layer>
     </v-stage>
-
-    <div>
-      <input
-        id="fileinput"
-        type="file"
-        accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
-        @change="upload" >
-    </div>
-
-    <div id="showcase"/>
-
   </div>
-
 </template>
 
 <script>
 import uploadPicture from '../scripts/upload.js';
-import Vue from 'vue';
-
-const bgLayer = new Konva.Layer();
-const fgLayer = new Konva.Layer();
-
-function loadFromURLs(response, index, maxindex) {
-  if (index < maxindex) {
-    Konva.Image.fromURL(response[index].resultURL, (image) => {
-      console.log(response, index, response[index]);
-      image.draggable(true);
-      image.setAttrs({
-        x: response[index].boundingRect.x,
-        y: response[index].boundingRect.y,
-      });
-      balloons.push(image);
-      bgLayer.add(image);
-      bgLayer.draw();
-      loadFromURLs(response, index + 1, maxindex);
-    });
-  }
-}
 
 export default {
   name: 'Canvas',
   data() {
     return {
       configKonva: {
-        width: 200,
-        height: 200,
+        width: 1000,
+        height: 1000,
       },
       configCircle: {
         x: 100,
@@ -62,33 +35,51 @@ export default {
         stroke: 'black',
         strokeWidth: 4,
       },
+
       konvaObjs: {
         stage: {},
         balloons: [],
       },
     };
   },
+
+  computed: {
+    imageObjConfig() {
+      const bgImage = new Image();
+      bgImage.src = 'https://moeka.me/mangaEditor/results/01abcf42e7c17461d211ae0fcf6c5d3c/67684170_p3_web.jpg';
+      return {
+        x: 50,
+        y: 50,
+        image: bgImage,
+        width: 1000,
+        height: 1000,
+      };
+    },
+    configBalloon(url) {
+      const balloonArr = [];
+      Object.keys(this.parts).forEach((key) => {
+
+      });
+      const balloonImage = new Image();
+      balloonImage.src = 'https://moeka.me/mangaEditor/results/01abcf42e7c17461d211ae0fcf6c5d3c/67684170_p3_web.jpg';
+      const configObj = {
+        x: 50,
+        y: 50,
+        image: balloonImage,
+        width: 1000,
+        height: 1000,
+      };
+      return balloonArr;
+    },
+    parts() {
+      return this.$store.file.parts;
+    },
+
+  },
+
   methods: {
-    async upload(e) {
-      const data = new FormData();
-      data.append('files', e.srcElement.files[0]);
-      const response = await uploadPicture(data);
+    createBallons() {
 
-      stage = new Konva.Stage({
-        container: 'showcase',
-        width: response.dim.cols,
-        height: response.dim.rows,
-      });
-
-      stage.add(bgLayer);
-      Konva.Image.fromURL(response.fileName, (image) => {
-        bgLayer.add(image);
-        bgLayer.draw();
-      });
-
-
-      stage.add(fgLayer);
-      loadFromURLs(response, 0, response.balloonCount);
     },
   },
 };
