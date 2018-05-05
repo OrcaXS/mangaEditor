@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
+import Upload from '@/components/Upload';
 import Canvas from '@/components/Canvas';
 
 Vue.use(Router);
@@ -9,8 +9,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'Upload',
+      component: Upload,
     },
     {
       path: '/canvas',

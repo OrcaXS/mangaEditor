@@ -14,4 +14,23 @@ async function uploadPicture(formData) {
   }
 }
 
-export default uploadPicture;
+async function callFetch(request) {
+  const init = {
+    method: request.method || 'POST',
+    headers: {},
+  };
+
+  try {
+    const res = await fetch(uploadUrl, init);
+    const json = await res.json();
+    return json;
+  } catch (error) {
+    throw error;
+  }
+}
+
+const remote = {
+  uploadPicture,
+};
+
+export default remote;
