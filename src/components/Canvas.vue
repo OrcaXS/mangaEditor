@@ -3,39 +3,24 @@
     <v-stage
       ref="stage"
       :config="configKonva">
+      <v-layer ref="bgLayer">
+        <v-image :config="bgImageConfig"/>
+      </v-layer>
       <v-layer ref="fgLayer">
         <v-image
-          v-for="part in parts"
-          :config="configBalloon(val.resultURL)"
+          v-for="balloon in fileData.balloons"
+          :config="configBalloon(balloon)"
         />
-      </v-layer>
-      <v-layer ref="bgLayer">
-        <v-image :config="imageObjConfig"/>
       </v-layer>
     </v-stage>
   </div>
 </template>
 
 <script>
-import uploadPicture from '../scripts/upload.js';
-
 export default {
   name: 'Canvas',
   data() {
     return {
-      configKonva: {
-        width: 1000,
-        height: 1000,
-      },
-      configCircle: {
-        x: 100,
-        y: 100,
-        radius: 70,
-        fill: 'red',
-        stroke: 'black',
-        strokeWidth: 4,
-      },
-
       konvaObjs: {
         stage: {},
         balloons: [],
@@ -44,35 +29,42 @@ export default {
   },
 
   computed: {
-    imageObjConfig() {
-      const bgImage = new Image();
-      bgImage.src = 'https://moeka.me/mangaEditor/results/01abcf42e7c17461d211ae0fcf6c5d3c/67684170_p3_web.jpg';
+    configKonva() {
       return {
-        x: 50,
-        y: 50,
-        image: bgImage,
-        width: 1000,
-        height: 1000,
+        width: this.dimension.width,
+        height: this.dimension.height,
       };
     },
-    configBalloon(url) {
-      const balloonArr = [];
-      Object.keys(this.parts).forEach((key) => {
 
-      });
-      const balloonImage = new Image();
-      balloonImage.src = 'https://moeka.me/mangaEditor/results/01abcf42e7c17461d211ae0fcf6c5d3c/67684170_p3_web.jpg';
-      const configObj = {
-        x: 50,
-        y: 50,
-        image: balloonImage,
-        width: 1000,
-        height: 1000,
+    bgImageConfig() {
+      const bgImage = new Image();
+      bgImage.src = this.fileData.info.filename;
+      return {
+        x: 0,
+        y: 0,
+        image: bgImage,
+        width: this.dimension.width,
+        height: this.dimension.height,
       };
-      return balloonArr;
     },
-    parts() {
-      return this.$store.file.parts;
+
+    fileData() {
+      return this.$store.state.file.fileData[this.$route.params.file_id];
+    },
+
+    dimension() {
+      return {
+        width: this.fileData.info.dim.cols,
+        height: this.fileData.info.dim.rows,
+      };
+    },
+
+    localBlob() {
+      return this.$store.state.file.localBlob;
+    },
+
+    balloons() {
+      return this.fileData.balloons;
     },
 
   },
@@ -80,6 +72,24 @@ export default {
   methods: {
     createBallons() {
 
+    },
+    configBalloon(balloon) {
+      const balloonImage = new Image();
+      balloonImage.src = balloon.resultURL;
+      const configObj = {
+        x: balloon.boundingRect.x,
+        y: balloon.boundingRect.y,
+        image: balloonImage,
+        width: balloon.boundingRect.width,
+        height: balloon.boundingRect.height,
+        stroke: 'black',
+        strokeWidth: 4,
+        shadowOffsetX: 20,
+        shadowOffsetY: 25,
+        shadowBlur: 40,
+        opacity: 0.5,
+      };
+      return configObj;
     },
   },
 };
