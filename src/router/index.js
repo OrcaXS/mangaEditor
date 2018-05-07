@@ -6,15 +6,16 @@ import Canvas from '@/components/Canvas';
 Vue.use(Router);
 
 export default new Router({
+  // mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'Upload',
+      name: 'upload',
       component: Upload,
     },
     {
-      path: '/canvas',
-      name: 'Canvas',
+      path: '/canvas/:file_id',
+      name: 'canvas',
       component: Canvas,
     },
   ],

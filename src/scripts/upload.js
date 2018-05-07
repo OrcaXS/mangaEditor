@@ -1,6 +1,6 @@
 import apiPrefix from '~/config';
 
-const uploadUrl = `${apiPrefix}upload/`;
+const uploadUrl = `${apiPrefix}upload/v2/`;
 
 async function uploadPicture(formData) {
   try {
