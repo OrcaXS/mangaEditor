@@ -9,6 +9,7 @@
       <v-layer ref="fgLayer">
         <v-image
           v-for="balloon in fileData.balloons"
+          :key="balloonCoordinate(balloon)"
           :config="configBalloon(balloon)"
         />
       </v-layer>
@@ -66,7 +67,6 @@ export default {
     balloons() {
       return this.fileData.balloons;
     },
-
   },
 
   methods: {
@@ -90,6 +90,10 @@ export default {
         opacity: 0.5,
       };
       return configObj;
+    },
+
+    balloonCoordinates(balloon) {
+      return `${balloon.boundingRect.x},${balloon.boundingRect.y}`;
     },
   },
 };
