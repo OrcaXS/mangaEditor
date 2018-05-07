@@ -1,59 +1,66 @@
 <template>
-  <div id="app">
-    <form
-      id="uploadForm"
-      method="post"
-      enctype="multipart/form-data"
-      @submit.prevent
-    />
-    <div class="file">
-      <label
-        class="file-label"
-        for="image_uploads">
-        <input
-          id="image_uploads"
-          ref="uploadInput"
-          class="file-input"
-          type="file"
-          name="files"
-          accept=".jpg, .jpeg, .png"
-          multiple
-          @change="previewFile"
+  <layout-default>
+    <div>
+      <form
+        id="uploadForm"
+        method="post"
+        enctype="multipart/form-data"
+        @submit.prevent
+      />
+      <div class="file">
+        <label
+          class="Upload-label btn btn-blue"
+          for="image_uploads"
         >
-        <span class="file-cta">
-          <span class="file-icon">
-            <i class="fas fa-upload" />
-            <span class="file-label">
-              Choose a file...
+          <input
+            id="image_uploads"
+            ref="uploadInput"
+            class="Upload-fileInput"
+            type="file"
+            name="files"
+            accept=".jpg, .jpeg, .png"
+            multiple
+            @change="previewFile"
+          >
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload" />
+              <span class="file-label">
+                Choose a file...
+              </span>
             </span>
           </span>
-        </span>
-      </label>
-      <div
-        v-if="fileSelected"
-        class="preview"
-      >
-        <img
-          :src="fileObjUrl"
-          class="preview-img"
+        </label>
+        <div
+          v-if="fileSelected"
+          class="Upload-preview"
         >
-        <p>{{ file.name }} {{ fileSize }}</p>
-      </div>
-      <p v-else>No files currently selected for upload</p>
-      <div>
+          <img
+            :src="fileObjUrl"
+            class="preview-img"
+          >
+          <p>{{ file.name }} {{ fileSize }}</p>
+        </div>
+        <p v-else>No files currently selected for upload</p>
         <input
-          type="submit"
-          value="submit"
-          @click="submitUpload"
+            class="btn btn-blue"
+            type="submit"
+            value="submit"
+            @click="submitUpload"
         >
       </div>
     </div>
-  </div>
+  </layout-default>
 </template>
 
 <script>
+import LayoutDefault from '@/layouts/Default';
+
 export default {
   name: 'Upload',
+  components: {
+    LayoutDefault,
+  },
   data() {
     return {
       validFileType: [
@@ -93,24 +100,19 @@ export default {
 };
 </script>
 
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style scoped lang="postcss">
+/** @define Upload */
+
+.Upload-preview {
+  max-width: 90vw;
 }
 
-.preview {
-  max-width: 90vw;
+.Upload-fileInput {
+  display: none;
+}
+
+.Upload-label {
+  display: inline-block;
 }
 
 .preview-img {
