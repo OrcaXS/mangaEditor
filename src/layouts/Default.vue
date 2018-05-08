@@ -7,7 +7,7 @@
       </div>
     </nav>
     <slot/>
-    <footer>
+    <footer class="DefaultLayout-footer">
       Powered by Machine Learning(TM)
     </footer>
   </div>
@@ -46,6 +46,10 @@ export default {
   align-self: center;
 
   padding-right: 1rem;
+}
+
+.DefaultLayout-footer {
+  text-align: center;
 }
 
 </style>

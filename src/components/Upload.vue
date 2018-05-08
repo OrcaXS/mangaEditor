@@ -1,36 +1,44 @@
 <template>
   <layout-default>
-    <div>
+    <div class="Upload">
       <form
         id="uploadForm"
         method="post"
         enctype="multipart/form-data"
         @submit.prevent
       />
-      <div class="file">
-        <label
-          class="Upload-label btn btn-blue"
-          for="image_uploads"
-        >
-          <input
-            id="image_uploads"
-            ref="uploadInput"
-            class="Upload-fileInput"
-            type="file"
-            name="files"
-            accept=".jpg, .jpeg, .png"
-            multiple
-            @change="previewFile"
+      <div
+        class="Upload-dragZone"
+        @dragenter.stop.prevent
+        @dragover.stop.prevent
+        @drop.stop.prevent="dragDrop"
+      >
+        <div class="Upload-hint">
+          <label
+            class="Upload-label btn btn-blue"
+            for="image_uploads"
           >
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload" />
-              <span class="file-label">
-                Choose a file...
+            <input
+              id="image_uploads"
+              ref="uploadInput"
+              class="Upload-fileInput"
+              type="file"
+              name="files"
+              accept=".jpg, .jpeg, .png"
+              multiple
+              @change="previewFile"
+            >
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload" />
+                <span class="file-label">
+                  Choose a file...
+                </span>
               </span>
             </span>
-          </span>
-        </label>
+          </label>
+          <span class="Upload-dragText">... Or drag the file inside</span>
+        </div>
         <div
           v-if="fileSelected"
           class="Upload-preview"
@@ -39,14 +47,17 @@
             :src="fileObjUrl"
             class="preview-img"
           >
-          <p>{{ file.name }} {{ fileSize }}</p>
         </div>
-        <p v-else>No files currently selected for upload</p>
+      </div>
+      <div
+        v-if="fileSelected"
+        class="flex justify-center"
+      >
         <input
-            class="btn btn-blue"
-            type="submit"
-            value="submit"
-            @click="submitUpload"
+          class="btn btn-blue"
+          type="submit"
+          :value="submitText"
+          @click="submitUpload"
         >
       </div>
     </div>
@@ -81,6 +92,10 @@ export default {
       if (number > 1048576) return `${(number / 1048576).toFixed(1)}MB`;
       return `${number}bytes`;
     },
+
+    submitText() {
+      return `Submit ${this.file.name}(${this.fileSize})`;
+    },
   },
 
   methods: {
@@ -96,6 +111,13 @@ export default {
       this.$store.dispatch('fetchParts', { formData });
       this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
     },
+    dragDrop(e) {
+      const { dataTransfer } = e;
+      const { files } = dataTransfer;
+      [this.file] = files;
+      this.fileObjUrl = window.URL.createObjectURL(files[0]);
+      this.fileSelected = true;
+    },
   },
 };
 </script>
@@ -103,12 +125,42 @@ export default {
 <style scoped lang="postcss">
 /** @define Upload */
 
+.Upload {
+  padding: 1em;
+}
+
 .Upload-preview {
-  max-width: 90vw;
+  width: 100%;
+  margin-top: 1em;
 }
 
 .Upload-fileInput {
   display: none;
+}
+
+.Upload-dragZone {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 60vw;
+
+  border: 4px dashed config('colors.grey-darker');
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.Upload-hint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+.Upload-dragText {
+  margin-left: 1em;
 }
 
 .Upload-label {
