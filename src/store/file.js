@@ -6,6 +6,7 @@ const file = {
     id: [/* id */],
     localBlob: '',
     fileData: {/* [id: id]: data */},
+    errInfo: '',
   }),
 
   mutations: {
@@ -23,7 +24,7 @@ const file = {
   actions: {
     async fetchParts({ commit }, { formData }) {
       const { data } = await remote.uploadPicture(formData);
-      console.log(data);
+      if (!data) throw new Error('Cannot fetch data.');
       commit('SET_ID', { data });
       commit('SET_FILEDATA', { data });
       router.push({ name: 'canvas', params: { file_id: data.info.id } });

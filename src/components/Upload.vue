@@ -49,17 +49,27 @@
           >
         </div>
       </div>
+
+      <div
+        v-if="errInfo!==''"
+        role="alert"
+        class="Upload-errInfo border border-red-light rounded bg-red-lightest px-4 py-3 text-red-dark">
+        <p>
+          Cannot submit file: {{ errInfo }}
+        </p>
+      </div>
       <div
         v-if="fileSelected"
-        class="flex justify-center"
+        class="Upload-submit flex justify-center"
       >
         <input
+          :value="submitText"
           class="btn btn-blue"
           type="submit"
-          :value="submitText"
           @click="submitUpload"
         >
       </div>
+
     </div>
   </layout-default>
 </template>
@@ -82,6 +92,7 @@ export default {
       file: [],
       fileObjUrl: '',
       fileSelected: false,
+      errInfo: '',
     };
   },
 
@@ -104,12 +115,16 @@ export default {
       this.fileObjUrl = window.URL.createObjectURL(e.target.files[0]);
       this.fileSelected = true;
     },
-    submitUpload() {
+    async submitUpload() {
       const formData = new FormData();
       const img = this.$refs.uploadInput.files;
       formData.append('files', img[0]);
-      this.$store.dispatch('fetchParts', { formData });
-      this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
+      try {
+        await this.$store.dispatch('fetchParts', { formData });
+      } catch (error) {
+        this.errInfo = error.message;
+      }
+      await this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
     },
     dragDrop(e) {
       const { dataTransfer } = e;
@@ -160,11 +175,18 @@ export default {
 }
 
 .Upload-dragText {
-  margin-left: 1em;
+  margin-left: 1rem;
+}
+
+.Upload-submit {
+  margin: 1rem 0;
 }
 
 .Upload-label {
   display: inline-block;
+}
+
+.Upload-errInfo {
 }
 
 .preview-img {
