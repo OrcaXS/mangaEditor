@@ -49,7 +49,14 @@
           >
         </div>
       </div>
-
+      <div
+        v-if="isUploading"
+        role="alert"
+        class="Upload-errInfo border border-blue-light rounded bg-blue-lightest px-4 py-3 text-blue-dark">
+        <p>
+          Uploading file...
+        </p>
+      </div>
       <div
         v-if="errInfo!==''"
         role="alert"
@@ -92,6 +99,7 @@ export default {
       file: [],
       fileObjUrl: '',
       fileSelected: false,
+      isUploading: false,
       errInfo: '',
     };
   },
@@ -120,8 +128,10 @@ export default {
       const img = this.$refs.uploadInput.files;
       formData.append('files', img[0]);
       try {
+        this.isUploading = true;
         await this.$store.dispatch('fetchParts', { formData });
       } catch (error) {
+        this.isUploading = false;
         this.errInfo = error.message;
       }
       await this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
