@@ -1,25 +1,34 @@
 <template>
-  <div>
-    <v-stage
-      ref="stage"
-      :config="configKonva">
-      <v-layer ref="bgLayer">
-        <v-image :config="bgImageConfig"/>
-      </v-layer>
-      <v-layer ref="fgLayer">
-        <v-image
-          v-for="balloon in fileData.balloons"
-          :key="balloonCoordinate(balloon)"
-          :config="configBalloon(balloon)"
-        />
-      </v-layer>
-    </v-stage>
-  </div>
+  <LayoutEditor>
+    <div>
+      <v-stage
+        ref="stage"
+        :config="configKonva">
+        <v-layer ref="bgLayer">
+          <v-image :config="bgImageConfig"/>
+        </v-layer>
+        <v-layer ref="fgLayer">
+          <v-image
+            v-for="balloon in fileData.balloons"
+            :key="balloonCoordinate(balloon)"
+            :config="configBalloon(balloon)"
+          />
+        </v-layer>
+      </v-stage>
+    </div>
+  </LayoutEditor>
 </template>
 
 <script>
+import LayoutEditor from '@/layouts/Editor';
+
 export default {
   name: 'Canvas',
+
+  components: {
+    LayoutEditor,
+  },
+
   data() {
     return {
       konvaObjs: {
@@ -92,7 +101,7 @@ export default {
       return configObj;
     },
 
-    balloonCoordinates(balloon) {
+    balloonCoordinate(balloon) {
       return `${balloon.boundingRect.x},${balloon.boundingRect.y}`;
     },
   },
