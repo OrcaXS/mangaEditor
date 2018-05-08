@@ -127,6 +127,17 @@ let colors = {
   'pink-light': '#fa7ea8',
   'pink-lighter': '#ffbbca',
   'pink-lightest': '#ffebef',
+
+  'peach': '#e198b4',
+  'peach-mono-1': '#61424e',
+  'peach-mono-2': '#e6568d',
+  'peach-mono-3': '#61253c',
+  'peach-mono-4': '#ae768b',
+
+  'peach-shade-1': '#a16d81',
+  'peach-shade-2': '#61424e',
+  'peach-shade-3': '#eea1be',
+  'peach-shade-4': '#c787a0',
 }
 
 module.exports = {
