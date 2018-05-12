@@ -7,10 +7,14 @@ const { VueLoaderPlugin } = require('vue-loader');
 module.exports = {
   devServer: {
     // contentBase: path.join(__dirname, "dist"),
+    host: '0.0.0.0',
     hot: true,
     compress: true,
+    overlay: true,
     port: 9000,
   },
+
+  devtool: '#eval-source-map',
 
   module: {
     rules: [
