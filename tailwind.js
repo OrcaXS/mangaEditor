@@ -138,6 +138,10 @@ let colors = {
   'peach-shade-2': '#61424e',
   'peach-shade-3': '#eea1be',
   'peach-shade-4': '#c787a0',
+
+  'peach-lighter': '#fff5f9',
+  'peach-light': '#ffc6dc',
+  'peach-light-1': '#ffd6e6',
 }
 
 module.exports = {
