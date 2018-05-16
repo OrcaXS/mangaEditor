@@ -9,20 +9,42 @@
         >
           <FontAwesomeIcon :icon="['fas', icon]" />
         </button>
+        <button class="EditorLayout-toolbarBtn">
+          <FontAwesomeIcon icon="search-minus" />
+        </button>
+        <button class="EditorLayout-toolbarBtn">
+          <span>{{ currentZoomLevel }}</span>
+        </button>
+        <button class="EditorLayout-toolbarBtn">
+          <FontAwesomeIcon icon="search-plus" />
+        </button>
+        <button class="EditorLayout-toolbarBtn">
+          <span>touchPoints: {{ getTouchPoints }}</span>
+        </button>
       </div>
     </nav>
+    <aside class="EditorLayout-leftPanel">
+      <LeftPanel />
+    </aside>
+    <aside class="EditorLayout-rightPanel">
+      <RightPanel />
+    </aside>
     <slot/>
   </div>
 </template>
 
 <script>
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
+import LeftPanel from '@/components/Editor/LeftPanel';
+import RightPanel from '@/components/Editor/RightPanel';
 
 export default {
   name: 'LayoutEditor',
 
   components: {
     FontAwesomeIcon,
+    LeftPanel,
+    RightPanel,
   },
 
   data() {
@@ -35,6 +57,16 @@ export default {
         'crop',
       ],
     };
+  },
+
+  computed: {
+    getTouchPoints() {
+      return navigator.maxTouchPoints;
+    },
+
+    currentZoomLevel() {
+      return this.$store.state.canvas.zoomLevel;
+    },
   },
 
 };
@@ -50,6 +82,11 @@ export default {
 .EditorLayout-topbar {
   background-color: config('colors.peach-mono-1');
   height: 3rem;
+
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%;
 
   display: flex;
   flex-flow: row nowrap;
@@ -72,6 +109,25 @@ export default {
   &:hover {
     background-color: config('colors.peach');
   }
+}
+
+.EditorLayout-leftPanel {
+  z-index: 10;
+  height: calc(100vw - 3rem);
+  width: 15rem;
+  position: fixed;
+  top: 3rem;
+
+}
+
+.EditorLayout-rightPanel {
+  z-index: 10;
+  height: calc(100vw - 3rem);
+  width: 15rem;
+  position: fixed;
+  top: 3rem;
+  left: calc(100vw - 15rem);
+
 }
 
 .EditorLayout-footer {
