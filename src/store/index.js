@@ -10,6 +10,7 @@ Vue.use(Vuex);
 
 const createStore = () => new Vuex.Store({
   state: () => ({
+    touchPoints: 0,
   }),
   modules: {
     canvas,

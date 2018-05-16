@@ -1,10 +1,19 @@
 const canvas = {
   state: () => ({
+    zoomLevel: 1,
   }),
 
-  mutations: {},
+  mutations: {
+    SET_ZOOM(state, { zoomLevel }) {
+      state.zoomLevel = zoomLevel;
+    },
+  },
 
-  actions: {},
+  actions: {
+    setZoomLevel({ commit }, { zoomLevel }) {
+      commit('SET_ZOOM', { zoomLevel });
+    },
+  },
 };
 
 export default canvas;
