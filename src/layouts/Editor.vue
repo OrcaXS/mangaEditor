@@ -19,17 +19,19 @@
           <FontAwesomeIcon icon="search-plus" />
         </button>
         <button class="EditorLayout-toolbarBtn">
-          <span>touchPoints: {{ getTouchPoints }}</span>
+          <span>x: {{ getCursorPosition.x }} y: {{ getCursorPosition.y }}</span>
         </button>
       </div>
     </nav>
-    <aside class="EditorLayout-leftPanel">
-      <LeftPanel />
-    </aside>
-    <aside class="EditorLayout-rightPanel">
-      <RightPanel />
-    </aside>
-    <slot/>
+    <div class="EditorLayout-mainArea">
+      <aside class="EditorLayout-leftPanel">
+        <LeftPanel />
+      </aside>
+      <!-- <aside class="EditorLayout&#45;rightPanel"> -->
+      <!--   <RightPanel /> -->
+      <!-- </aside> -->
+      <slot/>
+    </div>
   </div>
 </template>
 
@@ -67,6 +69,10 @@ export default {
     currentZoomLevel() {
       return this.$store.state.canvas.zoomLevel;
     },
+
+    getCursorPosition() {
+      return this.$store.state.canvas.currentCursorPosition;
+    },
   },
 
 };
@@ -76,7 +82,7 @@ export default {
 /** @define EditorLayout */
 .EditorLayout {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row wrap;
 }
 
 .EditorLayout-topbar {
@@ -93,6 +99,12 @@ export default {
   justify-content: flex-start;
 }
 
+.EditorLayout-mainArea {
+  margin-top: 3rem;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 .EditorLayout-toolbar {
   align-self: center;
 
@@ -102,21 +114,22 @@ export default {
 .EditorLayout-toolbarBtn {
   font-size: 1.125rem;
   color: white;
-  padding: 1rem;
+  padding: .875rem;
 
   cursor: default;
 
   &:hover {
     background-color: config('colors.peach');
+
   }
 }
 
 .EditorLayout-leftPanel {
-  z-index: 10;
-  height: calc(100vw - 3rem);
+  /* z-index: 10; */
+  /* height: calc(100vw - 3rem); */
   width: 15rem;
-  position: fixed;
-  top: 3rem;
+  /* position: fixed; */
+  /* top: 3rem; */
 
 }
 

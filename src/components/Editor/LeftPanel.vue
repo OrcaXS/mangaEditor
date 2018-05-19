@@ -1,13 +1,20 @@
 <template>
   <div class="LeftPanel">
-    <div class="LeftPanel-balloons">
+    <div class="LeftPanel-group">
+      <div class="LeftPanel-category">Elements</div>
+      <div class="LeftPanel-layer">
+        <FontAwesomeIcon :icon="['far', 'circle']" />
+        Custom Textbox 1
+      </div>
+    </div>
+    <div class="LeftPanel-group">
       <div class="LeftPanel-category">Balloons</div>
       <div class="LeftPanel-layer">
         <FontAwesomeIcon :icon="['far', 'circle']" />
-        Layer 1
+        Balloon 1
       </div>
     </div>
-    <div class="LeftPanel-balloons">
+    <div class="LeftPanel-group">
       <div class="LeftPanel-category">BG</div>
       <div class="LeftPanel-layer">
         <FontAwesomeIcon :icon="['far', 'image']" />
