@@ -7,6 +7,7 @@ const file = {
     localBlob: '',
     fileData: {/* [id: id]: data */},
     errInfo: '',
+    localImage: '',
   }),
 
   mutations: {
@@ -18,6 +19,9 @@ const file = {
     },
     SET_LOCALBLOB: (state, { blobUrl }) => {
       state.localBlob = blobUrl;
+    },
+    SET_LOCALIMAGE: (state, { data }) => {
+      state.localImage = data;
     },
   },
 
@@ -32,6 +36,10 @@ const file = {
     async setLocalBlob({ commit }, { blobUrl }) {
       console.log(blobUrl);
       commit('SET_LOCALBLOB', { blobUrl });
+    },
+    async setLocalImage({ commit }, { data }) {
+      console.log(data);
+      commit('SET_LOCALIMAGE', { data });
     },
   },
 };

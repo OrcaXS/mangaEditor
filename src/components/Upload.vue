@@ -11,7 +11,7 @@
         class="Upload-dragZone"
         @dragenter.stop.prevent
         @dragover.stop.prevent
-        @drop.stop.prevent="dragDrop"
+        @drop.stop.prevent="dragDropHandler"
       >
         <div class="Upload-hint">
           <label
@@ -26,7 +26,7 @@
               name="files"
               accept=".jpg, .jpeg, .png"
               multiple
-              @change="previewFile"
+              @change="uploadBtnHandler"
             >
             <span class="file-cta">
               <span class="file-icon">
@@ -44,7 +44,7 @@
           class="Upload-preview"
         >
           <img
-            :src="fileObjUrl"
+            :src="fileDataUri"
             class="preview-img"
           >
         </div>
@@ -89,6 +89,7 @@ export default {
   components: {
     LayoutDefault,
   },
+
   data() {
     return {
       validFileType: [
@@ -97,7 +98,7 @@ export default {
         'image/png',
       ],
       file: [],
-      fileObjUrl: '',
+      fileDataUri: '',
       fileSelected: false,
       isUploading: false,
       errInfo: '',
@@ -118,11 +119,22 @@ export default {
   },
 
   methods: {
-    previewFile(e) {
+    uploadBtnHandler(e) {
       [this.file] = e.target.files;
-      this.fileObjUrl = window.URL.createObjectURL(e.target.files[0]);
+      this.previewFile();
+    },
+
+    previewFile() {
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        this.$store.dispatch('setLocalImage', { data: reader.result });
+        this.fileDataUri = reader.result;
+      }, false);
+      reader.readAsDataURL(this.file);
       this.fileSelected = true;
     },
+
     async submitUpload() {
       const formData = new FormData();
       const img = this.$refs.uploadInput.files;
@@ -136,12 +148,12 @@ export default {
       }
       await this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
     },
-    dragDrop(e) {
+
+    dragDropHandler(e) {
       const { dataTransfer } = e;
       const { files } = dataTransfer;
       [this.file] = files;
-      this.fileObjUrl = window.URL.createObjectURL(files[0]);
-      this.fileSelected = true;
+      this.previewFile();
     },
   },
 };
