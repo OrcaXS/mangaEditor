@@ -1,5 +1,8 @@
 <template>
-  <div class="LeftPanel">
+  <div
+    ref="leftPanel"
+    class="LeftPanel"
+  >
     <div class="LeftPanel-group">
       <div class="LeftPanel-category">Elements</div>
       <div class="LeftPanel-layer">
