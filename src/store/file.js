@@ -1,4 +1,4 @@
-import remote from '@/scripts/upload';
+import remote from '@/scripts/fetchFile';
 import router from '@/router';
 
 const file = {

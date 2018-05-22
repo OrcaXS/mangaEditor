@@ -14,16 +14,27 @@ async function uploadPicture(formData) {
   }
 }
 
+async function downloadPictureFromUrl(url) {
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+    });
+    return await res.blob();
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function callFetch(request) {
   const init = {
-    method: request.method || 'POST',
+    method: request.method || 'GET',
     headers: {},
   };
 
   try {
     const res = await fetch(uploadUrl, init);
-    const json = await res.json();
-    return json;
+    const blob = await res.blob();
+    return blob;
   } catch (error) {
     throw error;
   }
@@ -31,6 +42,7 @@ async function callFetch(request) {
 
 const remote = {
   uploadPicture,
+  downloadPictureFromUrl,
 };
 
 export default remote;
