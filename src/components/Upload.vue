@@ -140,14 +140,13 @@ export default {
       formData.append('files', img[0]);
       try {
         this.isUploading = true;
+        await this.$store.dispatch('setLocalImage', { data: this.fileDataUri });
         await this.$store.dispatch('fetchParts', { formData });
       } catch (error) {
         this.isUploading = false;
         console.error(error);
         this.errInfo = error.message;
       }
-      await this.$store.dispatch('setLocalImage', { data: this.fileDataUri });
-      // await this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
     },
 
     dragDropHandler(e) {
