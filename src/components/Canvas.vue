@@ -1,60 +1,127 @@
 <template>
   <LayoutEditor>
-    <div>
-      <v-stage
-        ref="stage"
-        :config="configKonva">
-        <v-layer ref="bgLayer">
-          <v-image :config="bgImageConfig"/>
-        </v-layer>
-        <v-layer ref="fgLayer">
-          <v-image
-            v-for="balloon in fileData.balloons"
-            :key="balloonCoordinate(balloon)"
-            :config="configBalloon(balloon)"
-          />
-        </v-layer>
-      </v-stage>
+    <div class="downloadContainer">
+      <AssetsDownload :id="this.$route.params.file_id"/>
+    </div>
+    <div
+      ref="scrollContainer"
+      class="scrollContainer"
+      @scroll="customScroll"
+    >
+      <div
+        :style="containerStyle"
+        class="largeContainer"
+      >
+        <div
+          ref="canvasArea"
+          class="canvasContainer"
+        >
+          <v-stage
+            ref="stage"
+            :config="configKonva"
+          >
+            <v-layer ref="bgLayer">
+              <v-image
+                ref="image"
+                :config="bgImageConfig"
+              />
+            </v-layer>
+            <v-layer ref="balloonsLayer">
+              <v-image
+                v-for="balloon in fileData.balloons"
+                :key="balloonCoordinate(balloon)"
+                :config="configBalloon(balloon)"
+              />
+            </v-layer>
+            <v-layer ref="elementsLayer">
+              <TestText :stage-bounding-rect="stageBoundingRect"/>
+            </v-layer>
+          </v-stage>
+        </div>
+      </div>
     </div>
   </LayoutEditor>
 </template>
 
 <script>
 import LayoutEditor from '@/layouts/Editor';
+import TestText from '@/components/TText';
+import AssetsDownload from '@/components/AssetsDownload';
 
 export default {
-  name: 'Canvas',
+  name: 'TCanvas',
 
   components: {
     LayoutEditor,
+    TestText,
+    AssetsDownload,
   },
 
   data() {
     return {
+      stageWidth: 1000,
+      stageHeight: 1000,
+      zoomLevel: {
+        posX: 0,
+        posY: 0,
+        scale: 1,
+        scaleBy: 1.01,
+      },
       konvaObjs: {
         stage: {},
         balloons: [],
       },
+      stageBoundingRect: {},
     };
   },
 
   computed: {
+    imageNeedResize() {
+      return this.bgImageConfig.width > this.containerSize.width;
+    },
+
+    containerSize() {
+      return {
+        width: this.$refs.scrollContainer.offsetWidth,
+        height: this.$refs.scrollContainer.offsetHeight,
+      };
+    },
+
     configKonva() {
       return {
-        width: this.dimension.width,
-        height: this.dimension.height,
+        width: this.stageWidth,
+        height: this.stageHeight,
+        // x: this.stageWidth / 2,
+        // y: this.stageHeight / 2,
+        offset: {
+          // x: this.stageWidth / 2,
+          // y: this.stageHeight / 2,
+        },
       };
     },
 
     bgImageConfig() {
       const bgImage = new Image();
-      bgImage.src = this.fileData.info.filename;
+      bgImage.src = this.fileData.localImageEncoded;
       return {
         x: 0,
         y: 0,
         image: bgImage,
         width: this.dimension.width,
         height: this.dimension.height,
+        stroke: 'red',
+        strokeWidth: 10,
+      };
+    },
+
+    currentScale() {
+      return this.$store.state.canvas.zoomLevel;
+    },
+
+    containerStyle() {
+      return {
+        width: `${this.bgImageConfig.width + 100}px`,
+        height: `${this.bgImageConfig.height + 100}px`,
       };
     },
 
@@ -69,22 +136,43 @@ export default {
       };
     },
 
-    localBlob() {
-      return this.$store.state.file.localBlob;
+    localImage() {
+      return this.$store.state.file.localImageEncoded;
     },
 
     balloons() {
       return this.fileData.balloons;
     },
+
+  },
+
+  watch: {
+    currentScale(newScale) {
+      this.setScale(newScale);
+    },
+  },
+
+  created() {
+  },
+
+  mounted() {
+    this.adjustStageSize();
+    this.getStageBoundingRect();
+    // this.fitStageIntoContainer();
+    // this.fitImageIntoStage();
+    // this.$nextTick(() => {
+    //   window.addEventListener('resize', this.fitStageIntoContainer);
+    // });
+  },
+
+  beforeDestroy() {
+    // window.removeEventListener('resize', this.fitStageIntoContainer);
   },
 
   methods: {
-    createBallons() {
-
-    },
     configBalloon(balloon) {
       const balloonImage = new Image();
-      balloonImage.src = balloon.resultURL;
+      balloonImage.src = balloon.filledMaskEncoded;
       const configObj = {
         x: balloon.boundingRect.x,
         y: balloon.boundingRect.y,
@@ -104,6 +192,132 @@ export default {
     balloonCoordinate(balloon) {
       return `${balloon.boundingRect.x},${balloon.boundingRect.y}`;
     },
+
+    getStageBoundingRect() {
+      this.stageBoundingRect = this.$refs.stage.getStage().getContainer().getBoundingClientRect();
+    },
+
+    fitStageIntoContainer() {
+      const scale = this.containerSize.width / this.stageWidth;
+      console.log(scale);
+      console.log(scale * this.stageWidth);
+      console.log(scale * this.stageHeight);
+      // this.$store.dispatch('setZoomLevel', { type: 'set', zoomLevel: scale });
+      this.$refs.stage.getStage().width(this.stageWidth * scale);
+      this.$refs.stage.getStage().height(this.stageHeight * scale);
+      this.$refs.stage.getStage().scale({ x: scale, y: scale });
+      this.$refs.stage.getStage().draw();
+    },
+
+    adjustStageSize() {
+      this.$refs.stage.getStage().width(this.bgImageConfig.width + 10);
+      this.$refs.stage.getStage().height(this.bgImageConfig.height + 10);
+      this.$refs.stage.getStage().draw();
+    },
+
+    fitImageIntoStage() {
+      if (this.imageNeedResize) {
+        const scale = this.containerSize.width / this.bgImageConfig.width;
+        console.log(this.containerSize.width);
+        console.log(this.bgImageConfig);
+        this.$refs.image.getStage().width(this.bgImageConfig.width * scale);
+        this.$refs.image.getStage().height(this.bgImageConfig.height * scale);
+        this.$refs.image.getStage().scale({ x: scale, y: scale });
+        this.$refs.image.getStage().draw();
+      } else {
+        this.$refs.image.getStage().x(160);
+        this.$refs.image.getStage().y(50);
+        this.$refs.image.getStage().draw();
+      }
+    },
+
+    setScale(scale) {
+      this.$refs.stage.getStage().scale({ x: scale / 100, y: scale / 100 });
+      this.$refs.stage.getStage().draw();
+    },
+
+    setCursorPosition(e) {
+      const updatePosition = () => {
+        const cursorPos = this.$refs.stage.getStage().getPointerPosition();
+        this.$store.dispatch('setCursorPosition', { cursorCoordinates: cursorPos });
+      };
+
+      window.requestAnimationFrame(updatePosition);
+    },
+
+    zoom(e) {
+      console.log(e);
+      const update = () => {
+        if (e.ctrlKey) {
+          const mousePointTo = {
+            x: (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale) - (this.$refs.stage.getStage().x() / this.zoomLevel.scale),
+            y: (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale) - (this.$refs.stage.getStage().y() / this.zoomLevel.scale),
+          };
+
+          this.zoomLevel.scale -= e.deltaY * 0.01;
+          // this.$store.dispatch('setZoomLevel', { zoomLevel: this.zoomLevel.scale });
+          this.$refs.stage.getStage().scale({ x: this.zoomLevel.scale, y: this.zoomLevel.scale });
+          const newPos = {
+            x: (mousePointTo.x - (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
+            y: (mousePointTo.y - (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
+          };
+          this.zoomLevel.posX = newPos.x;
+          this.zoomLevel.posY = newPos.y;
+          this.$refs.stage.getStage().position(newPos);
+        } else {
+          this.zoomLevel.posX -= e.deltaX;
+          this.zoomLevel.posY -= e.deltaY;
+          this.$refs.stage.getStage().x(this.zoomLevel.posX);
+          this.$refs.stage.getStage().y(this.zoomLevel.posY);
+        }
+        // this.$refs.canvasArea.style.transform = `translate(${this.zoomLevel.posX}px, ${this.zoomLevel.posY}px)`;
+        // this.$refs.stage.getStage().x(this.zoomLevel.posX);
+        // this.$refs.stage.getStage().y(this.zoomLevel.posY);
+        // this.$refs.stage.getStage().batchDraw();
+        // this.$store.dispatch('setZoomLevel', { zoomLevel: this.zoomLevel.scale });
+        // this.$refs.stage.getStage().width(this.stageWidth * this.zoomLevel.scale);
+        // this.$refs.stage.getStage().height(this.stageHeight * this.zoomLevel.scale);
+        // this.$refs.stage.getStage().scale({ x: this.zoomLevel.scale, y: this.zoomLevel.scale });
+        this.$refs.stage.getStage().batchDraw();
+      };
+
+      window.requestAnimationFrame(update);
+    },
+
+    customScroll(e) {
+      const dx = this.$refs.scrollContainer.scrollLeft;
+      const dy = this.$refs.scrollContainer.scrollTop;
+      this.$refs.stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;
+      this.$refs.stage.getStage().x(-dx);
+      this.$refs.stage.getStage().y(-dy);
+      this.$refs.stage.getStage().batchDraw();
+    },
+
   },
+
 };
 </script>
+
+<style scoped lang="postcss">
+.downloadContainer {
+  position: absolute;
+  top: 100px;
+  left: calc(100vw - 5rem);
+}
+
+.canvasContainer {
+  border: 1px solid black;
+}
+
+.scrollContainer {
+  width: 100%;
+  height: calc(100vh - 3rem);
+  overflow: auto;
+}
+
+.largeContainer {
+  /* width: 2000px; */
+  /* height: 2000px; */
+  overflow: hidden;
+}
+</style>
