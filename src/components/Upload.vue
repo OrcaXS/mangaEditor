@@ -128,7 +128,6 @@ export default {
       const reader = new FileReader();
 
       reader.addEventListener('load', () => {
-        this.$store.dispatch('setLocalImage', { data: reader.result });
         this.fileDataUri = reader.result;
       }, false);
       reader.readAsDataURL(this.file);
@@ -144,9 +143,11 @@ export default {
         await this.$store.dispatch('fetchParts', { formData });
       } catch (error) {
         this.isUploading = false;
+        console.error(error);
         this.errInfo = error.message;
       }
-      await this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
+      await this.$store.dispatch('setLocalImage', { data: this.fileDataUri });
+      // await this.$store.dispatch('setLocalBlob', { blobUrl: this.fileObjUrl });
     },
 
     dragDropHandler(e) {
