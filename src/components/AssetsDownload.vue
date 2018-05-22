@@ -34,7 +34,7 @@ export default {
       const urlKey = 'filledMaskURL';
       for (let i = 0; i < this.balloonCount; i += 1) {
         const balloon = this.fileData.balloons[i];
-        if (this.isURL(balloon[urlKey])) this.$store.dispatch('fetchFile', { url: balloon[urlKey], id: this.id, balloonNum: i });
+        if (this.isURL(balloon[urlKey])) this.$store.dispatch('fetchFile', { url: balloon[urlKey], id: this.id, balloonIdx: i });
       }
     },
   },

@@ -102,7 +102,7 @@ export default {
 
     bgImageConfig() {
       const bgImage = new Image();
-      bgImage.src = this.fileData.localImageEncoded;
+      bgImage.src = this.localImage;
       return {
         x: 0,
         y: 0,
@@ -137,7 +137,7 @@ export default {
     },
 
     localImage() {
-      return this.$store.state.file.localImageEncoded;
+      return this.fileData.localImageEncoded;
     },
 
     balloons() {
@@ -245,46 +245,39 @@ export default {
       window.requestAnimationFrame(updatePosition);
     },
 
-    zoom(e) {
-      console.log(e);
-      const update = () => {
-        if (e.ctrlKey) {
-          const mousePointTo = {
-            x: (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale) - (this.$refs.stage.getStage().x() / this.zoomLevel.scale),
-            y: (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale) - (this.$refs.stage.getStage().y() / this.zoomLevel.scale),
-          };
-
-          this.zoomLevel.scale -= e.deltaY * 0.01;
-          // this.$store.dispatch('setZoomLevel', { zoomLevel: this.zoomLevel.scale });
-          this.$refs.stage.getStage().scale({ x: this.zoomLevel.scale, y: this.zoomLevel.scale });
-          const newPos = {
-            x: (mousePointTo.x - (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
-            y: (mousePointTo.y - (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
-          };
-          this.zoomLevel.posX = newPos.x;
-          this.zoomLevel.posY = newPos.y;
-          this.$refs.stage.getStage().position(newPos);
-        } else {
-          this.zoomLevel.posX -= e.deltaX;
-          this.zoomLevel.posY -= e.deltaY;
-          this.$refs.stage.getStage().x(this.zoomLevel.posX);
-          this.$refs.stage.getStage().y(this.zoomLevel.posY);
-        }
-        // this.$refs.canvasArea.style.transform = `translate(${this.zoomLevel.posX}px, ${this.zoomLevel.posY}px)`;
-        // this.$refs.stage.getStage().x(this.zoomLevel.posX);
-        // this.$refs.stage.getStage().y(this.zoomLevel.posY);
-        // this.$refs.stage.getStage().batchDraw();
-        // this.$store.dispatch('setZoomLevel', { zoomLevel: this.zoomLevel.scale });
-        // this.$refs.stage.getStage().width(this.stageWidth * this.zoomLevel.scale);
-        // this.$refs.stage.getStage().height(this.stageHeight * this.zoomLevel.scale);
-        // this.$refs.stage.getStage().scale({ x: this.zoomLevel.scale, y: this.zoomLevel.scale });
-        this.$refs.stage.getStage().batchDraw();
-      };
-
-      window.requestAnimationFrame(update);
-    },
+    // zoom(e) {
+    //   console.log(e);
+    //   const update = () => {
+    //     if (e.ctrlKey) {
+    //       const mousePointTo = {
+    //         x: (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale) - (this.$refs.stage.getStage().x() / this.zoomLevel.scale),
+    //         y: (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale) - (this.$refs.stage.getStage().y() / this.zoomLevel.scale),
+    //       };
+    //
+    //       this.zoomLevel.scale -= e.deltaY * 0.01;
+    //       // this.$store.dispatch('setZoomLevel', { zoomLevel: this.zoomLevel.scale });
+    //       this.$refs.stage.getStage().scale({ x: this.zoomLevel.scale, y: this.zoomLevel.scale });
+    //       const newPos = {
+    //         x: (mousePointTo.x - (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
+    //         y: (mousePointTo.y - (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
+    //       };
+    //       this.zoomLevel.posX = newPos.x;
+    //       this.zoomLevel.posY = newPos.y;
+    //       this.$refs.stage.getStage().position(newPos);
+    //     } else {
+    //       this.zoomLevel.posX -= e.deltaX;
+    //       this.zoomLevel.posY -= e.deltaY;
+    //       this.$refs.stage.getStage().x(this.zoomLevel.posX);
+    //       this.$refs.stage.getStage().y(this.zoomLevel.posY);
+    //     }
+    //     this.$refs.stage.getStage().batchDraw();
+    //   };
+    //
+    //   window.requestAnimationFrame(update);
+    // },
 
     customScroll(e) {
+      console.log(e);
       const dx = this.$refs.scrollContainer.scrollLeft;
       const dy = this.$refs.scrollContainer.scrollTop;
       this.$refs.stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;

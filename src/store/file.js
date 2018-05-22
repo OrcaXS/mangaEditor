@@ -54,14 +54,9 @@ const file = {
       state.assetsDownloaded[id] = status;
     },
 
-    SET_BALLOON_URL_TO_BASE64: (state, { id, blob, balloonNum }) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onloadend = () => {
-        console.log(reader.result);
-        // eslint-disable-next-line dot-notation
-        state.fileData[id].balloons[balloonNum]['filledMaskEncoded'] = reader.result;
-      };
+    SET_BALLOON_URL_TO_BASE64: (state, { id, dataUri, balloonIdx }) => {
+      // eslint-disable-next-line dot-notation
+      state.fileData[id].balloons[balloonIdx]['filledMaskEncoded'] = dataUri;
     },
   },
 
@@ -75,9 +70,10 @@ const file = {
       router.push({ name: 'canvas', params: { file_id: data.info.id } });
     },
 
-    async fetchFile({ commit, state }, { url, id, balloonNum }) {
+    async fetchFile({ commit, state }, { url, id, balloonIdx }) {
       const blob = await remote.downloadPictureFromUrl(url);
-      commit('SET_BALLOON_URL_TO_BASE64', { id, blob, balloonNum });
+      const dataUri = await readFile(blob);
+      commit('SET_BALLOON_URL_TO_BASE64', { id, dataUri, balloonIdx });
     },
 
     async setLocalImage({ commit }, { data }) {
