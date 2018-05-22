@@ -9,13 +9,19 @@
         >
           <FontAwesomeIcon :icon="['fas', icon]" />
         </button>
-        <button class="EditorLayout-toolbarBtn">
+        <button
+          class="EditorLayout-toolbarBtn"
+          @click="modifyZoomLevel({ type: 'decrement', zoomLevel: 10 })"
+        >
           <FontAwesomeIcon icon="search-minus" />
         </button>
         <button class="EditorLayout-toolbarBtn">
-          <span>{{ currentZoomLevel }}</span>
+          <span>{{ currentZoomLevel }}%</span>
         </button>
-        <button class="EditorLayout-toolbarBtn">
+        <button
+          class="EditorLayout-toolbarBtn"
+          @click="modifyZoomLevel({ type: 'increment', zoomLevel: 10 })"
+        >
           <FontAwesomeIcon icon="search-plus" />
         </button>
         <button class="EditorLayout-toolbarBtn">
@@ -31,6 +37,7 @@
       <!--   <RightPanel /> -->
       <!-- </aside> -->
       <slot/>
+      <!-- <CustomTextAreas /> -->
     </div>
   </div>
 </template>
@@ -39,6 +46,7 @@
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import LeftPanel from '@/components/Editor/LeftPanel';
 import RightPanel from '@/components/Editor/RightPanel';
+import CustomTextAreas from '@/components/CustomTextAreas';
 
 export default {
   name: 'LayoutEditor',
@@ -47,6 +55,7 @@ export default {
     FontAwesomeIcon,
     LeftPanel,
     RightPanel,
+    CustomTextAreas,
   },
 
   data() {
@@ -72,6 +81,12 @@ export default {
 
     getCursorPosition() {
       return this.$store.state.canvas.currentCursorPosition;
+    },
+  },
+
+  methods: {
+    modifyZoomLevel({ type, zoomLevel }) {
+      this.$store.dispatch('modifyZoomLevel', { type, zoomLevel });
     },
   },
 
@@ -101,6 +116,8 @@ export default {
 
 .EditorLayout-mainArea {
   margin-top: 3rem;
+  width: 100vw;
+
   display: flex;
   flex-flow: row nowrap;
 }
@@ -128,6 +145,7 @@ export default {
   /* z-index: 10; */
   /* height: calc(100vw - 3rem); */
   width: 15rem;
+  flex-shrink: 0;
   /* position: fixed; */
   /* top: 3rem; */
 
