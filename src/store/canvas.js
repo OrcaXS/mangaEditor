@@ -5,7 +5,6 @@ const canvas = {
       x: 0,
       y: 0,
     },
-    textAreas: [/* [textAreaNo]: { textAreaObj } */],
   }),
 
   mutations: {
@@ -20,9 +19,6 @@ const canvas = {
       state.currentCursorPosition.y = cursorCoordinates.y;
     },
 
-    SET_TEXTAREA(state, { textAreaDetail }) {
-      state.textAreas.push(textAreaDetail);
-    },
   },
 
   actions: {
@@ -38,9 +34,7 @@ const canvas = {
       commit('SET_CURSOR_POS', { cursorCoordinates });
     },
 
-    addTextArea({ commit }, { textAreaDetail }) {
-      commit('SET_TEXTAREA', { textAreaDetail });
-    },
+
   },
 };
 
