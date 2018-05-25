@@ -19,17 +19,24 @@ const file = {
   state: () => ({
     id: [/* id */],
     fileData: {/* [id: id]: data */},
+    textAreas: {/* [id: id]: [textAreaNo]: { textAreaObj } */},
     assetsDownloaded: {/* [id: id]: boolean */},
     errInfo: '',
     previewImageEncoded: '',
+    previewFilename: '',
+    status: {
+      fileUploaded: false,
+      localStorageRdy: false,
+      balloonsRdy: false,
+    },
   }),
 
   mutations: {
-    SET_ID: (state, { data }) => {
+    SET_ID(state, { data }) {
       state.id.push(data.info.id);
     },
 
-    SET_FILEDATA: (state, { data }) => {
+    SET_FILEDATA(state, { data }) {
       const balloonsToObj = data.balloons.reduce((acc, val, idx) => {
         acc[idx] = val;
         return acc;
@@ -43,20 +50,56 @@ const file = {
       state.fileData[data.info.id]['balloons'] = balloonsToObj;
       // eslint-disable-next-line dot-notation
       state.fileData[data.info.id]['localImageEncoded'] = state.previewImageEncoded;
+      // state.previewImageEncoded = '';
+    },
+
+    ADD_FILENAME_TO_FILEDATA(state, { filename, id }) {
+      state.fileData[id].info.filename = filename;
+    },
+
+    ADD_PREVIEW_TO_FILEDATA(state, { id }) {
+      // eslint-disable-next-line dot-notation
+      state.fileData[id]['localImageEncoded'] = state.previewImageEncoded;
+      // eslint-disable-next-line dot-notation
+      state.fileData[id].info.filename = state.previewFilename;
       state.previewImageEncoded = '';
+      state.previewFilename = '';
     },
 
-    SET_TEMP_IMAGE_URI: (state, { data }) => {
-      state.previewImageEncoded = data;
+    SET_PREVIEW(state, { dataUri, filename }) {
+      state.previewImageEncoded = dataUri;
+      state.previewFilename = filename;
     },
 
-    SET_ASSETS_DOWNLOAD_STATUS: (state, { id, status = false }) => {
+    SET_ASSETS_DOWNLOAD_STATUS(state, { id, status = false }) {
       state.assetsDownloaded[id] = status;
     },
 
-    SET_BALLOON_URL_TO_BASE64: (state, { id, dataUri, balloonIdx }) => {
+    ADD_BALLOON_DATAURI(state, { id, dataUri, balloonIdx }) {
       // eslint-disable-next-line dot-notation
       state.fileData[id].balloons[balloonIdx]['filledMaskEncoded'] = dataUri;
+    },
+
+    SET_STATUS(state, { type, status }) {
+      state.status[type] = status;
+    },
+
+    CLEAR_STATUS(state) {
+      state.status.fileUploaded = false;
+      state.status.localStorageRdy = false;
+      state.status.balloonsRdy = false;
+    },
+
+    SET_TEXTAREA(state, { id, textAreaIdx, textAreaDetail }) {
+      state.textAreas[id][textAreaIdx] = textAreaDetail;
+    },
+
+    SET_INITIAL_TEXTAREA(state, { id, data }) {
+      state.textAreas[id] = {};
+      const { balloonCount } = data.info;
+      for (let i = 0; i < balloonCount; i += 1) {
+        state.textAreas[id][i] = data.balloons[i].textRect;
+      }
     },
   },
 
@@ -64,21 +107,34 @@ const file = {
     async fetchParts({ commit }, { formData }) {
       const { data } = await remote.uploadPicture(formData);
       if (!data) throw new Error('Cannot fetch data.');
+
+      commit('SET_STATUS', { type: 'fileUploaded', status: true });
       commit('SET_ID', { data });
       commit('SET_ASSETS_DOWNLOAD_STATUS', { id: data.info.id, status: false });
       commit('SET_FILEDATA', { data });
-      router.push({ name: 'canvas', params: { file_id: data.info.id } });
+      commit('ADD_PREVIEW_TO_FILEDATA', { id: data.info.id });
+      commit('SET_INITIAL_TEXTAREA', { id: data.info.id, data });
+      commit('SET_STATUS', { type: 'localStorageRdy', status: true });
     },
 
-    async fetchFile({ commit, state }, { url, id, balloonIdx }) {
+    async fetchBalloons({ commit, state }, { url, id, balloonIdx }) {
       const blob = await remote.downloadPictureFromUrl(url);
       const dataUri = await readFile(blob);
-      commit('SET_BALLOON_URL_TO_BASE64', { id, dataUri, balloonIdx });
+      commit('ADD_BALLOON_DATAURI', { id, dataUri, balloonIdx });
     },
 
-    async setLocalImage({ commit }, { data }) {
-      commit('SET_TEMP_IMAGE_URI', { data });
+    setPreview({ commit }, { dataUri, filename }) {
+      commit('SET_PREVIEW', { dataUri, filename });
     },
+
+    clearStatus({ commit }) {
+      commit('CLEAR_STATUS');
+    },
+
+    addTextArea({ commit }, { id, textAreaIdx, textAreaDetail }) {
+      commit('SET_TEXTAREA', { id, textAreaIdx, textAreaDetail });
+    },
+
   },
 };
 
