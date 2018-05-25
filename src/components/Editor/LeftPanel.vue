@@ -6,22 +6,32 @@
     <div class="LeftPanel-group">
       <div class="LeftPanel-category">Elements</div>
       <div class="LeftPanel-layer">
-        <FontAwesomeIcon :icon="['far', 'circle']" />
-        Custom Textbox 1
+        <div
+          v-for="(textArea, idx) in textAreas"
+          :key="idx"
+        >
+          <FontAwesomeIcon :icon="['far', 'circle']" />
+          {{ textArea.x }} & {{ textArea.y }}
+        </div>
       </div>
     </div>
     <div class="LeftPanel-group">
       <div class="LeftPanel-category">Balloons</div>
       <div class="LeftPanel-layer">
-        <FontAwesomeIcon :icon="['far', 'circle']" />
-        Balloon 1
+        <div
+          v-for="(balloon, idx) in balloons"
+          :key="idx"
+        >
+          <FontAwesomeIcon :icon="['far', 'circle']" />
+          {{ idx }}
+        </div>
       </div>
     </div>
     <div class="LeftPanel-group">
       <div class="LeftPanel-category">BG</div>
       <div class="LeftPanel-layer">
         <FontAwesomeIcon :icon="['far', 'image']" />
-        Layer 1
+        {{ currentFilename }}
       </div>
     </div>
   </div>
@@ -34,6 +44,20 @@ export default {
   name: 'EditorLeftPanel',
   components: {
     FontAwesomeIcon,
+  },
+
+  computed: {
+    currentFilename() {
+      return this.$store.state.file.fileData[this.$route.params.file_id].info.filename;
+    },
+
+    balloons() {
+      return this.$store.state.file.fileData[this.$route.params.file_id].balloons;
+    },
+
+    textAreas() {
+      return this.$store.state.canvas.textAreas;
+    },
   },
 };
 </script>
