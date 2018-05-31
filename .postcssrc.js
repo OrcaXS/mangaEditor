@@ -20,7 +20,7 @@ module.exports = () => ({
     tailwindcss: './tailwind.js',
     'postcss-cssnext': {
       browserslist: [
-        '> 1%',
+        '> 2%',
       ],
       features: {
         customProperties: false,
