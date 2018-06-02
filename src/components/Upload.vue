@@ -76,18 +76,26 @@
           @click="submitUpload"
         >
       </div>
-
+      <div
+        v-if="localStorageRdy"
+        role="alert"
+        class="Upload-errInfo border border-blue-light rounded bg-blue-lightest px-4 py-3 text-blue-dark"
+      >
+        <AssetsDownload :id="lastFileId"/>
+      </div>
     </div>
   </layout-default>
 </template>
 
 <script>
 import LayoutDefault from '@/layouts/Default';
+import AssetsDownload from '@/components/AssetsDownload';
 
 export default {
   name: 'Upload',
   components: {
     LayoutDefault,
+    AssetsDownload,
   },
 
   data() {
@@ -116,6 +124,14 @@ export default {
     submitText() {
       return `Submit ${this.file.name}(${this.fileSize})`;
     },
+
+    localStorageRdy() {
+      return this.$store.state.file.status.localStorageRdy;
+    },
+
+    lastFileId() {
+      return this.$store.state.file.id[this.$store.state.file.id.length - 1];
+    },
   },
 
   methods: {
@@ -124,14 +140,25 @@ export default {
       this.previewFile();
     },
 
-    previewFile() {
-      const reader = new FileReader();
+    async previewFile() {
+      const readFile = (file) => {
+        const tempFileReader = new FileReader();
+        return new Promise((resolve, reject) => {
+          tempFileReader.onerror = () => {
+            tempFileReader.abort();
+            reject(new DOMException('Problem parsing input file.'));
+          };
+          tempFileReader.onload = () => {
+            resolve(tempFileReader.result);
+          };
+          tempFileReader.readAsDataURL(file);
+        });
+      };
 
-      reader.addEventListener('load', () => {
-        this.fileDataUri = reader.result;
-      }, false);
-      reader.readAsDataURL(this.file);
+      this.fileDataUri = await readFile(this.file);
+
       this.fileSelected = true;
+      await this.$store.dispatch('setPreview', { dataUri: this.fileDataUri, filename: this.file.name });
     },
 
     async submitUpload() {
@@ -140,7 +167,6 @@ export default {
       formData.append('files', img[0]);
       try {
         this.isUploading = true;
-        await this.$store.dispatch('setLocalImage', { data: this.fileDataUri });
         await this.$store.dispatch('fetchParts', { formData });
       } catch (error) {
         this.isUploading = false;
