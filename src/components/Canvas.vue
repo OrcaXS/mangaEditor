@@ -1,8 +1,5 @@
 <template>
   <LayoutEditor>
-    <div class="downloadContainer">
-      <AssetsDownload :id="this.$route.params.file_id"/>
-    </div>
     <div
       ref="scrollContainer"
       class="scrollContainer"
@@ -46,32 +43,30 @@
 <script>
 import LayoutEditor from '@/layouts/Editor';
 import TestText from '@/components/TText';
-import AssetsDownload from '@/components/AssetsDownload';
 
 export default {
-  name: 'TCanvas',
+  name: 'Canvas',
 
   components: {
     LayoutEditor,
     TestText,
-    AssetsDownload,
   },
 
   data() {
     return {
-      stageWidth: 1000,
-      stageHeight: 1000,
+      stageWidth: window.innerWidth,
+      stageHeight: window.innerHeight,
       zoomLevel: {
         posX: 0,
         posY: 0,
-        scale: 1,
+        scale: this.$store.state.canvas.zoomLevel ? this.$store.state.canvas.zoomLevel / 100 : 1,
         scaleBy: 1.01,
       },
       konvaObjs: {
         stage: {},
         balloons: [],
       },
-      stageBoundingRect: {},
+      stageBoundingRect: new DOMRect(),
     };
   },
 
@@ -104,8 +99,8 @@ export default {
       const bgImage = new Image();
       bgImage.src = this.localImage;
       return {
-        x: 0,
-        y: 0,
+        x: 50,
+        y: 50,
         image: bgImage,
         width: this.dimension.width,
         height: this.dimension.height,
@@ -158,6 +153,7 @@ export default {
   mounted() {
     this.adjustStageSize();
     this.getStageBoundingRect();
+    this.setScale(this.zoomLevel.scale * 100);
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
     // this.$nextTick(() => {
@@ -174,8 +170,8 @@ export default {
       const balloonImage = new Image();
       balloonImage.src = balloon.filledMaskEncoded;
       const configObj = {
-        x: balloon.boundingRect.x,
-        y: balloon.boundingRect.y,
+        x: balloon.boundingRect.x + 50,
+        y: balloon.boundingRect.y + 50,
         image: balloonImage,
         width: balloon.boundingRect.width,
         height: balloon.boundingRect.height,
@@ -277,13 +273,15 @@ export default {
     // },
 
     customScroll(e) {
-      console.log(e);
-      const dx = this.$refs.scrollContainer.scrollLeft;
-      const dy = this.$refs.scrollContainer.scrollTop;
-      this.$refs.stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;
-      this.$refs.stage.getStage().x(-dx);
-      this.$refs.stage.getStage().y(-dy);
-      this.$refs.stage.getStage().batchDraw();
+      const updateScroll = () => {
+        const dx = this.$refs.scrollContainer.scrollLeft;
+        const dy = this.$refs.scrollContainer.scrollTop;
+        this.$refs.stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;
+        this.$refs.stage.getStage().x(-dx);
+        this.$refs.stage.getStage().y(-dy);
+        this.$refs.stage.getStage().batchDraw();
+      };
+      window.requestAnimationFrame(updateScroll);
     },
 
   },
