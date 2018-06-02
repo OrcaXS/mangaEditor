@@ -1,5 +1,5 @@
 <template>
-  <div>Downloading</div>
+  <div>Downloading balloons...</div>
 </template>
 
 <script>
@@ -24,6 +24,10 @@ export default {
     }
   },
 
+  mounted() {
+    this.downloadAssets();
+  },
+
   methods: {
     isURL(url) {
       return /^http/.test(url);
@@ -34,10 +38,13 @@ export default {
       const urlKey = 'filledMaskURL';
       for (let i = 0; i < this.balloonCount; i += 1) {
         const balloon = this.fileData.balloons[i];
-        if (this.isURL(balloon[urlKey])) this.$store.dispatch('fetchFile', { url: balloon[urlKey], id: this.id, balloonIdx: i });
+        if (this.isURL(balloon[urlKey])) this.$store.dispatch('fetchBalloons', { url: balloon[urlKey], id: this.id, balloonIdx: i });
       }
+      this.$store.dispatch('clearStatus');
+      this.$router.push({ name: 'canvas', params: { file_id: this.id } });
     },
   },
+
 };
 </script>
 
