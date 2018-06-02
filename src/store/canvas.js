@@ -1,5 +1,9 @@
+import Vue from 'vue';
+
 const canvas = {
   state: () => ({
+    savedCanvases: [/* id */],
+    file: {/* id */},
     zoomLevel: 100,
     currentCursorPosition: {
       x: 0,
@@ -19,6 +23,17 @@ const canvas = {
       state.currentCursorPosition.y = cursorCoordinates.y;
     },
 
+    ADD_TEXTAREA(state, { id, data }) {
+      const flattened = {};
+      let idx = 0;
+      Object.entries(data).forEach(([_key, _val]) => {
+        Object.entries(_val).forEach(([__key, __val]) => {
+          flattened[idx] = __val;
+          idx += 1;
+        });
+      });
+      Vue.set(state.file[id], 'textAreas', flattened);
+    },
   },
 
   actions: {
@@ -34,6 +49,9 @@ const canvas = {
       commit('SET_CURSOR_POS', { cursorCoordinates });
     },
 
+    copyTextArea({ commit, rootState }, { id }) {
+      commit('ADD_TEXTAREA', { id, data: rootState.file.textAreas[id] });
+    },
 
   },
 };
