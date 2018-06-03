@@ -9,7 +9,9 @@ module.exports = {
   ],
   settings: {
     'import/resolver': {
-      webpack: 'webpack.config.js',
+      webpack: {
+        config: 'node_modules/@vue/cli-service/webpack.config.js',
+      },
       node: {
         'extensions': [
           '.js',
