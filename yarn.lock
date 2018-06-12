@@ -722,33 +722,33 @@
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.7.tgz#4336c4b06d0b5608ff1215464b66fcf9f4795284"
 
-"@fortawesome/fontawesome-free-brands@^5.0.10":
+"@fortawesome/fontawesome-free-brands@^5.0.13":
   version "5.0.13"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-brands/-/fontawesome-free-brands-5.0.13.tgz#4d15ff4e1e862d5e4a4df3654f8e8acbd47e9c09"
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.1.7"
 
-"@fortawesome/fontawesome-free-regular@^5.0.10":
+"@fortawesome/fontawesome-free-regular@^5.0.13":
   version "5.0.13"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-regular/-/fontawesome-free-regular-5.0.13.tgz#eb78c30184e3f456a423a1dcfa0f682f7b50de4a"
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.1.7"
 
-"@fortawesome/fontawesome-free-solid@^5.0.10":
+"@fortawesome/fontawesome-free-solid@^5.0.13":
   version "5.0.13"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free-solid/-/fontawesome-free-solid-5.0.13.tgz#24b61aaf471a9d34a5364b052d64a516285ba894"
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.1.7"
 
-"@fortawesome/fontawesome@^1.1.5":
+"@fortawesome/fontawesome@^1.1.8":
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome/-/fontawesome-1.1.8.tgz#75fe66a60f95508160bb16bd781ad7d89b280f5b"
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.1.7"
 
-"@fortawesome/vue-fontawesome@^0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.0.22.tgz#720457bda0e5866265e5e0f8fe4fbd857fa5653f"
+"@fortawesome/vue-fontawesome@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.0.23.tgz#e70e3a9c30840e7ef437f99879254245c27c1b76"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -769,9 +769,9 @@
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
 
-"@vue/babel-preset-app@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-3.0.0-beta.15.tgz#8ea954f7ca3d10d1986ed767d9682cc8b5ffea4e"
+"@vue/babel-preset-app@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-3.0.0-beta.16.tgz#e5b4eaedfdcb842b2d3a4da9e23c1f8f81e4db01"
   dependencies:
     "@babel/plugin-syntax-jsx" "7.0.0-beta.47"
     "@babel/plugin-transform-runtime" "7.0.0-beta.47"
@@ -782,40 +782,40 @@
     babel-plugin-dynamic-import-node "^1.2.0"
     babel-plugin-transform-vue-jsx "^4.0.1"
 
-"@vue/cli-overlay@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/cli-overlay/-/cli-overlay-3.0.0-beta.15.tgz#e4b477bcbeaede138ce191e27d2222fac09078ed"
+"@vue/cli-overlay@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/cli-overlay/-/cli-overlay-3.0.0-beta.16.tgz#e5f57e46b40e952f9cc6780b42caeba8a7174a57"
 
-"@vue/cli-plugin-babel@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-babel/-/cli-plugin-babel-3.0.0-beta.15.tgz#95becf4a1b4ff6e1f1ac865bcf6e354d0f48924e"
+"@vue/cli-plugin-babel@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-babel/-/cli-plugin-babel-3.0.0-beta.16.tgz#ccf9d11425947c446f3c6f31e7a3b1e8a789696f"
   dependencies:
     "@babel/core" "7.0.0-beta.47"
-    "@vue/babel-preset-app" "^3.0.0-beta.15"
+    "@vue/babel-preset-app" "^3.0.0-beta.16"
     babel-loader "^8.0.0-0"
 
-"@vue/cli-plugin-eslint@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-3.0.0-beta.15.tgz#857d2f0f539f9853484d78a5104ad06077ab4dc9"
+"@vue/cli-plugin-eslint@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-3.0.0-beta.16.tgz#9dfb37cc9506996b319860562551838bc55a635e"
   dependencies:
-    "@vue/cli-shared-utils" "^3.0.0-beta.15"
+    "@vue/cli-shared-utils" "^3.0.0-beta.16"
     babel-eslint "^8.2.3"
     eslint "^4.19.1"
     eslint-loader "^2.0.0"
     eslint-plugin-vue "^4.5.0"
 
-"@vue/cli-plugin-pwa@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-pwa/-/cli-plugin-pwa-3.0.0-beta.15.tgz#efd9394c275597baf512dc138c6b7480d008b6fd"
+"@vue/cli-plugin-pwa@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-pwa/-/cli-plugin-pwa-3.0.0-beta.16.tgz#98b20e9456196f8f70c3c5f4b11a38366498f270"
   dependencies:
     workbox-webpack-plugin "^3.2.0"
 
-"@vue/cli-service@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-3.0.0-beta.15.tgz#5779ab045414ac7b0ba6b88725bc65a483a7975d"
+"@vue/cli-service@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-3.0.0-beta.16.tgz#72cfa725ae8b003cb201af6632848b1b7b0b4c00"
   dependencies:
-    "@vue/cli-overlay" "^3.0.0-beta.15"
-    "@vue/cli-shared-utils" "^3.0.0-beta.15"
+    "@vue/cli-overlay" "^3.0.0-beta.16"
+    "@vue/cli-shared-utils" "^3.0.0-beta.16"
     "@vue/preload-webpack-plugin" "^1.0.0"
     "@vue/web-component-wrapper" "^1.2.0"
     acorn "^5.5.3"
@@ -863,12 +863,11 @@
     webpack-merge "^4.1.2"
     yorkie "^1.0.3"
 
-"@vue/cli-shared-utils@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-3.0.0-beta.15.tgz#13916eb464b140a018b52479f559d09723db667c"
+"@vue/cli-shared-utils@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-3.0.0-beta.16.tgz#b7908567a0e755f0bdfc0bf7ab897965b7fb89e7"
   dependencies:
     chalk "^2.3.0"
-    cmd-shim "^2.0.2"
     execa "^0.10.0"
     joi "^12.0.0"
     node-ipc "^9.1.1"
@@ -892,9 +891,9 @@
     source-map "^0.5.6"
     vue-template-es2015-compiler "^1.6.0"
 
-"@vue/eslint-config-airbnb@^3.0.0-beta.15":
-  version "3.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@vue/eslint-config-airbnb/-/eslint-config-airbnb-3.0.0-beta.15.tgz#f4a1b1855be046c74483304e61a6a87618a53305"
+"@vue/eslint-config-airbnb@^3.0.0-beta.16":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@vue/eslint-config-airbnb/-/eslint-config-airbnb-3.0.0-beta.16.tgz#0055340ca11063a8f64fc146f415eff92974f379"
   dependencies:
     eslint-config-airbnb-base "^12.1.0"
     eslint-import-resolver-webpack "^0.9.0"
@@ -1904,13 +1903,6 @@ clone@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
 
-cmd-shim@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/cmd-shim/-/cmd-shim-2.0.2.tgz#6fcbda99483a8fd15d7d30a196ca69d688a2efdb"
-  dependencies:
-    graceful-fs "^4.1.2"
-    mkdirp "~0.5.0"
-
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -2812,7 +2804,7 @@ eslint-module-utils@^2.2.0:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-import@^2.11.0:
+eslint-plugin-import@^2.11.0, eslint-plugin-import@^2.12.0:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.12.0.tgz#dad31781292d6664b25317fd049d2e2b2f02205d"
   dependencies:
@@ -3764,6 +3756,10 @@ ignore@^3.3.3, ignore@^3.3.5:
   version "3.3.8"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.8.tgz#3f8e9c35d38708a3a7e0e9abb6c73e7ee7707b2b"
 
+immediate@~3.0.5:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
+
 import-local@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/import-local/-/import-local-1.0.0.tgz#5e4ffdc03f4fe6c009c6729beb29631c2f8227bc"
@@ -4316,7 +4312,7 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
 
-konva@^2.0.3:
+konva@^2.1.3:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/konva/-/konva-2.1.3.tgz#f5f91d128af6b93d52db03d648d0fc410680bdca"
 
@@ -4356,6 +4352,12 @@ levn@^0.3.0, levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+lie@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"
+  dependencies:
+    immediate "~3.0.5"
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -4413,6 +4415,12 @@ loader-utils@^1.0.2, loader-utils@^1.1.0:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
+localforage@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.7.1.tgz#e4927e042302b864db30f3211f13b5c6f0de965d"
+  dependencies:
+    lie "3.1.1"
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -4443,6 +4451,10 @@ lodash.mapvalues@^4.6.0:
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
+
+lodash.merge@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
 
 lodash.template@^4.2.4, lodash.template@^4.4.0:
   version "4.4.0"
@@ -5614,7 +5626,7 @@ postcss-functions@^3.0.0:
     postcss "^6.0.9"
     postcss-value-parser "^3.3.0"
 
-postcss-hexrgba@^1.0.0:
+postcss-hexrgba@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/postcss-hexrgba/-/postcss-hexrgba-1.0.1.tgz#d82256b7b5116e5f582026fce549fec21db816e0"
   dependencies:
@@ -6315,9 +6327,9 @@ regexpu-core@^4.1.3, regexpu-core@^4.1.4:
     unicode-match-property-ecmascript "^1.0.3"
     unicode-match-property-value-ecmascript "^1.0.1"
 
-register-service-worker@^1.0.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/register-service-worker/-/register-service-worker-1.3.0.tgz#02a0b7c40413b3c5ed1d801d764deb3aab1c3397"
+register-service-worker@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/register-service-worker/-/register-service-worker-1.4.0.tgz#342e417cc3044c97a660aa6b4ab4705f0146221e"
 
 regjsgen@^0.2.0:
   version "0.2.0"
@@ -7030,7 +7042,7 @@ table@4.0.2:
     slice-ansi "1.0.0"
     string-width "^2.1.1"
 
-tailwindcss@^0.5.2:
+tailwindcss@^0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-0.5.3.tgz#5444f85ab5e68a37c2bf13bc4ac097a7ee05321d"
   dependencies:
@@ -7389,9 +7401,9 @@ uuid@^3.0.1, uuid@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
-v-click-outside@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/v-click-outside/-/v-click-outside-1.0.4.tgz#4e21b8f09a434a208f59a1463997de150c414b9e"
+v-click-outside@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/v-click-outside/-/v-click-outside-1.0.5.tgz#3eb590394e062fa9a4256cbe678600557f7c87d4"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.3"
@@ -7441,9 +7453,9 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
 
-vue-i18n@^7.6.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-7.7.0.tgz#f317581e0ebc43c128662501cfabd6ecd5e7fceb"
+vue-i18n@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-7.8.0.tgz#fa49c3f90d20edab2048e9ef825774d39f1906d9"
 
 vue-jest@^2.6.0:
   version "2.6.0"
@@ -7502,6 +7514,12 @@ vue-template-es2015-compiler@^1.6.0:
 vue@^2.5.16, vue@^2.5.2:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
+
+vuex-persist@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/vuex-persist/-/vuex-persist-1.4.0.tgz#c16ae0ce4c44c04d628e1328ca9d44c8405980c3"
+  dependencies:
+    lodash.merge "^4.6.1"
 
 vuex-persistedstate@^2.5.4:
   version "2.5.4"
