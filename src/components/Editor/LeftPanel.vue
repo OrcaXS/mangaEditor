@@ -64,7 +64,7 @@ export default {
 
 <style scoped lang="postcss">
 .LeftPanel {
-  height: calc(100vw - 3rem);
+  height: calc(100vh - 3rem);
   /* border: 1px solid config('colors.grey-light'); */
   background-color: config('colors.peach-lighter');
 }
