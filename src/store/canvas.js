@@ -23,16 +23,34 @@ const canvas = {
       state.currentCursorPosition.y = cursorCoordinates.y;
     },
 
-    ADD_TEXTAREA(state, { id, data }) {
+    ADD_TEXTAREA_FLATTENED(state, { id, data }) {
       const flattened = {};
       let idx = 0;
-      Object.entries(data).forEach(([_key, _val]) => {
-        Object.entries(_val).forEach(([__key, __val]) => {
-          flattened[idx] = __val;
+      Object.values(data).forEach((val) => {
+        Object.values(val).forEach((textArea) => {
+          flattened[idx] = textArea;
           idx += 1;
         });
       });
-      Vue.set(state.file[id], 'textAreas', flattened);
+      state.file[id] = {};
+      // eslint-disable-next-line dot-notation
+      state.file[id]['textAreas'] = flattened;
+      // Vue.set(state.file[id], 'textAreas', flattened);
+    },
+
+    ADD_TEXTAREA(state, { id, data }) {
+      // const flattened = {};
+      // let idx = 0;
+      // Object.entries(data).forEach(([_key, _val]) => {
+      //   Object.entries(_val).forEach(([__key, __val]) => {
+      //     flattened[idx] = __val;
+      //     idx += 1;
+      //   });
+      // });
+      state.file[id] = {};
+      // eslint-disable-next-line dot-notation
+      state.file[id]['textAreas'] = data;
+      // Vue.set(state.file[id], 'textAreas', flattened);
     },
   },
 

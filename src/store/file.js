@@ -1,4 +1,5 @@
 import remote from '@/scripts/fetchFile';
+import db from '@/scripts/db';
 import router from '@/router';
 
 const readFile = (blob) => {
@@ -22,8 +23,8 @@ const file = {
     textAreas: {/* [id: id]: [textAreaNo]: { textAreaObj } */},
     assetsDownloaded: {/* [id: id]: boolean */},
     errInfo: '',
-    previewImageEncoded: '',
-    previewFilename: '',
+    // previewImageEncoded: '',
+    // previewFilename: '',
     status: {
       fileUploaded: false,
       localStorageRdy: false,
@@ -49,7 +50,7 @@ const file = {
       // eslint-disable-next-line dot-notation
       state.fileData[data.info.id]['balloons'] = balloonsToObj;
       // eslint-disable-next-line dot-notation
-      state.fileData[data.info.id]['localImageEncoded'] = state.previewImageEncoded;
+      // state.fileData[data.info.id]['localImageEncoded'] = state.previewImageEncoded;
       // state.previewImageEncoded = '';
     },
 
@@ -59,7 +60,7 @@ const file = {
 
     ADD_PREVIEW_TO_FILEDATA(state, { id }) {
       // eslint-disable-next-line dot-notation
-      state.fileData[id]['localImageEncoded'] = state.previewImageEncoded;
+      // state.fileData[id]['localImageEncoded'] = state.previewImageEncoded;
       // eslint-disable-next-line dot-notation
       state.fileData[id].info.filename = state.previewFilename;
       state.previewImageEncoded = '';
@@ -75,9 +76,10 @@ const file = {
       state.assetsDownloaded[id] = status;
     },
 
-    ADD_BALLOON_DATAURI(state, { id, dataUri, balloonIdx }) {
+    ADD_BALLOON_DATAURI(state, { id, blob, balloonIdx }) {
       // eslint-disable-next-line dot-notation
-      state.fileData[id].balloons[balloonIdx]['filledMaskEncoded'] = dataUri;
+      // state.fileData[id].balloons[balloonIdx]['filledMaskEncoded'] = blob;
+      db.addFileBalloons({ id, blob, balloonIdx });
     },
 
     SET_STATUS(state, { type, status }) {
@@ -104,28 +106,24 @@ const file = {
   },
 
   actions: {
-    async fetchParts({ commit }, { formData }) {
+    async fetchParts({ commit, state }, { formData }) {
       const { data } = await remote.uploadPicture(formData);
       if (!data) throw new Error('Cannot fetch data.');
-
+      // await db.movePreviewToFile({ id: data.info.id });
       commit('SET_STATUS', { type: 'fileUploaded', status: true });
       commit('SET_ID', { data });
       commit('SET_ASSETS_DOWNLOAD_STATUS', { id: data.info.id, status: false });
       commit('SET_FILEDATA', { data });
-      commit('ADD_PREVIEW_TO_FILEDATA', { id: data.info.id });
+      // commit('ADD_PREVIEW_TO_FILEDATA', { id: data.info.id });
       commit('SET_INITIAL_TEXTAREA', { id: data.info.id, data });
+      commit('ADD_TEXTAREA_FLATTENED', { id: data.info.id, data: state.textAreas[data.info.id] });
       commit('SET_STATUS', { type: 'localStorageRdy', status: true });
     },
 
-    async fetchBalloons({ commit, state }, { url, id, balloonIdx }) {
-      const blob = await remote.downloadPictureFromUrl(url);
-      const dataUri = await readFile(blob);
-      commit('ADD_BALLOON_DATAURI', { id, dataUri, balloonIdx });
-    },
 
-    setPreview({ commit }, { dataUri, filename }) {
-      commit('SET_PREVIEW', { dataUri, filename });
-    },
+    // setPreview({ commit }, { dataUri, filename }) {
+    //   commit('SET_PREVIEW', { dataUri, filename });
+    // },
 
     clearStatus({ commit }) {
       commit('CLEAR_STATUS');
