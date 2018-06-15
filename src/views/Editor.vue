@@ -29,15 +29,30 @@
         </button>
       </div>
     </nav>
-    <div class="EditorLayout-mainArea">
+    <div
+      v-if="!isStorageReady"
+      class="EditorLayout-mainArea"
+    >
+      <p>Restoring Storage...</p>
+    </div>
+    <div
+      v-else-if="!isDbFetched"
+      class="EditorLayout-mainArea"
+    >
+      <p>Fetching from IndexedDB...</p>
+    </div>
+    <div
+      v-else
+      class="EditorLayout-mainArea"
+    >
       <aside class="EditorLayout-leftPanel">
-        <LeftPanel />
+        <LeftPanel :filename="currentFile.bgImage.name"/>
       </aside>
+      <CanvasArea :file="currentFile"/>
       <!-- <aside class="EditorLayout&#45;rightPanel"> -->
       <!--   <RightPanel /> -->
       <!-- </aside> -->
-      <slot/>
-      <!-- <CustomTextAreas /> -->
+      <CustomTextAreas />
     </div>
   </div>
 </template>
@@ -47,15 +62,18 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import LeftPanel from '@/components/Editor/LeftPanel';
 import RightPanel from '@/components/Editor/RightPanel';
 import CustomTextAreas from '@/components/CustomTextAreas';
+import CanvasArea from '@/components/Canvas';
+import db from '@/scripts/db';
 
 export default {
-  name: 'LayoutEditor',
+  name: 'EditorView',
 
   components: {
     FontAwesomeIcon,
     LeftPanel,
     RightPanel,
     CustomTextAreas,
+    CanvasArea,
   },
 
   data() {
@@ -67,6 +85,9 @@ export default {
         'plus-square',
         'crop',
       ],
+      isStorageReady: false,
+      isDbFetched: false,
+      currentFile: {},
     };
   },
 
@@ -84,7 +105,24 @@ export default {
     },
   },
 
+  created() {
+    this.getFile({ id: this.$route.params.file_id });
+  },
+
+  mounted() {
+    const self = this;
+    // eslint-disable-next-line no-underscore-dangle
+    self.$store._vm.$root.$on('storageReady', () => {
+      this.isStorageReady = true;
+    });
+  },
+
   methods: {
+    async getFile({ id }) {
+      this.currentFile = await db.getFile({ id });
+      this.isDbFetched = true;
+    },
+
     modifyZoomLevel({ type, zoomLevel }) {
       this.$store.dispatch('modifyZoomLevel', { type, zoomLevel });
     },
@@ -117,6 +155,7 @@ export default {
 .EditorLayout-mainArea {
   margin-top: 3rem;
   width: 100vw;
+  /* height: calc(100vh - 3rem); */
 
   display: flex;
   flex-flow: row nowrap;

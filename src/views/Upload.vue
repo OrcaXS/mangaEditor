@@ -90,6 +90,7 @@
 <script>
 import LayoutDefault from '@/layouts/Default';
 import AssetsDownload from '@/components/AssetsDownload';
+import db from '@/scripts/db';
 
 export default {
   name: 'Upload',
@@ -107,6 +108,7 @@ export default {
       ],
       file: [],
       fileDataUri: '',
+      fileObjUri: '',
       fileSelected: false,
       isUploading: false,
       errInfo: '',
@@ -140,25 +142,40 @@ export default {
       this.previewFile();
     },
 
+    async setPreview() {
+      await db.setPreview({ data: this.file });
+    },
+
+    async getPreview() {
+      const preview = await db.getPreview();
+      this.fileDataUri = URL.createObjectURL(preview);
+    },
+
     async previewFile() {
-      const readFile = (file) => {
-        const tempFileReader = new FileReader();
-        return new Promise((resolve, reject) => {
-          tempFileReader.onerror = () => {
-            tempFileReader.abort();
-            reject(new DOMException('Problem parsing input file.'));
-          };
-          tempFileReader.onload = () => {
-            resolve(tempFileReader.result);
-          };
-          tempFileReader.readAsDataURL(file);
-        });
-      };
-
-      this.fileDataUri = await readFile(this.file);
-
-      this.fileSelected = true;
-      await this.$store.dispatch('setPreview', { dataUri: this.fileDataUri, filename: this.file.name });
+      // const readFile = (file) => {
+      //   const tempFileReader = new FileReader();
+      //   return new Promise((resolve, reject) => {
+      //     tempFileReader.onerror = () => {
+      //       tempFileReader.abort();
+      //       reject(new DOMException('Problem parsing input file.'));
+      //     };
+      //     tempFileReader.onload = () => {
+      //       resolve(tempFileReader.result);
+      //     };
+      //     tempFileReader.readAsDataURL(file);
+      //   });
+      // };
+      //
+      // this.fileDataUri = await readFile(this.file);
+      try {
+        await this.setPreview();
+        await this.getPreview();
+        this.fileSelected = true;
+      } catch (e) {
+        console.error(e);
+        this.errInfo = e.message;
+      }
+      // await this.$store.dispatch('setPreview', { dataUri: this.fileDataUri, filename: this.file.name });
     },
 
     async submitUpload() {
@@ -166,12 +183,13 @@ export default {
       const img = this.$refs.uploadInput.files;
       formData.append('files', img[0]);
       try {
+        await db.initFiles();
         this.isUploading = true;
         await this.$store.dispatch('fetchParts', { formData });
-      } catch (error) {
+      } catch (e) {
         this.isUploading = false;
-        console.error(error);
-        this.errInfo = error.message;
+        console.error(e);
+        this.errInfo = e.message;
       }
     },
 
