@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve --port 9000",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -25,11 +25,11 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-beta.16",
-    "@vue/cli-plugin-eslint": "^3.0.0-beta.16",
-    "@vue/cli-plugin-pwa": "^3.0.0-beta.16",
-    "@vue/cli-service": "^3.0.0-beta.16",
-    "@vue/eslint-config-airbnb": "^3.0.0-beta.16",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.1",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.1",
+    "@vue/cli-plugin-pwa": "^3.0.0-rc.1",
+    "@vue/cli-service": "^3.0.0-rc.1",
+    "@vue/eslint-config-airbnb": "^3.0.0-rc.1",
     "eslint-import-resolver-webpack": "^0.10.0",
     "eslint-plugin-import": "^2.12.0",
     "postcss-bem-linter": "^3.1.0",
