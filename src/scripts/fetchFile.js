@@ -1,4 +1,5 @@
 import apiPrefix from '~/config';
+import db from './db';
 
 const uploadUrl = `${apiPrefix}upload/v2/`;
 
@@ -14,14 +15,42 @@ async function uploadPicture(formData) {
   }
 }
 
-async function downloadPictureFromUrl(url) {
+async function downloadPictureFromUrl(url, idx) {
   try {
     const res = await fetch(url, {
       method: 'GET',
     });
-    return await res.blob();
+    const blob = await res.blob();
+    return blob;
   } catch (error) {
     throw error;
+  }
+}
+
+async function parallelFetchToDb({ id, balloonUrls, balloonCount }) {
+  const blobs = {}; // TODO
+  const urlProms = {};
+  const balloonBlobs = {};
+  try {
+    for (let i = 0; i < balloonCount; i += 1) {
+      console.log(balloonUrls[i]);
+      urlProms[i] = downloadPictureFromUrl(balloonUrls[i], i);
+    }
+    console.log(urlProms);
+    // return await urlProm;
+    for (let i = 0; i < balloonCount; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const blob = await urlProms[i];
+      // console.log(blob);
+      // console.log(i);
+      if (!(blob instanceof Blob)) throw new Error('Not blob');
+      // eslint-disable-next-line no-await-in-loop
+      balloonBlobs[i] = blob;
+    }
+    await db.addBalloonBlobsToFile({ id, blobs: balloonBlobs });
+    console.log(balloonBlobs);
+  } catch (e) {
+    throw e;
   }
 }
 
@@ -43,6 +72,7 @@ async function callFetch(request) {
 const remote = {
   uploadPicture,
   downloadPictureFromUrl,
+  parallelFetchToDb,
 };
 
 export default remote;
