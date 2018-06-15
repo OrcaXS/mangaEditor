@@ -23,7 +23,7 @@ export default {
   },
   data() {
     return {
-      text: '测试输入，a比B大\n老干爹是世界冠军！\n这段举几个例子来说，冯提莫在网易云电台上有一首《凉凉》和一首《婴儿》，《婴儿》这首歌就完全暴露了提莫音色尖锐的问题',
+      text: '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890',
       fontSize: 30,
       lineSpacing: 1.10,
       textSpacing: 1.00,
@@ -55,8 +55,8 @@ export default {
           offsetY,
           width: val.width,
           height: val.height,
-          x: val.x,
-          y: val.y,
+          x: val.x + 50,
+          y: val.y + 50,
           text: textContent,
           lineSpacing: this.lineSpacing,
           textSpacing: this.textSpacing,

@@ -1,9 +1,13 @@
 <template>
-  <textarea
-    :style="textAreaStyle"
-    :value="getTextAreas.textContent"
-    class="textArea"
-  />
+  <div>
+    <div
+      v-for="(textArea, idx) in textAreas"
+      :key="idx"
+      :style="getTextAreaStyle(textArea)"
+      class="textArea"
+      contentEditable
+      >{{ getTextContent(textArea) }}</div>
+  </div>
 </template>
 
 <script>
@@ -11,17 +15,26 @@ export default {
   name: 'CustomTextAreas',
 
   computed: {
-    getTextAreas() {
-      return this.$store.state.canvas.textAreas[0];
+    textAreas() {
+      return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
-    textAreaStyle() {
+  },
+
+  methods: {
+    getTextContent(textArea) {
+      return textArea.textContent || '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890';
+    },
+
+    getTextAreaStyle(textArea) {
       return {
-        left: `${this.getTextAreas.x}px`,
-        top: `${this.getTextAreas.y}px`,
-        width: `${this.getTextAreas.width}px`,
+        left: `${textArea.x}px`,
+        top: `${textArea.y}px`,
+        width: `${textArea.width}px`,
+        heigth: `${textArea.width}px`,
       };
     },
   },
+
 };
 </script>
 
@@ -29,5 +42,7 @@ export default {
 .textArea {
   z-index: 20;
   position: absolute;
+  writing-mode: vertical-rl;
+  -webkit-writing-mode: vertical-rl;
 }
 </style>

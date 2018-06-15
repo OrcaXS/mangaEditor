@@ -11,7 +11,7 @@
           :key="idx"
         >
           <FontAwesomeIcon :icon="['far', 'circle']" />
-          {{ textArea.x }} & {{ textArea.y }}
+          {{ idx }} ({{ textArea.x }},{{ textArea.y }})
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
           :key="idx"
         >
           <FontAwesomeIcon :icon="['far', 'circle']" />
-          {{ idx }}
+          Balloon {{ idx }}
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
       <div class="LeftPanel-category">BG</div>
       <div class="LeftPanel-layer">
         <FontAwesomeIcon :icon="['far', 'image']" />
-        {{ currentFilename }}
+        {{ filename }}
       </div>
     </div>
   </div>
@@ -42,8 +42,17 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 
 export default {
   name: 'EditorLeftPanel',
+
   components: {
     FontAwesomeIcon,
+  },
+
+  props: {
+    filename: {
+      type: String,
+      required: false,
+      default: 'background_image',
+    },
   },
 
   computed: {
@@ -56,7 +65,7 @@ export default {
     },
 
     textAreas() {
-      return this.$store.state.canvas.textAreas;
+      return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
   },
 };

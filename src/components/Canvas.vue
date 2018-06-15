@@ -1,61 +1,76 @@
 <template>
-  <LayoutEditor>
+  <div
+    ref="scrollContainer"
+    class="scrollContainer"
+    @scroll="customScroll"
+  >
     <div
-      ref="scrollContainer"
-      class="scrollContainer"
-      @scroll="customScroll"
+      :style="containerStyle"
+      class="largeContainer"
     >
       <div
-        :style="containerStyle"
-        class="largeContainer"
+        ref="canvasArea"
+        class="canvasContainer"
       >
-        <div
-          ref="canvasArea"
-          class="canvasContainer"
+        <v-stage
+          ref="stage"
+          :config="configKonva"
         >
-          <v-stage
-            ref="stage"
-            :config="configKonva"
+          <v-layer ref="frameLayer">
+            <v-rect
+              ref="frame"
+              :config="configFrame"
+            />
+          </v-layer>
+          <v-layer
+            ref="bgLayer"
           >
-            <v-layer ref="bgLayer">
-              <v-image
-                ref="image"
-                :config="bgImageConfig"
-              />
-            </v-layer>
-            <v-layer ref="balloonsLayer">
-              <v-image
-                v-for="balloon in fileData.balloons"
-                :key="balloonCoordinate(balloon)"
-                :config="configBalloon(balloon)"
-              />
-            </v-layer>
-            <v-layer ref="elementsLayer">
-              <TestText :stage-bounding-rect="stageBoundingRect"/>
-            </v-layer>
-          </v-stage>
-        </div>
+            <v-image
+              ref="image"
+              :config="bgImageConfig"
+            />
+          </v-layer>
+          <v-layer
+            ref="balloonsLayer"
+          >
+            <v-image
+              v-for="(balloon, idx) in fileData.balloons"
+              :key="balloonCoordinate(balloon)"
+              :config="configBalloon(balloon, idx)"
+            />
+          </v-layer>
+          <v-layer ref="elementsLayer">
+            <TestText :stage-bounding-rect="stageBoundingRect"/>
+          </v-layer>
+        </v-stage>
       </div>
     </div>
-  </LayoutEditor>
+  </div>
 </template>
 
 <script>
-import LayoutEditor from '@/layouts/Editor';
 import TestText from '@/components/TText';
+import db from '@/scripts/db';
 
 export default {
-  name: 'Canvas',
+  name: 'CanvasArea',
 
   components: {
-    LayoutEditor,
     TestText,
+  },
+
+  props: {
+    file: {
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
     return {
-      stageWidth: window.innerWidth,
-      stageHeight: window.innerHeight,
+      // file: {},
+      // stageWidth: window.innerWidth,
+      // stageHeight: window.innerHeight,
       zoomLevel: {
         posX: 0,
         posY: 0,
@@ -84,8 +99,8 @@ export default {
 
     configKonva() {
       return {
-        width: this.stageWidth,
-        height: this.stageHeight,
+        width: window.innerWidth,
+        height: window.innerHeight,
         // x: this.stageWidth / 2,
         // y: this.stageHeight / 2,
         offset: {
@@ -95,9 +110,20 @@ export default {
       };
     },
 
+    configFrame() {
+      return {
+        width: this.bgImageConfig.width + 100,
+        height: this.bgImageConfig.height + 100,
+        // x: this.stageWidth / 2,
+        // y: this.stageHeight / 2,
+        stroke: 'blue',
+        strokeWidth: 10,
+      };
+    },
+
     bgImageConfig() {
       const bgImage = new Image();
-      bgImage.src = this.localImage;
+      bgImage.src = URL.createObjectURL(this.file.bgImage);
       return {
         x: 50,
         y: 50,
@@ -115,8 +141,8 @@ export default {
 
     containerStyle() {
       return {
-        width: `${this.bgImageConfig.width + 100}px`,
-        height: `${this.bgImageConfig.height + 100}px`,
+        width: `${(this.bgImageConfig.width + 100) * (this.currentScale / 100)}px`,
+        height: `${(this.bgImageConfig.height + 100) * (this.currentScale / 100)}px`,
       };
     },
 
@@ -135,10 +161,6 @@ export default {
       return this.fileData.localImageEncoded;
     },
 
-    balloons() {
-      return this.fileData.balloons;
-    },
-
   },
 
   watch: {
@@ -147,13 +169,14 @@ export default {
     },
   },
 
-  created() {
-  },
-
   mounted() {
-    this.adjustStageSize();
-    this.getStageBoundingRect();
-    this.setScale(this.zoomLevel.scale * 100);
+    this.setScale(this.currentScale);
+
+    // TODO
+    // if (this.isStorageRestored) {
+    //   this.adjustCanvasOnRefresh();
+    // }
+    // window.setTimeout(this.adjustCanvasOnRefresh(), 10000);
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
     // this.$nextTick(() => {
@@ -161,14 +184,11 @@ export default {
     // });
   },
 
-  beforeDestroy() {
-    // window.removeEventListener('resize', this.fitStageIntoContainer);
-  },
 
   methods: {
-    configBalloon(balloon) {
+    configBalloon(balloon, idx) {
       const balloonImage = new Image();
-      balloonImage.src = balloon.filledMaskEncoded;
+      balloonImage.src = URL.createObjectURL(this.file.balloons[idx]);
       const configObj = {
         x: balloon.boundingRect.x + 50,
         y: balloon.boundingRect.y + 50,
@@ -229,7 +249,13 @@ export default {
 
     setScale(scale) {
       this.$refs.stage.getStage().scale({ x: scale / 100, y: scale / 100 });
-      this.$refs.stage.getStage().draw();
+      this.$refs.stage.getStage().batchDraw();
+    },
+
+    adjustCanvasOnRefresh() {
+      this.adjustStageSize();
+      this.getStageBoundingRect();
+      this.setScale(this.zoomLevel.scale * 100);
     },
 
     setCursorPosition(e) {
@@ -240,37 +266,6 @@ export default {
 
       window.requestAnimationFrame(updatePosition);
     },
-
-    // zoom(e) {
-    //   console.log(e);
-    //   const update = () => {
-    //     if (e.ctrlKey) {
-    //       const mousePointTo = {
-    //         x: (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale) - (this.$refs.stage.getStage().x() / this.zoomLevel.scale),
-    //         y: (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale) - (this.$refs.stage.getStage().y() / this.zoomLevel.scale),
-    //       };
-    //
-    //       this.zoomLevel.scale -= e.deltaY * 0.01;
-    //       // this.$store.dispatch('setZoomLevel', { zoomLevel: this.zoomLevel.scale });
-    //       this.$refs.stage.getStage().scale({ x: this.zoomLevel.scale, y: this.zoomLevel.scale });
-    //       const newPos = {
-    //         x: (mousePointTo.x - (this.$refs.stage.getStage().getPointerPosition().x / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
-    //         y: (mousePointTo.y - (this.$refs.stage.getStage().getPointerPosition().y / this.zoomLevel.scale)) * this.zoomLevel.scale * -1,
-    //       };
-    //       this.zoomLevel.posX = newPos.x;
-    //       this.zoomLevel.posY = newPos.y;
-    //       this.$refs.stage.getStage().position(newPos);
-    //     } else {
-    //       this.zoomLevel.posX -= e.deltaX;
-    //       this.zoomLevel.posY -= e.deltaY;
-    //       this.$refs.stage.getStage().x(this.zoomLevel.posX);
-    //       this.$refs.stage.getStage().y(this.zoomLevel.posY);
-    //     }
-    //     this.$refs.stage.getStage().batchDraw();
-    //   };
-    //
-    //   window.requestAnimationFrame(update);
-    // },
 
     customScroll(e) {
       const updateScroll = () => {
