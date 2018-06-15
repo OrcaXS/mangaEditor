@@ -17,3 +17,11 @@ button:focus {
 .btn-blue:hover {
   @apply .bg-blue-dark;
 }
+
+.btn-green {
+  @apply .bg-green .text-white;
+}
+
+.btn-green:hover {
+  @apply .bg-green-dark;
+}
