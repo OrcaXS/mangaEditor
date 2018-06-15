@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Upload from '@/components/Upload';
-import Canvas from '@/components/Canvas';
+import Upload from '@/views/Upload';
+import Editor from '@/views/Editor';
 
 Vue.use(Router);
 
@@ -14,9 +14,9 @@ export default new Router({
       component: Upload,
     },
     {
-      path: '/canvas/:file_id',
-      name: 'canvas',
-      component: Canvas,
+      path: '/editor/:file_id',
+      name: 'editor',
+      component: Editor,
     },
   ],
 });
