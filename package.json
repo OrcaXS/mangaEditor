@@ -30,6 +30,8 @@
     "@vue/cli-plugin-pwa": "^3.0.0-rc.1",
     "@vue/cli-service": "^3.0.0-rc.1",
     "@vue/eslint-config-airbnb": "^3.0.0-rc.1",
+    "ava": "1.0.0-beta.6",
+    "browser-env": "^3.2.5",
     "eslint-import-resolver-webpack": "^0.10.0",
     "eslint-plugin-import": "^2.12.0",
     "postcss-bem-linter": "^3.1.0",
@@ -40,10 +42,15 @@
     "postcss-loader": "^2.1.5",
     "postcss-reporter": "^5.0.0",
     "postcss-url": "^7.3.2",
+    "require-extension-hooks": "^0.3.2",
+    "require-extension-hooks-babel": "^0.1.1",
+    "require-extension-hooks-vue": "^1.0.0",
     "tailwindcss": "^0.5.3",
     "vue-i18n": "^7.8.0",
     "vue-jest": "^2.6.0",
-    "vue-template-compiler": "^2.5.16"
+    "vue-styleguidist": "^1.7.8",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.12.0"
   },
   "browserslist": [
     "> 2%"
