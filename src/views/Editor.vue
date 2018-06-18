@@ -49,10 +49,10 @@
         <LeftPanel :filename="currentFile.bgImage.name"/>
       </aside>
       <CanvasArea :file="currentFile"/>
-      <!-- <aside class="EditorLayout&#45;rightPanel"> -->
-      <!--   <RightPanel /> -->
-      <!-- </aside> -->
-      <CustomTextAreas />
+      <aside class="EditorLayout-rightPanel">
+        <RightPanel />
+      </aside>
+      <CustomTextAreas v-if="showTextArea"/>
     </div>
   </div>
 </template>
@@ -102,6 +102,15 @@ export default {
 
     getCursorPosition() {
       return this.$store.state.canvas.currentCursorPosition;
+    },
+
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentTextArea;
+    },
+
+
+    showTextArea() {
+      return /\d/.test(this.selectedTextAreaIdx);
     },
   },
 
