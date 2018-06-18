@@ -9,6 +9,11 @@ const canvas = {
       x: 0,
       y: 0,
     },
+    currentScrollingPosition: {
+      dx: 0,
+      dy: 0,
+    },
+    currentTextArea: null,
   }),
 
   mutations: {
@@ -21,6 +26,10 @@ const canvas = {
     SET_CURSOR_POS(state, { cursorCoordinates }) {
       state.currentCursorPosition.x = cursorCoordinates.x;
       state.currentCursorPosition.y = cursorCoordinates.y;
+    },
+
+    SET_TEXTAREA_IDX(state, { idx }) {
+      state.currentTextArea = idx;
     },
 
     ADD_TEXTAREA_FLATTENED(state, { id, data }) {
@@ -52,6 +61,10 @@ const canvas = {
       state.file[id]['textAreas'] = data;
       // Vue.set(state.file[id], 'textAreas', flattened);
     },
+
+    SET_SCROLLING_POSITION(state, { dx, dy }) {
+      state.currentScrollingPosition = { dx, dy };
+    },
   },
 
   actions: {
@@ -67,10 +80,17 @@ const canvas = {
       commit('SET_CURSOR_POS', { cursorCoordinates });
     },
 
-    copyTextArea({ commit, rootState }, { id }) {
-      commit('ADD_TEXTAREA', { id, data: rootState.file.textAreas[id] });
+    // copyTextArea({ commit, rootState }, { id }) {
+    //   commit('ADD_TEXTAREA', { id, data: rootState.file.textAreas[id] });
+    // },
+
+    setTextAreaIdx({ commit }, { idx }) {
+      commit('SET_TEXTAREA_IDX', { idx });
     },
 
+    setScrollingPosition({ commit }, { dx, dy }) {
+      commit('SET_SCROLLING_POSITION', { dx, dy });
+    },
   },
 };
 
