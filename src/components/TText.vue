@@ -4,6 +4,7 @@
       v-for="(val, idx) in config"
       :key="idx"
       :text-config="val"
+      :area-index="idx"
     />
   </div>
 </template>
@@ -21,6 +22,7 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
       text: '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890',
@@ -36,11 +38,10 @@ export default {
     textAreas() {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
-
   },
 
   mounted() {
-    // this.rotateText(text, textArea.width, 30, textArea.x, textArea.y);
+    this.createVerticalTextConfig();
   },
 
   methods: {
@@ -70,6 +71,10 @@ export default {
       return {
         width: this.$refs.textElement ? `${this.$refs.textElement.getStage().getAttr('width')}px` : '300px',
       };
+    },
+
+    showEditor(textConfig) {
+      console.log(textConfig);
     },
   },
 

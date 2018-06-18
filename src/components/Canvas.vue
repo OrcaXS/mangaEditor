@@ -141,7 +141,7 @@ export default {
 
     containerStyle() {
       return {
-        width: `${(this.bgImageConfig.width + 100) * (this.currentScale / 100)}px`,
+        width: `calc(${(this.bgImageConfig.width + 100) * (this.currentScale / 100)}px + 15rem)`,
         height: `${(this.bgImageConfig.height + 100) * (this.currentScale / 100)}px`,
       };
     },
@@ -271,6 +271,7 @@ export default {
       const updateScroll = () => {
         const dx = this.$refs.scrollContainer.scrollLeft;
         const dy = this.$refs.scrollContainer.scrollTop;
+        this.$store.dispatch('setScrollingPosition', { dx, dy });
         this.$refs.stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;
         this.$refs.stage.getStage().x(-dx);
         this.$refs.stage.getStage().y(-dy);

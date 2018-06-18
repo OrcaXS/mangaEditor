@@ -1,12 +1,10 @@
 <template>
   <div>
     <div
-      v-for="(textArea, idx) in textAreas"
-      :key="idx"
-      :style="getTextAreaStyle(textArea)"
+      :style="getTextAreaStyle(selectedTextArea)"
       class="textArea"
       contentEditable
-      >{{ getTextContent(textArea) }}</div>
+    >{{ getTextContent(selectedTextArea) }}</div>
   </div>
 </template>
 
@@ -18,6 +16,26 @@ export default {
     textAreas() {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
+
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentTextArea;
+    },
+
+    selectedTextArea() {
+      return this.textAreas[this.selectedTextAreaIdx];
+    },
+
+    showTextArea() {
+      return /\d/.test(this.selectedTextAreaIdx);
+    },
+
+    currentScale() {
+      return this.$store.state.canvas.zoomLevel;
+    },
+
+    currentScrollingPosition() {
+      return this.$store.state.canvas.currentScrollingPosition;
+    },
   },
 
   methods: {
@@ -27,10 +45,10 @@ export default {
 
     getTextAreaStyle(textArea) {
       return {
-        left: `${textArea.x}px`,
-        top: `${textArea.y}px`,
-        width: `${textArea.width}px`,
-        heigth: `${textArea.width}px`,
+        left: `calc(${(textArea.x + 50) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
+        top: `calc(${(textArea.y + 50) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
+        width: `${textArea.width * (this.currentScale / 100)}px`,
+        height: `${textArea.height * (this.currentScale / 100)}px`,
       };
     },
   },
@@ -44,5 +62,6 @@ export default {
   position: absolute;
   writing-mode: vertical-rl;
   -webkit-writing-mode: vertical-rl;
+  background-color: white;
 }
 </style>

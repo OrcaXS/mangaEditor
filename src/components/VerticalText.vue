@@ -1,15 +1,19 @@
 <template>
-  <div v-if="configReady">
+  <v-group
+    v-if="configReady"
+  >
     <v-text
       v-for="(val, idx) in charConfig"
       :key="idx"
       :config="val"
     />
-  </div>
+    <v-rect
+      :config="rectStyle(textConfig)"
+      @dblclick="showEditor(areaIndex)"
+    />
+  </v-group>
 </template>
 <script>
-import Konva from 'konva';
-
 export default {
   name: 'VerticalText',
   props: {
@@ -20,7 +24,15 @@ export default {
         return val.text && val.x && val.y && val.width && val.height && val.lineSpacing && val.textSpacing;
       },
     },
+    areaIndex: {
+      type: String,
+      required: true,
+      validator(val) {
+        return /\d/.test(val);
+      },
+    },
   },
+
   data() {
     return {
       configReady: false,
@@ -50,6 +62,21 @@ export default {
   },
 
   methods: {
+    rectStyle(textConfig) {
+      return {
+        x: textConfig.x,
+        y: textConfig.y,
+        width: textConfig.width,
+        height: textConfig.height,
+        stroke: 'purple',
+        strokeWidth: 5,
+      };
+    },
+
+    showEditor(areaIndex) {
+      this.$store.dispatch('setTextAreaIdx', { idx: areaIndex });
+    },
+
     generateCharConfig() {
       function measureTextHeight(text, fontSize, fontFamily) {
       // create a temp canvas
