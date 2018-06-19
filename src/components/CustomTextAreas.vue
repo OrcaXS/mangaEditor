@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <div
-      :style="getTextAreaStyle(selectedTextArea)"
-      class="textArea"
-      contentEditable
-    >{{ getTextContent(selectedTextArea) }}</div>
-  </div>
+  <div
+    v-click-outside="onClickOutside"
+    ref="textArea"
+    :style="getTextAreaStyle(selectedTextArea)"
+    class="textArea"
+    contentEditable
+    @blur="emitTextChange"
+  >{{ currentTextContent }}</div>
 </template>
 
 <script>
 export default {
   name: 'CustomTextAreas',
+  data() {
+    return {
+      currentTextContent: '',
+    };
+  },
 
   computed: {
     textAreas() {
@@ -38,18 +44,51 @@ export default {
     },
   },
 
+  watch: {
+    selectedTextAreaIdx(newIdx, oldIdx) {
+      console.log(newIdx);
+      this.getTextContent();
+      this.$refs.textArea.focus();
+    },
+  },
+
+  mounted() {
+    this.getTextContent();
+    // this.$refs.textArea.focus();
+  },
+
   methods: {
-    getTextContent(textArea) {
-      return textArea.textContent || '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890';
+    setTextContent() {
+    },
+
+    getTextContent() {
+      this.currentTextContent = this.selectedTextArea.textContent || '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890';
     },
 
     getTextAreaStyle(textArea) {
       return {
+        fontSize: `${this.selectedTextArea.fontSize}px`,
+        fontStyle: `${this.selectedTextArea.fontStyle}`,
+        fontFamily: `${this.selectedTextArea.fontFamily}, sans-serif`,
+        fontWeight: `${this.selectedTextArea.fontWeight}`,
         left: `calc(${(textArea.x + 50) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
         top: `calc(${(textArea.y + 50) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
         width: `${textArea.width * (this.currentScale / 100)}px`,
         height: `${textArea.height * (this.currentScale / 100)}px`,
       };
+    },
+
+    emitTextChange(e) {
+      this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, content: e.target.textContent });
+      this.$root.$emit('textContentUpdated');
+      this.$store.dispatch('setTextAreaIdx', { idx: null });
+    },
+
+    onClickOutside(e) {
+      if (this.selectedTextAreaIdx) {
+        this.$refs.textArea.blur();
+      }
+      // this.$store.dispatch('setTextAreaIdx', { idx: null });
     },
   },
 

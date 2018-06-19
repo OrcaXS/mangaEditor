@@ -42,6 +42,13 @@ export default {
 
   mounted() {
     this.createVerticalTextConfig();
+    const self = this;
+    // eslint-disable-next-line no-underscore-dangle
+    self.$root.$on('textContentUpdated', () => {
+      console.log('textContentUpdated');
+      self.createVerticalTextConfig();
+      self.$root.$emit('textConfigUpdated');
+    });
   },
 
   methods: {

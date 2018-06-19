@@ -161,6 +161,10 @@ export default {
       return this.fileData.localImageEncoded;
     },
 
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentTextArea;
+    },
+
   },
 
   watch: {
@@ -172,6 +176,12 @@ export default {
   mounted() {
     this.setScale(this.currentScale);
 
+    const self = this;
+    self.$root.$on('charConfigUpdated', () => {
+      console.log('charConfigUpdated');
+    });
+
+    // self.$refs.elementsLayer.getStage().draw();
     // TODO
     // if (this.isStorageRestored) {
     //   this.adjustCanvasOnRefresh();
@@ -279,7 +289,6 @@ export default {
       };
       window.requestAnimationFrame(updateScroll);
     },
-
   },
 
 };

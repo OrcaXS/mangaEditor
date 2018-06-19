@@ -1,6 +1,7 @@
 <template>
   <v-group
     v-if="configReady"
+    ref="textGroup"
   >
     <v-text
       v-for="(val, idx) in charConfig"
@@ -59,6 +60,13 @@ export default {
   mounted() {
     this.generateCharConfig();
     // this.rotateText(text, textArea.width, 30, textArea.x, textArea.y);
+    const self = this;
+    // eslint-disable-next-line no-underscore-dangle
+    self.$root.$on('textConfigUpdated', () => {
+      setTimeout(() => self.generateCharConfig(), 0);
+      // self.generateCharConfig();
+      // self.$root.$emit('charConfigUpdated');
+    });
   },
 
   methods: {
@@ -156,6 +164,8 @@ export default {
 
       let offsetX = this.textConfig.width - this.textConfig.fontSize;
       let offsetY = 0;
+      this.charConfig = {};
+      this.configReady = false;
 
       for (let i = 0; i < this.textConfig.text.length; i += 1) {
         const char = this.textConfig.text.charAt(i);
@@ -204,43 +214,6 @@ export default {
       }
 
       this.configReady = true;
-    },
-
-    editText(e) {
-      const textPosition = this.$refs.textElement.getStage().getAbsolutePosition();
-      const stageBox = this.stageBoundingRect;
-
-      const textAreaDetail = {
-        x: textPosition.x + stageBox.left,
-        y: textPosition.y + stageBox.top,
-        width: this.$refs.textElement.getStage().width(),
-        height: 500,
-        textContent: this.$refs.textElement.getStage().text(),
-      };
-
-      this.$store.dispatch('addTextArea', { textAreaDetail });
-
-      // create textarea and style it
-      // const textarea = document.createElement('textarea');
-      // document.body.appendChild(textarea);
-      //
-      // textarea.value = this.$refs.textElement.getStage().text();
-      // textarea.style.position = 'absolute';
-      // textarea.style.top = `${areaPosition.y}px`;
-      // textarea.style.left = `${areaPosition.x}px`;
-      // textarea.style.width = this.$refs.textElement.getStage().width();
-      //
-      // textarea.focus();
-
-
-      // textarea.addEventListener('keydown', (e) => {
-      //   // hide on enter
-      //   if (e.keyCode === 13) {
-      //     textNode.text(textarea.value);
-      //     layer.draw();
-      //     document.body.removeChild(textarea);
-      //   }
-      // });
     },
 
     textAreaWidth() {
