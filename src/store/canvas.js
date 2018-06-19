@@ -29,7 +29,7 @@ const canvas = {
     },
 
     SET_TEXTAREA_IDX(state, { idx }) {
-      state.currentTextArea = idx;
+      Vue.set(state, 'currentTextArea', idx);
     },
 
     ADD_TEXTAREA_FLATTENED(state, { id, data }) {
@@ -65,6 +65,19 @@ const canvas = {
     SET_SCROLLING_POSITION(state, { dx, dy }) {
       state.currentScrollingPosition = { dx, dy };
     },
+
+    SET_TEXTAREA_STYLE(state, {
+      id, idx, fontFamily = 'arial', fontStyle = 'normal', fontSize = '30', fontWeight = '400'
+    }) {
+      Vue.set(state.file[id].textAreas[idx], 'fontFamily', fontFamily);
+      Vue.set(state.file[id].textAreas[idx], 'fontStyle', fontStyle);
+      Vue.set(state.file[id].textAreas[idx], 'fontSize', fontSize);
+      Vue.set(state.file[id].textAreas[idx], 'fontWeight', fontWeight);
+    },
+
+    SET_TEXTAREA_CONTENT(state, { id, idx, content }) {
+      Vue.set(state.file[id].textAreas[idx], 'textContent', content);
+    },
   },
 
   actions: {
@@ -90,6 +103,18 @@ const canvas = {
 
     setScrollingPosition({ commit }, { dx, dy }) {
       commit('SET_SCROLLING_POSITION', { dx, dy });
+    },
+
+    setTextAreaStyle({ commit }, {
+      id, idx, fontFamily, fontStyle, fontSize, fontWeight
+    }) {
+      commit('SET_TEXTAREA_STYLE', {
+        id, idx, fontFamily, fontStyle, fontSize, fontWeight
+      });
+    },
+
+    setTextAreaContent({ commit }, { id, idx, content }) {
+      commit('SET_TEXTAREA_CONTENT', { id, idx, content });
     },
   },
 };
