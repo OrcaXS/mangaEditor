@@ -29,7 +29,7 @@ export default {
       fontSize: 30,
       lineSpacing: 1.10,
       textSpacing: 1.00,
-      fontFamily: 'Helvetica',
+      fontFamily: 'Arial',
       config: {},
     };
   },
@@ -55,8 +55,9 @@ export default {
           text: textContent,
           lineSpacing: this.lineSpacing,
           textSpacing: this.textSpacing,
-          fontFamily: this.fontFamily,
-          fontSize: this.fontSize,
+          fontFamily: val.fontFamily || this.fontFamily,
+          fontSize: val.fontSize || this.fontSize,
+          fontStyle: val.fontStyle || 'normal',
         };
       });
       return config;

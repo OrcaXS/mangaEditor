@@ -22,7 +22,7 @@ export default {
       type: Object,
       required: true,
       validator(val) {
-        return val.text && val.x && val.y && val.width && val.height && val.lineSpacing && val.textSpacing;
+        return val.x && val.y && val.width && val.height && val.lineSpacing && val.textSpacing;
       },
     },
     areaIndex: {
@@ -205,6 +205,7 @@ export default {
               text: char,
               fontSize: this.textConfig.fontSize,
               fontFamily: this.textConfig.fontFamily,
+              fontStyle: this.textConfig.fontStyle,
               fill: 'green',
             // draggale: true,
             };

@@ -1,11 +1,10 @@
 <template>
   <div
-    v-click-outside="onClickOutside"
     ref="textArea"
     :style="getTextAreaStyle(selectedTextArea)"
     class="textArea"
     contentEditable
-    @blur="emitTextChange"
+    @blur="onTextAreaBlur"
   >{{ currentTextContent }}</div>
 </template>
 
@@ -53,10 +52,15 @@ export default {
   },
 
   mounted() {
-    console.log('mounted');
     this.getTextContent();
     // this.$refs.textArea.focus();
     setTimeout(() => this.$refs.textArea.focus(), 0);
+    this.$root.$on('clickedCanvas', () => {
+      if (this.$refs.textArea) {
+        this.$refs.textArea.blur();
+        this.emitTextChange();
+      }
+    });
   },
 
   methods: {
@@ -69,7 +73,7 @@ export default {
 
     getTextAreaStyle(textArea) {
       return {
-        fontSize: `${this.selectedTextArea.fontSize}px`,
+        fontSize: `${this.selectedTextArea.fontSize * (this.currentScale / 100)}px`,
         fontStyle: `${this.selectedTextArea.fontStyle}`,
         fontFamily: `${this.selectedTextArea.fontFamily}, sans-serif`,
         fontWeight: `${this.selectedTextArea.fontWeight}`,
@@ -80,16 +84,20 @@ export default {
       };
     },
 
-    emitTextChange(e) {
-      this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, content: e.target.textContent });
+    emitTextChange() {
+      this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, content: this.currentTextContent });
       this.$root.$emit('textContentUpdated', this.selectedTextAreaIdx);
       this.$store.dispatch('setTextAreaIdx', { idx: null });
     },
 
+    onTextAreaBlur(e) {
+      this.currentTextContent = e.target.textContent;
+    },
+
     onClickOutside(e) {
-      if (this.selectedTextAreaIdx) {
-        this.$refs.textArea.blur();
-      }
+      // if (this.selectedTextAreaIdx) {
+      //   this.$refs.textArea.blur();
+      // }
       // this.$store.dispatch('setTextAreaIdx', { idx: null });
     },
   },

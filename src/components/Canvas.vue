@@ -24,6 +24,7 @@
           </v-layer>
           <v-layer
             ref="bgLayer"
+            @click="canvasOnClick"
           >
             <v-image
               ref="image"
@@ -284,6 +285,13 @@ export default {
         this.$refs.stage.getStage().batchDraw();
       };
       window.requestAnimationFrame(updateScroll);
+    },
+
+    canvasOnClick(e) {
+      if (this.selectedTextAreaIdx) {
+        console.log(this.selectedTextAreaIdx);
+        this.$root.$emit('clickedCanvas');
+      }
     },
   },
 

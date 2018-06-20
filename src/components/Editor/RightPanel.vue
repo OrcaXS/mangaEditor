@@ -14,8 +14,10 @@
             name="fontFamily"
             @change="setTextAreaStyle"
           >
-            <option value="arial">Arial</option>
-            <option value="comicsans">Comic Sans</option>
+            <option value="Arial">Arial</option>
+            <option value="Helvetica">Helvetica</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Microsoft YaHei">MS YaHei</option>
           </select>
         </div>
         <div class="RightPanel-select">
@@ -71,8 +73,8 @@ export default {
 
   data() {
     return {
-      selectedFontSize: '10',
-      selectedFontFamily: 'arial',
+      selectedFontSize: '24',
+      selectedFontFamily: 'Arial',
       selectedFontStyle: 'normal',
       selectedFontWeight: '400',
       fontSizes: ['9', '10', '11', '12', '13', '14', '16', '18', '24', '30', '36', '48', '64', '72', '96', '144', '288'],
