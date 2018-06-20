@@ -65,7 +65,7 @@ export default {
   mounted() {
     this.generateCharConfig();
     // this.rotateText(text, textArea.width, 30, textArea.x, textArea.y);
-    this.$root.$on('textContentUpdated', () => {
+    this.$eventHub.$on('textContentUpdated', () => {
       setTimeout(() => this.generateCharConfig(), 0);
       // self.generateCharConfig();
       // self.$root.$emit('charConfigUpdated');

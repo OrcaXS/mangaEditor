@@ -86,7 +86,7 @@ export default {
 
     emitTextChange() {
       this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, content: this.currentTextContent });
-      this.$root.$emit('textContentUpdated', this.selectedTextAreaIdx);
+      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
       this.$store.dispatch('setTextAreaIdx', { idx: null });
     },
 

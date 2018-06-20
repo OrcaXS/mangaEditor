@@ -12,6 +12,9 @@ Vue.use(VueKonva);
 Vue.use(vClickOutside);
 loadFA();
 
+const eventHub = new Vue();
+Vue.prototype.$eventHub = eventHub;
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
