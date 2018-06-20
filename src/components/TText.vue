@@ -25,7 +25,7 @@ export default {
 
   data() {
     return {
-      text: '',
+      // text: '',
       fontSize: 30,
       lineSpacing: 1.10,
       textSpacing: 1.00,
@@ -44,7 +44,7 @@ export default {
       Object.entries(this.textAreas).forEach(([idx, val]) => {
         const offsetX = val.width - this.fontSize;
         const offsetY = 0;
-        const textContent = val.textContent ? val.textContent : this.text;
+        const textContent = val.textContent || '';
         config[idx] = {
           offsetX,
           offsetY,

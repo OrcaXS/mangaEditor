@@ -65,8 +65,6 @@ export default {
   mounted() {
     this.generateCharConfig();
     // this.rotateText(text, textArea.width, 30, textArea.x, textArea.y);
-    const self = this;
-    // eslint-disable-next-line no-underscore-dangle
     this.$root.$on('textContentUpdated', () => {
       setTimeout(() => this.generateCharConfig(), 0);
       // self.generateCharConfig();
@@ -172,48 +170,51 @@ export default {
       this.charConfig = {};
       this.configReady = false;
 
-      for (let i = 0; i < this.textConfig.text.length; i += 1) {
-        const char = this.textConfig.text.charAt(i);
-        if (char === '\n' && this.textConfig.offsetY !== 0) {
-          offsetX -= this.textConfig.lineSpacing * this.textConfig.fontSize;
-          offsetY = 0;
-        }
-        if (char !== '\n') {
-          let topOffset = 0;
-          let leftOffset = 0;
-          let rotateFlag = false;
 
-          if (isSymbol(char)) {
-            const charOffset = measureTextHeight(char, this.textConfig.fontSize, this.textConfig.fontFamily);
-            topOffset = (this.textConfig.fontSize / 2) - ((charOffset.top + charOffset.height) / 2);
-            leftOffset = (this.textConfig.fontSize / 2) - ((charOffset.left + charOffset.width) / 2);
-          }
-
-          if (needRotation(char)) {
-            rotateFlag = true;
-          }
-
-          if (rotateFlag) {
-            [topOffset, leftOffset] = [leftOffset, topOffset];
-          }
-
-          const config = {
-            x: this.textConfig.x + offsetX + leftOffset + (this.textConfig.fontSize / 2),
-            y: this.textConfig.y + offsetY + topOffset + (this.textConfig.fontSize / 2),
-            offsetX: this.textConfig.fontSize / 2,
-            offsetY: this.textConfig.fontSize / 2,
-            text: char,
-            fontSize: this.textConfig.fontSize,
-            fontFamily: this.textConfig.fontFamily,
-            fill: 'green',
-            // draggale: true,
-          };
-
-          this.charConfig[i] = config;
-          offsetY += this.textConfig.textSpacing * this.textConfig.fontSize;
-          if (offsetY >= this.textConfig.height) {
-            offsetY = 0;
+      if (this.textConfig.text.length) {
+        for (let i = 0; i < this.textConfig.text.length; i += 1) {
+          const char = this.textConfig.text.charAt(i);
+          if (char === '\n' && this.textConfig.offsetY !== 0) {
             offsetX -= this.textConfig.lineSpacing * this.textConfig.fontSize;
+            offsetY = 0;
+          }
+          if (char !== '\n') {
+            let topOffset = 0;
+            let leftOffset = 0;
+            let rotateFlag = false;
+
+            if (isSymbol(char)) {
+              const charOffset = measureTextHeight(char, this.textConfig.fontSize, this.textConfig.fontFamily);
+              topOffset = (this.textConfig.fontSize / 2) - ((charOffset.top + charOffset.height) / 2);
+              leftOffset = (this.textConfig.fontSize / 2) - ((charOffset.left + charOffset.width) / 2);
+            }
+
+            if (needRotation(char)) {
+              rotateFlag = true;
+            }
+
+            if (rotateFlag) {
+              [topOffset, leftOffset] = [leftOffset, topOffset];
+            }
+
+            const config = {
+              x: this.textConfig.x + offsetX + leftOffset + (this.textConfig.fontSize / 2),
+              y: this.textConfig.y + offsetY + topOffset + (this.textConfig.fontSize / 2),
+              offsetX: this.textConfig.fontSize / 2,
+              offsetY: this.textConfig.fontSize / 2,
+              text: char,
+              fontSize: this.textConfig.fontSize,
+              fontFamily: this.textConfig.fontFamily,
+              fill: 'green',
+            // draggale: true,
+            };
+
+            this.charConfig[i] = config;
+            offsetY += this.textConfig.textSpacing * this.textConfig.fontSize;
+            if (offsetY >= this.textConfig.height) {
+              offsetY = 0;
+              offsetX -= this.textConfig.lineSpacing * this.textConfig.fontSize;
+            }
           }
         }
       }
