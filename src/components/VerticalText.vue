@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       configReady: false,
+      textPlaceholder: '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890',
       charConfig: {},
     };
   },
@@ -55,6 +56,10 @@ export default {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
 
+    currentTextArea() {
+      return this.textAreas[this.areaIndex];
+    },
+
   },
 
   mounted() {
@@ -62,8 +67,8 @@ export default {
     // this.rotateText(text, textArea.width, 30, textArea.x, textArea.y);
     const self = this;
     // eslint-disable-next-line no-underscore-dangle
-    self.$root.$on('textConfigUpdated', () => {
-      setTimeout(() => self.generateCharConfig(), 0);
+    this.$root.$on('textContentUpdated', () => {
+      setTimeout(() => this.generateCharConfig(), 0);
       // self.generateCharConfig();
       // self.$root.$emit('charConfigUpdated');
     });

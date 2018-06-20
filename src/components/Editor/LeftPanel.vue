@@ -11,7 +11,7 @@
           :key="idx"
         >
           <FontAwesomeIcon :icon="['far', 'circle']" />
-          {{ idx }} ({{ textArea.x }},{{ textArea.y }})
+          <span class="LeftPanel-elementName">({{ idx }}) {{ textArea.textContent }}</span>
         </div>
       </div>
     </div>
@@ -89,6 +89,10 @@ export default {
   font-weight: 500;
   padding: .5rem .1rem;
   color: config('colors.grey-darker');
+}
+
+.LeftPanel-elementName {
+  word-break: break-all;
 }
 
 .LeftPanel-balloons {

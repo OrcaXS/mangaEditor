@@ -207,10 +207,6 @@ export default {
         height: balloon.boundingRect.height,
         stroke: 'black',
         strokeWidth: 4,
-        shadowOffsetX: 20,
-        shadowOffsetY: 25,
-        shadowBlur: 40,
-        opacity: 0.5,
       };
       return configObj;
     },

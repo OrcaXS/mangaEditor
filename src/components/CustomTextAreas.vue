@@ -53,8 +53,10 @@ export default {
   },
 
   mounted() {
+    console.log('mounted');
     this.getTextContent();
     // this.$refs.textArea.focus();
+    setTimeout(() => this.$refs.textArea.focus(), 0);
   },
 
   methods: {
@@ -62,7 +64,7 @@ export default {
     },
 
     getTextContent() {
-      this.currentTextContent = this.selectedTextArea.textContent || '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890';
+      this.currentTextContent = this.selectedTextArea.textContent || '';
     },
 
     getTextAreaStyle(textArea) {
@@ -80,7 +82,7 @@ export default {
 
     emitTextChange(e) {
       this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, content: e.target.textContent });
-      this.$root.$emit('textContentUpdated');
+      this.$root.$emit('textContentUpdated', this.selectedTextAreaIdx);
       this.$store.dispatch('setTextAreaIdx', { idx: null });
     },
 

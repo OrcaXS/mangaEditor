@@ -1,7 +1,7 @@
 <template>
   <div>
     <VerticalText
-      v-for="(val, idx) in config"
+      v-for="(val, idx) in verticalTextConfigs"
       :key="idx"
       :text-config="val"
       :area-index="idx"
@@ -12,7 +12,7 @@
 import VerticalText from './VerticalText';
 
 export default {
-  name: 'TText',
+  name: 'TextWrapper',
   components: {
     VerticalText,
   },
@@ -25,7 +25,7 @@ export default {
 
   data() {
     return {
-      text: '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890',
+      text: '',
       fontSize: 30,
       lineSpacing: 1.10,
       textSpacing: 1.00,
@@ -38,27 +38,14 @@ export default {
     textAreas() {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
-  },
 
-  mounted() {
-    this.createVerticalTextConfig();
-    const self = this;
-    // eslint-disable-next-line no-underscore-dangle
-    self.$root.$on('textContentUpdated', () => {
-      console.log('textContentUpdated');
-      self.createVerticalTextConfig();
-      self.$root.$emit('textConfigUpdated');
-    });
-  },
-
-  methods: {
-    createVerticalTextConfig() {
-      this.config = {};
+    verticalTextConfigs() {
+      const config = {};
       Object.entries(this.textAreas).forEach(([idx, val]) => {
         const offsetX = val.width - this.fontSize;
         const offsetY = 0;
         const textContent = val.textContent ? val.textContent : this.text;
-        this.config[idx] = {
+        config[idx] = {
           offsetX,
           offsetY,
           width: val.width,
@@ -72,17 +59,17 @@ export default {
           fontSize: this.fontSize,
         };
       });
+      return config;
     },
+  },
 
+  methods: {
     textAreaWidth() {
       return {
         width: this.$refs.textElement ? `${this.$refs.textElement.getStage().getAttr('width')}px` : '300px',
       };
     },
 
-    showEditor(textConfig) {
-      console.log(textConfig);
-    },
   },
 
 };
