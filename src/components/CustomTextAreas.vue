@@ -1,7 +1,7 @@
 <template>
   <div
     ref="textArea"
-    :style="getTextAreaStyle(selectedTextArea)"
+    :style="textAreaStyle"
     class="textArea"
     contentEditable
     @blur="onTextAreaBlur"
@@ -41,6 +41,27 @@ export default {
     currentScrollingPosition() {
       return this.$store.state.canvas.currentScrollingPosition;
     },
+
+    textAreaStyle() {
+      const fontStyles = ['normal', 'oblique', 'italic'];
+      const styleObj = {
+        fontSize: `${this.selectedTextArea.fontSize * (this.currentScale / 100)}px`,
+        fontStyle: 'normal',
+        fontFamily: `"${this.selectedTextArea.fontFamily}", sans-serif`,
+        fontWeight: '400',
+        left: `calc(${(this.selectedTextArea.x + 50) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
+        top: `calc(${(this.selectedTextArea.y + 50) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
+        width: `${this.selectedTextArea.width * (this.currentScale / 100)}px`,
+        height: `${this.selectedTextArea.height * (this.currentScale / 100)}px`,
+        color: this.selectedTextArea.colors.hex || 'black',
+      };
+      if (fontStyles.indexOf(this.selectedTextArea.fontStyle) > -1) {
+        styleObj.fontStyle = this.selectedTextArea.fontStyle;
+      } else {
+        styleObj.fontWeight = this.selectedTextArea.fontStyle;
+      }
+      return styleObj;
+    },
   },
 
   watch: {
@@ -69,20 +90,6 @@ export default {
 
     getTextContent() {
       this.currentTextContent = this.selectedTextArea.textContent || '';
-    },
-
-    getTextAreaStyle(textArea) {
-      return {
-        fontSize: `${this.selectedTextArea.fontSize * (this.currentScale / 100)}px`,
-        fontStyle: this.selectedTextArea.fontStyle,
-        fontFamily: `"${this.selectedTextArea.fontFamily}", sans-serif`,
-        fontWeight: `${this.selectedTextArea.fontWeight}`,
-        left: `calc(${(textArea.x + 50) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
-        top: `calc(${(textArea.y + 50) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
-        width: `${textArea.width * (this.currentScale / 100)}px`,
-        height: `${textArea.height * (this.currentScale / 100)}px`,
-        color: textArea.colors.hex || 'black',
-      };
     },
 
     emitTextChange() {

@@ -69,12 +69,12 @@ const canvas = {
     },
 
     SET_TEXTAREA_STYLE(state, {
-      id, idx, fontFamily = 'arial', fontStyle = 'normal', fontSize = '30', fontWeight = '400'
+      id, idx, fontFamily, fontStyle, fontSize, fontWeight
     }) {
-      Vue.set(state.file[id].textAreas[idx], 'fontFamily', fontFamily);
-      Vue.set(state.file[id].textAreas[idx], 'fontStyle', fontStyle);
-      Vue.set(state.file[id].textAreas[idx], 'fontSize', fontSize);
-      Vue.set(state.file[id].textAreas[idx], 'fontWeight', fontWeight);
+      if (fontFamily) Vue.set(state.file[id].textAreas[idx], 'fontFamily', fontFamily);
+      if (fontStyle) Vue.set(state.file[id].textAreas[idx], 'fontStyle', fontStyle);
+      if (fontSize) Vue.set(state.file[id].textAreas[idx], 'fontSize', fontSize);
+      if (fontWeight) Vue.set(state.file[id].textAreas[idx], 'fontWeight', fontWeight);
     },
 
     SET_TEXTAREA_CONTENT(state, { id, idx, content }) {

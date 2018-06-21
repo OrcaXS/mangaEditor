@@ -13,9 +13,8 @@
       <div class="RightPanel-fonts">
         <div class="RightPanel-select">
           <select
-            v-model="selectedTextAreaStyle.fontFamily"
+            v-model="fontFamily"
             name="fontFamily"
-            @change="setTextAreaStyle"
           >
             <option
               v-for="font in fontFamilies"
@@ -26,20 +25,8 @@
         </div>
         <div class="RightPanel-select">
           <select
-            v-model="selectedTextAreaStyle.fontStyle"
-            name="fontStyle"
-            @change="setTextAreaStyle"
-          >
-            <option value="normal">normal</option>
-            <option value="italic">italic</option>
-            <option value="oblique">oblique</option>
-          </select>
-        </div>
-        <div class="RightPanel-select">
-          <select
-            v-model="selectedTextAreaStyle.fontSize"
+            v-model="fontSize"
             name="fontSize"
-            @change="setTextAreaStyle"
           >
             <option
               v-for="size in fontSizes"
@@ -50,15 +37,14 @@
         </div>
         <div class="RightPanel-select">
           <select
-            v-model="selectedTextAreaStyle.fontWeight"
-            name="fontWeight"
-            @change="setTextAreaStyle"
+            v-model="fontStyle"
+            name="fontStyle"
           >
             <option
-              v-for="size in fontWeights"
-              :key="size"
-              :value="size"
-            >{{ size }}</option>
+              v-for="style in fontStyles"
+              :key="style"
+              :value="style"
+            >{{ style }}</option>
           </select>
         </div>
         <div class="RightPanel-select">
@@ -96,7 +82,7 @@ export default {
         { familyName: 'Noto Sans Japanese', displayName: 'Noto Sans Japanese' },
       ],
       fontSizes: ['9', '10', '11', '12', '13', '14', '16', '18', '24', '30', '36', '48', '64', '72', '96', '144', '288'],
-      fontWeights: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+      fontStyles: ['normal', 'italic', 'oblique', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
     };
   },
 
@@ -107,15 +93,6 @@ export default {
 
     selectedTextArea() {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.selectedTextAreaIdx];
-    },
-
-    selectedTextAreaStyle() {
-      return {
-        fontSize: this.selectedTextArea.fontSize || '24',
-        fontFamily: this.selectedTextArea.fontFamily || 'Arial',
-        fontStyle: this.selectedTextArea.fontStyle || 'normal',
-        fontWeight: this.selectedTextArea.fontWeight || '400',
-      };
     },
 
     currentColor() {
@@ -133,15 +110,44 @@ export default {
         this.$store.dispatch('setColor', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, color });
       },
     },
-  },
 
-  methods: {
-    setTextAreaStyle() {
-      this.$store.dispatch('setTextAreaStyle', {
-        id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontFamily: this.selectedFontFamily, fontStyle: this.selectedFontStyle, fontSize: this.selectedFontSize, fontWeight: this.selectedFontWeight,
-      });
+    fontStyle: {
+      get() {
+        return this.selectedTextArea.fontStyle || 'normal';
+      },
+
+      set(val) {
+        this.$store.dispatch('setTextAreaStyle', {
+          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontStyle: val,
+        });
+      },
+    },
+
+    fontFamily: {
+      get() {
+        return this.selectedTextArea.fontFamily || 'Arial';
+      },
+
+      set(val) {
+        this.$store.dispatch('setTextAreaStyle', {
+          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontFamily: val,
+        });
+      },
+    },
+
+    fontSize: {
+      get() {
+        return this.selectedTextArea.fontSize || '30';
+      },
+
+      set(val) {
+        this.$store.dispatch('setTextAreaStyle', {
+          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontSize: val,
+        });
+      },
     },
   },
+
 };
 </script>
 
