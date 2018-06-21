@@ -18,11 +18,13 @@
     "register-service-worker": "^1.4.0",
     "v-click-outside": "^1.0.5",
     "vue": "^2.5.16",
+    "vue-color": "^2.4.6",
     "vue-konva": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vuex-persist": "^1.4.0",
-    "vuex-persistedstate": "^2.5.4"
+    "vuex-persistedstate": "^2.5.4",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.1",
