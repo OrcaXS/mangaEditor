@@ -41,7 +41,7 @@
             />
           </v-layer>
           <v-layer ref="elementsLayer">
-            <TestText :stage-bounding-rect="stageBoundingRect"/>
+            <TextWrapper :stage-bounding-rect="stageBoundingRect"/>
           </v-layer>
         </v-stage>
       </div>
@@ -50,14 +50,14 @@
 </template>
 
 <script>
-import TestText from '@/components/TText';
+import TextWrapper from '@/components/TextWrapper';
 import db from '@/scripts/db';
 
 export default {
   name: 'CanvasArea',
 
   components: {
-    TestText,
+    TextWrapper,
   },
 
   props: {
@@ -172,6 +172,21 @@ export default {
     currentScale(newScale) {
       this.setScale(newScale);
     },
+  },
+
+  created() {
+    const typekitScript = document.createElement('script');
+    typekitScript.innerHTML = `
+      (function(d) {
+      var config = {
+        kitId: 'wkh8kxi',
+        scriptTimeout: 3000,
+        async: true
+      },
+      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+    })(document);
+    `;
+    document.head.appendChild(typekitScript);
   },
 
   mounted() {

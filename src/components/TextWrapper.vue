@@ -58,6 +58,7 @@ export default {
           fontFamily: val.fontFamily || this.fontFamily,
           fontSize: val.fontSize || this.fontSize,
           fontStyle: val.fontStyle || 'normal',
+          color: val.colors.hex || 'black',
         };
       });
       return config;

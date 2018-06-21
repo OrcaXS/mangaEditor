@@ -74,13 +74,14 @@ export default {
     getTextAreaStyle(textArea) {
       return {
         fontSize: `${this.selectedTextArea.fontSize * (this.currentScale / 100)}px`,
-        fontStyle: `${this.selectedTextArea.fontStyle}`,
-        fontFamily: `${this.selectedTextArea.fontFamily}, sans-serif`,
+        fontStyle: this.selectedTextArea.fontStyle,
+        fontFamily: `"${this.selectedTextArea.fontFamily}", sans-serif`,
         fontWeight: `${this.selectedTextArea.fontWeight}`,
         left: `calc(${(textArea.x + 50) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
         top: `calc(${(textArea.y + 50) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
         width: `${textArea.width * (this.currentScale / 100)}px`,
         height: `${textArea.height * (this.currentScale / 100)}px`,
+        color: textArea.colors.hex || 'black',
       };
     },
 

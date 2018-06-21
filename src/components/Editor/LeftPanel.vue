@@ -9,8 +9,9 @@
         <div
           v-for="(textArea, idx) in textAreas"
           :key="idx"
+          :class="{ 'LeftPanel-elementSelected': idx === selectedTextAreaIdx }"
         >
-          <FontAwesomeIcon :icon="['far', 'circle']" />
+          <FontAwesomeIcon :icon="['far', 'edit']" />
           <span class="LeftPanel-elementName">({{ idx }}) {{ textArea.textContent }}</span>
         </div>
       </div>
@@ -56,6 +57,10 @@ export default {
   },
 
   computed: {
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentTextArea;
+    },
+
     currentFilename() {
       return this.$store.state.file.fileData[this.$route.params.file_id].info.filename;
     },
@@ -93,6 +98,10 @@ export default {
 
 .LeftPanel-elementName {
   word-break: break-all;
+}
+
+.LeftPanel-elementSelected {
+  background-color: config('colors.peach-shade-3');
 }
 
 .LeftPanel-balloons {

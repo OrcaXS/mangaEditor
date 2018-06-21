@@ -1,28 +1,32 @@
 <template>
-  <div class="RightPanel">
+  <div
+    v-if="selectedTextArea"
+    class="RightPanel"
+  >
     <div class="RightPanel-styles">
       <div class="RightPanel-category">Text Content</div>
       <div class="RightPanel-content">
-        <p v-if="selectedTextAreaIdx">{{ selectedTextArea.textContent }}</p>
+        <p v-if="selectedTextArea.textContent">{{ selectedTextArea.textContent }}</p>
         <p v-else>(empty)</p>
       </div>
       <div class="RightPanel-category">Font &amp; Styles</div>
       <div class="RightPanel-fonts">
         <div class="RightPanel-select">
           <select
-            v-model="selectedFontFamily"
+            v-model="selectedTextAreaStyle.fontFamily"
             name="fontFamily"
             @change="setTextAreaStyle"
           >
-            <option value="Arial">Arial</option>
-            <option value="Helvetica">Helvetica</option>
-            <option value="Comic Sans MS">Comic Sans MS</option>
-            <option value="Microsoft YaHei">MS YaHei</option>
+            <option
+              v-for="font in fontFamilies"
+              :key="font.familyName"
+              :value="font.familyName"
+            >{{ font.displayName }}</option>
           </select>
         </div>
         <div class="RightPanel-select">
           <select
-            v-model="selectedFontStyle"
+            v-model="selectedTextAreaStyle.fontStyle"
             name="fontStyle"
             @change="setTextAreaStyle"
           >
@@ -33,7 +37,7 @@
         </div>
         <div class="RightPanel-select">
           <select
-            v-model="selectedFontSize"
+            v-model="selectedTextAreaStyle.fontSize"
             name="fontSize"
             @change="setTextAreaStyle"
           >
@@ -46,7 +50,7 @@
         </div>
         <div class="RightPanel-select">
           <select
-            v-model="selectedFontWeight"
+            v-model="selectedTextAreaStyle.fontWeight"
             name="fontWeight"
             @change="setTextAreaStyle"
           >
@@ -57,26 +61,40 @@
             >{{ size }}</option>
           </select>
         </div>
+        <div class="RightPanel-select">
+          <div
+            :style="currentColor"
+            class="RightPanel-currentColor"
+          />
+          <color-picker v-model="textAreaColor" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Chrome } from 'vue-color';
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 
 export default {
   name: 'EditorRightPanel',
   components: {
     FontAwesomeIcon,
+    'color-picker': Chrome,
   },
 
   data() {
     return {
-      selectedFontSize: '24',
-      selectedFontFamily: 'Arial',
-      selectedFontStyle: 'normal',
-      selectedFontWeight: '400',
+      colors: {},
+      fontFamilies: [
+        { familyName: 'Arial', displayName: 'Arial' },
+        { familyName: 'Helvetica', displayName: 'Helvetica' },
+        { familyName: 'Comic Sans MS', displayName: 'Comic Sans MS' },
+        { familyName: 'Microsoft YaHei', displayName: 'Microsoft YaHei' },
+        { familyName: 'source-han-serif-japanese', displayName: 'Source Han Serif JP' },
+        { familyName: 'Noto Sans Japanese', displayName: 'Noto Sans Japanese' },
+      ],
       fontSizes: ['9', '10', '11', '12', '13', '14', '16', '18', '24', '30', '36', '48', '64', '72', '96', '144', '288'],
       fontWeights: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
     };
@@ -90,12 +108,37 @@ export default {
     selectedTextArea() {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.selectedTextAreaIdx];
     },
+
+    selectedTextAreaStyle() {
+      return {
+        fontSize: this.selectedTextArea.fontSize || '24',
+        fontFamily: this.selectedTextArea.fontFamily || 'Arial',
+        fontStyle: this.selectedTextArea.fontStyle || 'normal',
+        fontWeight: this.selectedTextArea.fontWeight || '400',
+      };
+    },
+
+    currentColor() {
+      return {
+        backgroundColor: this.textAreaColor.hex || 'black',
+      };
+    },
+
+    textAreaColor: {
+      get() {
+        return this.selectedTextArea.colors;
+      },
+
+      set(color) {
+        this.$store.dispatch('setColor', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, color });
+      },
+    },
   },
 
   methods: {
     setTextAreaStyle() {
       this.$store.dispatch('setTextAreaStyle', {
-        id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontFamily: this.selectedFontFamily, fontStyle: this.selectedFontStyle, fontSize: this.selectedFontSize, fontWeight: this.selectedFontWeight
+        id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontFamily: this.selectedFontFamily, fontStyle: this.selectedFontStyle, fontSize: this.selectedFontSize, fontWeight: this.selectedFontWeight,
       });
     },
   },
@@ -103,6 +146,8 @@ export default {
 </script>
 
 <style scoped lang="postcss">
+@import url(//fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+
 .RightPanel {
   height: calc(100vw - 3rem);
   /* border: 1px solid config('colors.grey-light'); */
@@ -133,5 +178,11 @@ export default {
   font-weight: 500;
   padding: .5rem .1rem;
   color: config('colors.grey-darker');
+}
+
+.RightPanel-currentColor {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
 }
 </style>

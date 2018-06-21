@@ -206,7 +206,7 @@ export default {
               fontSize: this.textConfig.fontSize,
               fontFamily: this.textConfig.fontFamily,
               fontStyle: this.textConfig.fontStyle,
-              fill: 'green',
+              fill: this.textConfig.color,
             // draggale: true,
             };
 
