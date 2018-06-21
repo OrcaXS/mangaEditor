@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueKonva from 'vue-konva';
 import vClickOutside from 'v-click-outside';
+import WebFontLoader from '@/scripts/webFontLoader';
 import loadFA from '@/scripts/fontawesome';
 import App from './App';
 import router from './router';
