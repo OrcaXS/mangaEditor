@@ -38,6 +38,8 @@ const canvas = {
       Object.values(data).forEach((val) => {
         Object.values(val).forEach((textArea) => {
           flattened[idx] = textArea;
+          // eslint-disable-next-line dot-notation
+          flattened[idx]['colors'] = {};
           idx += 1;
         });
       });
@@ -78,6 +80,10 @@ const canvas = {
     SET_TEXTAREA_CONTENT(state, { id, idx, content }) {
       Vue.set(state.file[id].textAreas[idx], 'textContent', content);
     },
+
+    SET_COLOR(state, { id, idx, color }) {
+      Vue.set(state.file[id].textAreas[idx], 'colors', color);
+    },
   },
 
   actions: {
@@ -106,15 +112,19 @@ const canvas = {
     },
 
     setTextAreaStyle({ commit }, {
-      id, idx, fontFamily, fontStyle, fontSize, fontWeight
+      id, idx, fontFamily, fontStyle, fontSize, fontWeight,
     }) {
       commit('SET_TEXTAREA_STYLE', {
-        id, idx, fontFamily, fontStyle, fontSize, fontWeight
+        id, idx, fontFamily, fontStyle, fontSize, fontWeight,
       });
     },
 
     setTextAreaContent({ commit }, { id, idx, content }) {
       commit('SET_TEXTAREA_CONTENT', { id, idx, content });
+    },
+
+    setColor({ commit }, { id, idx, color }) {
+      commit('SET_COLOR', { id, idx, color });
     },
   },
 };
