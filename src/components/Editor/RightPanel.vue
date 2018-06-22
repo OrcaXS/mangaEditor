@@ -61,12 +61,10 @@
 
 <script>
 import { Chrome } from 'vue-color';
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 
 export default {
   name: 'EditorRightPanel',
   components: {
-    FontAwesomeIcon,
     'color-picker': Chrome,
   },
 

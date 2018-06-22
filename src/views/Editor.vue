@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
 import LeftPanel from '@/components/Editor/LeftPanel';
 import RightPanel from '@/components/Editor/RightPanel';
 import CustomTextAreas from '@/components/CustomTextAreas';
@@ -69,7 +68,6 @@ export default {
   name: 'EditorView',
 
   components: {
-    FontAwesomeIcon,
     LeftPanel,
     RightPanel,
     CustomTextAreas,

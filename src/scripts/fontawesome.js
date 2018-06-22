@@ -1,4 +1,4 @@
-import fontawesome from '@fortawesome/fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faThList,
   faTags,
@@ -28,19 +28,21 @@ import {
   faPlusSquare,
   faSearchMinus,
   faSearchPlus,
-} from '@fortawesome/fontawesome-free-solid';
+  faCrop
+} from '@fortawesome/free-solid-svg-icons';
 
 import {
   faSquare,
   faCircle,
   faImage,
-} from '@fortawesome/fontawesome-free-regular';
+  faEdit,
+} from '@fortawesome/free-regular-svg-icons';
 
-fontawesome.config = {
-  autoAddCss: false,
-};
+// fontawesome.config = {
+//   autoAddCss: false,
+// };
 
 export default function loadFA() {
   // eslint-disable-next-line max-len
-  fontawesome.library.add(faThList, faTags, faQuestionCircle, faInfo, faArrowRight, faLanguage, faBars, faTimes, faSearch, faAngleDown, faPlay, faPlayCircle, faPause, faPauseCircle, faCircleNotch, faChevronRight, faChevronLeft, faLongArrowAltRight, faLongArrowAltLeft, faStopwatch, faFilter, faTerminal, faUndo, faRedo, faSave, faSquare, faPlusSquare, faSearchMinus, faSearchPlus, faCircle, faImage);
+  library.add(faThList, faTags, faQuestionCircle, faInfo, faArrowRight, faLanguage, faBars, faTimes, faSearch, faAngleDown, faPlay, faPlayCircle, faPause, faPauseCircle, faCircleNotch, faChevronRight, faChevronLeft, faLongArrowAltRight, faLongArrowAltLeft, faStopwatch, faFilter, faTerminal, faUndo, faRedo, faSave, faSquare, faPlusSquare, faSearchMinus, faSearchPlus, faCircle, faImage, faEdit, faCrop);
 }

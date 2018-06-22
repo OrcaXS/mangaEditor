@@ -4,7 +4,7 @@
     class="LeftPanel"
   >
     <div class="LeftPanel-group">
-      <div class="LeftPanel-category">Elements</div>
+      <div class="LeftPanel-category">Texts</div>
       <div class="LeftPanel-layer">
         <div
           v-for="(textArea, idx) in textAreas"
@@ -14,6 +14,12 @@
           <FontAwesomeIcon :icon="['far', 'edit']" />
           <span class="LeftPanel-elementName">({{ idx }}) {{ textArea.textContent }}</span>
         </div>
+      </div>
+    </div>
+    <div class="LeftPanel-group">
+      <div class="LeftPanel-category">Rectangles</div>
+      <div class="LeftPanel-layer">
+        <p>lul</p>
       </div>
     </div>
     <div class="LeftPanel-group">
@@ -39,13 +45,10 @@
 </template>
 
 <script>
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome';
-
 export default {
   name: 'EditorLeftPanel',
 
   components: {
-    FontAwesomeIcon,
   },
 
   props: {
