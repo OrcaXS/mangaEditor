@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <v-group>
     <VerticalText
       v-for="(val, idx) in verticalTextConfigs"
       :key="idx"
       :text-config="val"
       :area-index="idx"
     />
-  </div>
+  </v-group>
 </template>
 <script>
 import VerticalText from './VerticalText';
@@ -50,8 +50,8 @@ export default {
           offsetY,
           width: val.width,
           height: val.height,
-          x: val.x + 50,
-          y: val.y + 50,
+          x: val.x + 0,
+          y: val.y + 0,
           text: textContent,
           lineSpacing: this.lineSpacing,
           textSpacing: this.textSpacing,

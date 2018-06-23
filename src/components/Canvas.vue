@@ -113,8 +113,8 @@ export default {
 
     configFrame() {
       return {
-        width: this.bgImageConfig.width + 100,
-        height: this.bgImageConfig.height + 100,
+        width: this.bgImageConfig.width + 0,
+        height: this.bgImageConfig.height + 0,
         // x: this.stageWidth / 2,
         // y: this.stageHeight / 2,
         stroke: 'blue',
@@ -126,8 +126,8 @@ export default {
       const bgImage = new Image();
       bgImage.src = URL.createObjectURL(this.file.bgImage);
       return {
-        x: 50,
-        y: 50,
+        x: 0,
+        y: 0,
         image: bgImage,
         width: this.dimension.width,
         height: this.dimension.height,
@@ -216,8 +216,8 @@ export default {
       const balloonImage = new Image();
       balloonImage.src = URL.createObjectURL(this.file.balloons[idx]);
       const configObj = {
-        x: balloon.boundingRect.x + 50,
-        y: balloon.boundingRect.y + 50,
+        x: balloon.boundingRect.x + 0,
+        y: balloon.boundingRect.y + 0,
         image: balloonImage,
         width: balloon.boundingRect.width,
         height: balloon.boundingRect.height,
