@@ -102,13 +102,12 @@ export default {
       return this.$store.state.canvas.currentCursorPosition;
     },
 
-    selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentTextArea;
+    selectedTextAreaEditorIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreaEditor;
     },
 
-
     showTextArea() {
-      return /\d/.test(this.selectedTextAreaIdx);
+      return /\d/.test(this.selectedTextAreaEditorIdx);
     },
   },
 

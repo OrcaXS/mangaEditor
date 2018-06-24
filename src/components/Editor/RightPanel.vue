@@ -52,9 +52,17 @@
             :style="currentColor"
             class="RightPanel-currentColor"
           />
-          <color-picker v-model="textAreaColor" />
+          <color-picker
+            v-model="textAreaColor"
+            @change="onColorChange"
+          />
         </div>
       </div>
+      <div class="RightPanel-category">Position &amp; Style</div>
+      <p class="RightPanel-content">x: {{ selectedTextArea.x }}</p>
+      <p class="RightPanel-content">y: {{ selectedTextArea.y }}</p>
+      <p class="RightPanel-content">width: {{ selectedTextArea.width }}</p>
+      <p class="RightPanel-content">height: {{ selectedTextArea.height }}</p>
     </div>
   </div>
 </template>
@@ -86,7 +94,7 @@ export default {
 
   computed: {
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentTextArea;
+      return this.$store.state.canvas.currentlySelected.textArea[0];
     },
 
     selectedTextArea() {
@@ -145,6 +153,12 @@ export default {
       },
     },
   },
+
+  methods: {
+    onColorChange() {
+      console.log('colorChange');
+    }
+  }
 
 };
 </script>

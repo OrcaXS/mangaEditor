@@ -2,6 +2,10 @@
   <v-group
     v-if="configReady"
     ref="textGroup"
+    :config="groupConfig"
+    @dragend="groupDragEnd"
+    @click="selectTextArea(areaIndex)"
+    @dblclick="showEditor(areaIndex)"
   >
     <v-text
       v-for="(val, idx) in charConfig"
@@ -9,8 +13,11 @@
       :config="val"
     />
     <v-rect
+      :config="hiddenRectStyle(textConfig)"
+    />
+    <v-rect
+      v-if="areaIndex === selectedTextAreaIdx"
       :config="rectStyle(textConfig)"
-      @dblclick="showEditor(areaIndex)"
     />
   </v-group>
 </template>
@@ -37,7 +44,7 @@ export default {
   data() {
     return {
       configReady: false,
-      textPlaceholder: '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890',
+      // textPlaceholder: '测试\n输入あのイーハトーヴォのすきとおった風、\nABCDEFGHIJKLMabcdefghijklm1234567890',
       charConfig: {},
     };
   },
@@ -60,19 +67,33 @@ export default {
       return this.textAreas[this.areaIndex];
     },
 
+    groupConfig() {
+      return {
+        draggable: true,
+      };
+    },
+
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentlySelected.textArea[0];
+    },
   },
 
   mounted() {
     this.generateCharConfig();
-    // this.rotateText(text, textArea.width, 30, textArea.x, textArea.y);
-    this.$eventHub.$on('textContentUpdated', () => {
-      setTimeout(() => this.generateCharConfig(), 0);
-      // self.generateCharConfig();
-      // self.$root.$emit('charConfigUpdated');
+    this.$eventHub.$on('textContentUpdated', (idx) => {
+      if (this.areaIndex === idx) {
+        console.log('generateCharConfig');
+        setTimeout(() => this.generateCharConfig(), 0);
+        this.$store.dispatch('clearSelection', { type: 'clearAll' });
+      }
     });
   },
 
   methods: {
+    groupDragEnd(e) {
+      console.log(this.$refs.textGroup.getStage().position());
+    },
+
     rectStyle(textConfig) {
       return {
         x: textConfig.x,
@@ -80,12 +101,26 @@ export default {
         width: textConfig.width,
         height: textConfig.height,
         stroke: 'purple',
-        strokeWidth: 5,
+        strokeWidth: 3,
+      };
+    },
+
+    hiddenRectStyle(textConfig) {
+      return {
+        x: textConfig.x,
+        y: textConfig.y,
+        width: textConfig.width,
+        height: textConfig.height,
       };
     },
 
     showEditor(areaIndex) {
-      this.$store.dispatch('setTextAreaIdx', { idx: areaIndex });
+      this.$store.dispatch('setSelection', { type: 'textAreaEditor', idx: areaIndex });
+      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+    },
+
+    selectTextArea(areaIndex) {
+      this.$store.dispatch('setSelection', { type: 'textArea', idx: areaIndex });
     },
 
     generateCharConfig() {

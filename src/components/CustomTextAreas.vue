@@ -22,16 +22,16 @@ export default {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
 
-    selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentTextArea;
+    selectedTextAreaEditorIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreaEditor;
     },
 
     selectedTextArea() {
-      return this.textAreas[this.selectedTextAreaIdx];
+      return this.textAreas[this.selectedTextAreaEditorIdx];
     },
 
-    showTextArea() {
-      return /\d/.test(this.selectedTextAreaIdx);
+    showTextAreaEditor() {
+      return /\d/.test(this.selectedTextAreaEditorIdx);
     },
 
     currentScale() {
@@ -43,29 +43,30 @@ export default {
     },
 
     textAreaStyle() {
+      const textArea = this.selectedTextArea;
       const fontStyles = ['normal', 'oblique', 'italic'];
       const styleObj = {
-        fontSize: `${this.selectedTextArea.fontSize * (this.currentScale / 100)}px`,
+        fontSize: `${textArea.fontSize * (this.currentScale / 100)}px`,
         fontStyle: 'normal',
-        fontFamily: `"${this.selectedTextArea.fontFamily}", sans-serif`,
+        fontFamily: `"${textArea.fontFamily}", sans-serif`,
         fontWeight: '400',
-        left: `calc(${(this.selectedTextArea.x + 0) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
-        top: `calc(${(this.selectedTextArea.y + 0) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
-        width: `${this.selectedTextArea.width * (this.currentScale / 100)}px`,
-        height: `${this.selectedTextArea.height * (this.currentScale / 100)}px`,
-        color: this.selectedTextArea.colors.hex || 'black',
+        left: `calc(${(textArea.x + 0) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
+        top: `calc(${(textArea.y + 0) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
+        width: `${textArea.width * (this.currentScale / 100)}px`,
+        height: `${textArea.height * (this.currentScale / 100)}px`,
+        color: textArea.colors.hex || 'black',
       };
-      if (fontStyles.indexOf(this.selectedTextArea.fontStyle) > -1) {
-        styleObj.fontStyle = this.selectedTextArea.fontStyle;
+      if (fontStyles.indexOf(textArea.fontStyle) > -1) {
+        styleObj.fontStyle = textArea.fontStyle;
       } else {
-        styleObj.fontWeight = this.selectedTextArea.fontStyle;
+        styleObj.fontWeight = textArea.fontStyle;
       }
       return styleObj;
     },
   },
 
   watch: {
-    selectedTextAreaIdx(newIdx, oldIdx) {
+    selectedTextAreaEditorIdx(newIdx, oldIdx) {
       console.log(newIdx);
       this.getTextContent();
       this.$refs.textArea.focus();
@@ -76,8 +77,9 @@ export default {
     this.getTextContent();
     // this.$refs.textArea.focus();
     setTimeout(() => this.$refs.textArea.focus(), 0);
-    this.$root.$on('clickedCanvas', () => {
-      if (this.$refs.textArea) {
+    this.$eventHub.$on('clickedCanvas', () => {
+      if (this.$refs.textArea && this.selectedTextAreaEditorIdx) {
+        console.log('handled by CustomTextAreas');
         this.$refs.textArea.blur();
         this.emitTextChange();
       }
@@ -85,17 +87,14 @@ export default {
   },
 
   methods: {
-    setTextContent() {
-    },
-
     getTextContent() {
       this.currentTextContent = this.selectedTextArea.textContent || '';
     },
 
     emitTextChange() {
-      this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, content: this.currentTextContent });
-      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
-      this.$store.dispatch('setTextAreaIdx', { idx: null });
+      this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaEditorIdx, content: this.currentTextContent });
+      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaEditorIdx);
+      this.$store.dispatch('clearSelection', { type: 'clearAll' });
     },
 
     onTextAreaBlur(e) {

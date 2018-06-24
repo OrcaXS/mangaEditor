@@ -31,6 +31,10 @@
         >
           <FontAwesomeIcon :icon="['far', 'circle']" />
           Balloon {{ idx }}
+          <span class="LeftPanel-layerControl">
+            <FontAwesomeIcon icon="trash" />
+            <FontAwesomeIcon icon="eye" />
+          </span>
         </div>
       </div>
     </div>

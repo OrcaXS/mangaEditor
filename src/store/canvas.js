@@ -13,7 +13,11 @@ const canvas = {
       dx: 0,
       dy: 0,
     },
-    currentTextArea: null,
+    currentlySelected: {
+      balloon: [],
+      textAreaEditor: null,
+      textArea: [],
+    },
   }),
 
   mutations: {
@@ -28,8 +32,21 @@ const canvas = {
       state.currentCursorPosition.y = cursorCoordinates.y;
     },
 
-    SET_TEXTAREA_IDX(state, { idx }) {
-      Vue.set(state, 'currentTextArea', idx);
+    SET_SELECTION(state, { type, idx }) {
+      if (type === 'textAreaEditor') state.currentlySelected.textAreaEditor = idx;
+      if (type === 'textArea') state.currentlySelected.textArea = [idx];
+      if (type === 'balloon') state.currentlySelected.balloon = [idx];
+    },
+
+    CLEAR_SELECTION(state, { type }) {
+      if (type === 'textAreaEditor') state.currentlySelected.textAreaEditor = null;
+      if (type === 'textArea') state.currentlySelected.textArea = [];
+      if (type === 'balloon') state.currentlySelected.balloon = [];
+      if (type === 'clearAll') {
+        state.currentlySelected.balloon = [];
+        state.currentlySelected.textArea = [];
+        state.currentlySelected.textAreaEditor = null;
+      }
     },
 
     ADD_TEXTAREA_FLATTENED(state, { id, data }) {
@@ -69,7 +86,7 @@ const canvas = {
     },
 
     SET_TEXTAREA_STYLE(state, {
-      id, idx, fontFamily, fontStyle, fontSize, fontWeight
+      id, idx, fontFamily, fontStyle, fontSize, fontWeight,
     }) {
       if (fontFamily) Vue.set(state.file[id].textAreas[idx], 'fontFamily', fontFamily);
       if (fontStyle) Vue.set(state.file[id].textAreas[idx], 'fontStyle', fontStyle);
@@ -99,14 +116,6 @@ const canvas = {
       commit('SET_CURSOR_POS', { cursorCoordinates });
     },
 
-    // copyTextArea({ commit, rootState }, { id }) {
-    //   commit('ADD_TEXTAREA', { id, data: rootState.file.textAreas[id] });
-    // },
-
-    setTextAreaIdx({ commit }, { idx }) {
-      commit('SET_TEXTAREA_IDX', { idx });
-    },
-
     setScrollingPosition({ commit }, { dx, dy }) {
       commit('SET_SCROLLING_POSITION', { dx, dy });
     },
@@ -125,6 +134,14 @@ const canvas = {
 
     setColor({ commit }, { id, idx, color }) {
       commit('SET_COLOR', { id, idx, color });
+    },
+
+    setSelection({ commit }, { type, idx }) {
+      commit('SET_SELECTION', { type, idx });
+    },
+
+    clearSelection({ commit }, { type }) {
+      commit('CLEAR_SELECTION', { type });
     },
   },
 };

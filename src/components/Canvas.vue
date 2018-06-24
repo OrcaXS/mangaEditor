@@ -34,10 +34,8 @@
           <v-layer
             ref="balloonsLayer"
           >
-            <v-image
-              v-for="(balloon, idx) in fileData.balloons"
-              :key="balloonCoordinate(balloon)"
-              :config="configBalloon(balloon, idx)"
+            <Balloon
+              :balloon-blobs="file.balloons"
             />
           </v-layer>
           <v-layer ref="elementsLayer">
@@ -51,6 +49,7 @@
 
 <script>
 import TextWrapper from '@/components/TextWrapper';
+import Balloon from '@/components/Balloon/Balloon';
 import db from '@/scripts/db';
 
 export default {
@@ -58,6 +57,7 @@ export default {
 
   components: {
     TextWrapper,
+    Balloon,
   },
 
   props: {
@@ -163,9 +163,12 @@ export default {
     },
 
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentTextArea;
+      return this.$store.state.canvas.currentlySelected.textArea[0];
     },
 
+    selectedTextAreaEditorIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreaEditor;
+    },
   },
 
   watch: {
@@ -192,9 +195,14 @@ export default {
   mounted() {
     this.setScale(this.currentScale);
 
-    const self = this;
-    self.$root.$on('charConfigUpdated', () => {
-      console.log('charConfigUpdated');
+    this.$eventHub.$on('clickedCanvas', () => {
+      if (this.selectedTextAreaIdx) {
+        this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+      }
+      if (!this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
+        console.log('clearAll');
+        this.$store.dispatch('clearSelection', { type: 'clearAll' });
+      }
     });
 
     // self.$refs.elementsLayer.getStage().draw();
@@ -212,25 +220,6 @@ export default {
 
 
   methods: {
-    configBalloon(balloon, idx) {
-      const balloonImage = new Image();
-      balloonImage.src = URL.createObjectURL(this.file.balloons[idx]);
-      const configObj = {
-        x: balloon.boundingRect.x + 0,
-        y: balloon.boundingRect.y + 0,
-        image: balloonImage,
-        width: balloon.boundingRect.width,
-        height: balloon.boundingRect.height,
-        stroke: 'black',
-        strokeWidth: 4,
-      };
-      return configObj;
-    },
-
-    balloonCoordinate(balloon) {
-      return `${balloon.boundingRect.x},${balloon.boundingRect.y}`;
-    },
-
     getStageBoundingRect() {
       this.stageBoundingRect = this.$refs.stage.getStage().getContainer().getBoundingClientRect();
     },
@@ -303,10 +292,7 @@ export default {
     },
 
     canvasOnClick(e) {
-      if (this.selectedTextAreaIdx) {
-        console.log(this.selectedTextAreaIdx);
-        this.$root.$emit('clickedCanvas');
-      }
+      this.$eventHub.$emit('clickedCanvas');
     },
   },
 
