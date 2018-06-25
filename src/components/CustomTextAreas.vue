@@ -78,7 +78,7 @@ export default {
     // this.$refs.textArea.focus();
     setTimeout(() => this.$refs.textArea.focus(), 0);
     this.$eventHub.$on('clickedCanvas', () => {
-      if (this.$refs.textArea && this.selectedTextAreaEditorIdx) {
+      if (this.selectedTextAreaEditorIdx) {
         console.log('handled by CustomTextAreas');
         this.$refs.textArea.blur();
         this.emitTextChange();
@@ -101,12 +101,6 @@ export default {
       this.currentTextContent = e.target.textContent;
     },
 
-    onClickOutside(e) {
-      // if (this.selectedTextAreaIdx) {
-      //   this.$refs.textArea.blur();
-      // }
-      // this.$store.dispatch('setTextAreaIdx', { idx: null });
-    },
   },
 
 };

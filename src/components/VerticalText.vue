@@ -5,7 +5,6 @@
     :config="groupConfig"
     @dragend="groupDragEnd"
     @click="selectTextArea(areaIndex)"
-    @dblclick="showEditor(areaIndex)"
   >
     <v-text
       v-for="(val, idx) in charConfig"
@@ -18,6 +17,7 @@
     <v-rect
       v-if="areaIndex === selectedTextAreaIdx"
       :config="rectStyle(textConfig)"
+      @click="showEditor(areaIndex)"
     />
   </v-group>
 </template>
@@ -84,7 +84,7 @@ export default {
       if (this.areaIndex === idx) {
         console.log('generateCharConfig');
         setTimeout(() => this.generateCharConfig(), 0);
-        this.$store.dispatch('clearSelection', { type: 'clearAll' });
+        // this.$store.dispatch('clearSelection', { type: 'clearAll' });
       }
     });
   },
@@ -115,8 +115,9 @@ export default {
     },
 
     showEditor(areaIndex) {
+      console.log('showEditor');
       this.$store.dispatch('setSelection', { type: 'textAreaEditor', idx: areaIndex });
-      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+      // this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
     },
 
     selectTextArea(areaIndex) {

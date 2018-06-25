@@ -196,11 +196,13 @@ export default {
     this.setScale(this.currentScale);
 
     this.$eventHub.$on('clickedCanvas', () => {
-      if (this.selectedTextAreaIdx) {
+      console.log({ t: this.selectedTextAreaIdx, e: this.selectedTextAreaEditorIdx });
+      if (this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
         this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+        this.$store.dispatch('clearSelection', { type: 'clearAll' });
       }
       if (!this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
-        console.log('clearAll');
+        // console.log('clearAll');
         this.$store.dispatch('clearSelection', { type: 'clearAll' });
       }
     });
