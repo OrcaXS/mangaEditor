@@ -14,9 +14,9 @@ const canvas = {
       dy: 0,
     },
     currentlySelected: {
-      balloon: [],
+      balloons: [],
       textAreaEditor: null,
-      textArea: [],
+      textAreas: [],
     },
   }),
 
@@ -34,17 +34,17 @@ const canvas = {
 
     SET_SELECTION(state, { type, idx }) {
       if (type === 'textAreaEditor') state.currentlySelected.textAreaEditor = idx;
-      if (type === 'textArea') state.currentlySelected.textArea = [idx];
-      if (type === 'balloon') state.currentlySelected.balloon = [idx];
+      if (type === 'textAreas') state.currentlySelected.textAreas = [idx];
+      if (type === 'balloons') state.currentlySelected.balloons = [idx];
     },
 
     CLEAR_SELECTION(state, { type }) {
       if (type === 'textAreaEditor') state.currentlySelected.textAreaEditor = null;
-      if (type === 'textArea') state.currentlySelected.textArea = [];
-      if (type === 'balloon') state.currentlySelected.balloon = [];
+      if (type === 'textAreas') state.currentlySelected.textAreas = [];
+      if (type === 'balloons') state.currentlySelected.balloons = [];
       if (type === 'clearAll') {
-        state.currentlySelected.balloon = [];
-        state.currentlySelected.textArea = [];
+        state.currentlySelected.balloons = [];
+        state.currentlySelected.textAreas = [];
         state.currentlySelected.textAreaEditor = null;
       }
     },

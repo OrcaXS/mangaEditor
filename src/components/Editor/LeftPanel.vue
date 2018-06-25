@@ -65,7 +65,7 @@ export default {
 
   computed: {
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentTextArea;
+      return this.$store.state.canvas.currentlySelected.textAreas[0];
     },
 
     currentFilename() {

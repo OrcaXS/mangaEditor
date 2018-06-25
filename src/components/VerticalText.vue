@@ -74,7 +74,7 @@ export default {
     },
 
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textArea[0];
+      return this.$store.state.canvas.currentlySelected.textAreas[0];
     },
   },
 
@@ -121,7 +121,7 @@ export default {
     },
 
     selectTextArea(areaIndex) {
-      this.$store.dispatch('setSelection', { type: 'textArea', idx: areaIndex });
+      this.$store.dispatch('setSelection', { type: 'textAreas', idx: areaIndex });
     },
 
     generateCharConfig() {

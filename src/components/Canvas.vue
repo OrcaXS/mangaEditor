@@ -163,7 +163,7 @@ export default {
     },
 
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textArea[0];
+      return this.$store.state.canvas.currentlySelected.textAreas[0];
     },
 
     selectedTextAreaEditorIdx() {

@@ -7,7 +7,7 @@
     >
       <v-image :config="balloonConfig[idx]" />
       <v-rect
-        v-if="idx === currentBalloon[0]"
+        v-if="idx === currentBalloon"
         :config="balloonBoundingConfig[idx]"
       />
     </v-group>
@@ -31,7 +31,7 @@ export default {
 
   computed: {
     currentBalloon() {
-      return this.$store.state.canvas.currentlySelected.balloon;
+      return this.$store.state.canvas.currentlySelected.balloons[0];
     },
 
     fileData() {
@@ -76,7 +76,7 @@ export default {
 
   methods: {
     selectBalloon(idx) {
-      this.$store.dispatch('setSelection', { type: 'balloon', idx });
+      this.$store.dispatch('setSelection', { type: 'balloons', idx });
     },
   },
 };

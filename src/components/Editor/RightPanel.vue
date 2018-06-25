@@ -54,7 +54,6 @@
           />
           <color-picker
             v-model="textAreaColor"
-            @change="onColorChange"
           />
         </div>
       </div>
@@ -94,7 +93,7 @@ export default {
 
   computed: {
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textArea[0];
+      return this.$store.state.canvas.currentlySelected.textAreas[0];
     },
 
     selectedTextArea() {
@@ -155,10 +154,7 @@ export default {
   },
 
   methods: {
-    onColorChange() {
-      console.log('colorChange');
-    }
-  }
+  },
 
 };
 </script>
@@ -203,4 +199,5 @@ export default {
   height: 1rem;
   border-radius: 2px;
 }
+
 </style>
