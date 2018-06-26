@@ -179,6 +179,18 @@ export default {
     currentScale(newScale) {
       this.setScale(newScale);
     },
+
+    selectedBalloonIdx(newIdx) {
+
+    },
+
+    selectedTextAreaIdx(newIdx) {
+
+    },
+
+    selectedTextAreaEditorIdx(newIdx) {
+
+    },
   },
 
   created() {
@@ -198,30 +210,28 @@ export default {
 
   mounted() {
     this.setScale(this.currentScale);
+    // this.$eventHub.$on('clicked1Canvas', () => {
+    //   console.log({ textAreaIdx: this.selectedTextAreaIdx, textAreaEditorIdx: this.selectedTextAreaEditorIdx, balloonIdx: this.selectedBalloonIdx });
+    //   if (this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
+    //     this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+    //     this.$store.dispatch('clearSelection', { type: 'clearAll' });
+    //   }
+    //   if (!this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
+    //     // console.log('clearAll');
+    //     this.$store.dispatch('clearSelection', { type: 'clearAll' });
+    //   }
+    // });
 
-    this.$eventHub.$on('clickedCanvas', () => {
-      console.log({ t: this.selectedTextAreaIdx, e: this.selectedTextAreaEditorIdx });
-      if (this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
-        this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
-        this.$store.dispatch('clearSelection', { type: 'clearAll' });
-      }
-      if (!this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
-        // console.log('clearAll');
-        this.$store.dispatch('clearSelection', { type: 'clearAll' });
-      }
-    });
-
-    // self.$refs.elementsLayer.getStage().draw();
-    // TODO
-    // if (this.isStorageRestored) {
-    //   this.adjustCanvasOnRefresh();
-    // }
     // window.setTimeout(this.adjustCanvasOnRefresh(), 10000);
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
     // this.$nextTick(() => {
     //   window.addEventListener('resize', this.fitStageIntoContainer);
     // });
+  },
+
+  beforeDestroy() {
+    // this.$eventHub.$off('clickedCanvas');
   },
 
 
@@ -298,7 +308,9 @@ export default {
     },
 
     canvasOnClick(e) {
-      this.$eventHub.$emit('clickedCanvas');
+      console.log('clickedCanvas');
+      this.$store.dispatch('clearSelection', { type: 'clearAll' });
+      // this.$eventHub.$emit('clickedCanvas');
     },
   },
 

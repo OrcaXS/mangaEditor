@@ -89,6 +89,10 @@ export default {
     });
   },
 
+  beforeDestroy() {
+    this.$eventHub.$off('textContentUpdated');
+  },
+
   methods: {
     groupDragEnd(e) {
       console.log(this.$refs.textGroup.getStage().position());
@@ -117,6 +121,7 @@ export default {
     showEditor(areaIndex) {
       console.log('showEditor');
       this.$store.dispatch('setSelection', { type: 'textAreaEditor', idx: areaIndex });
+      this.$store.dispatch('clearSelection', { type: 'textAreas' });
       // this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
     },
 

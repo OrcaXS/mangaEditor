@@ -15,6 +15,7 @@
           <select
             v-model="fontFamily"
             name="fontFamily"
+            @change="onStyleChange"
           >
             <option
               v-for="font in fontFamilies"
@@ -27,6 +28,7 @@
           <select
             v-model="fontSize"
             name="fontSize"
+            @change="onStyleChange"
           >
             <option
               v-for="size in fontSizes"
@@ -39,6 +41,7 @@
           <select
             v-model="fontStyle"
             name="fontStyle"
+            @change="onStyleChange"
           >
             <option
               v-for="style in fontStyles"
@@ -154,6 +157,10 @@ export default {
   },
 
   methods: {
+    onStyleChange(e) {
+      console.log(e);
+      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+    },
   },
 
 };

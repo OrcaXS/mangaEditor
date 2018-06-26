@@ -39,6 +39,10 @@ export default {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
 
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreas[0];
+    },
+
     verticalTextConfigs() {
       const config = {};
       Object.entries(this.textAreas).forEach(([idx, val]) => {
@@ -62,6 +66,14 @@ export default {
         };
       });
       return config;
+    },
+  },
+
+  watch: {
+    selectedTextAreaIdx(newIdx, oldIdx) {
+      if (oldIdx) {
+        this.$eventHub.$emit('textContentUpdated', oldIdx);
+      }
     },
   },
 

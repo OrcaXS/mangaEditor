@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="showTextAreaEditor"
     ref="textArea"
     :style="textAreaStyle"
     class="textArea"
@@ -24,6 +25,10 @@ export default {
 
     selectedTextAreaEditorIdx() {
       return this.$store.state.canvas.currentlySelected.textAreaEditor;
+    },
+
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreas;
     },
 
     selectedTextArea() {
@@ -67,33 +72,52 @@ export default {
 
   watch: {
     selectedTextAreaEditorIdx(newIdx, oldIdx) {
-      console.log(newIdx);
-      this.getTextContent();
-      this.$refs.textArea.focus();
+      console.log({ newIdx, oldIdx });
+      if (newIdx) {
+        this.$store.dispatch('clearSelection', { type: 'textAreas' });
+        this.getTextContent();
+        setTimeout(() => this.$refs.textArea.focus(), 0);
+        // this.$refs.textArea.focus();
+      }
+      if (oldIdx) {
+        this.$refs.textArea.blur();
+        this.emitTextChange(oldIdx);
+      }
+    },
+    selectedTextAreaIdx(newIdx, oldIdx) {
+      console.log({ oldIdx, newIdx });
+      // if (newIdx) {
+      //   this.$eventHub.$emit('textContentUpdated', newIdx);
+      // }
     },
   },
 
   mounted() {
     this.getTextContent();
     // this.$refs.textArea.focus();
-    setTimeout(() => this.$refs.textArea.focus(), 0);
-    this.$eventHub.$on('clickedCanvas', () => {
-      if (this.selectedTextAreaEditorIdx) {
-        console.log('handled by CustomTextAreas');
-        this.$refs.textArea.blur();
-        this.emitTextChange();
-      }
-    });
+    // setTimeout(() => this.$refs.textArea.focus(), 0);
+    // this.$eventHub.$on('clickedCanvas', () => {
+    //   if (this.selectedTextAreaEditorIdx) {
+    //     console.log(this.selectedTextAreaEditorIdx);
+    //     console.log('handled by CustomTextAreas');
+    //     this.$refs.textArea.blur();
+    //     this.emitTextChange();
+    //   }
+    // });
+  },
+
+  beforeDestroy() {
+    this.$eventHub.$off('clickedCanvas');
   },
 
   methods: {
     getTextContent() {
-      this.currentTextContent = this.selectedTextArea.textContent || '';
+      this.currentTextContent = this.selectedTextArea ? this.selectedTextArea.textContent : '';
     },
 
-    emitTextChange() {
-      this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: this.selectedTextAreaEditorIdx, content: this.currentTextContent });
-      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaEditorIdx);
+    emitTextChange(oldIdx) {
+      this.$store.dispatch('setTextAreaContent', { id: this.$route.params.file_id, idx: oldIdx, content: this.currentTextContent });
+      this.$eventHub.$emit('textContentUpdated', oldIdx);
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
     },
 
