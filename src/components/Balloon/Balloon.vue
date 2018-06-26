@@ -38,6 +38,10 @@ export default {
       return this.$store.state.file.fileData[this.$route.params.file_id];
     },
 
+    selectedTextAreaEditorIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreaEditor;
+    },
+
     balloonConfig() {
       const config = {};
       Object.entries(this.fileData.balloons).forEach(([idx, balloon]) => {
@@ -77,6 +81,11 @@ export default {
   methods: {
     selectBalloon(idx) {
       this.$store.dispatch('setSelection', { type: 'balloons', idx });
+      this.$store.dispatch('clearSelection', { type: 'textAreas', idx });
+      if (this.selectedTextAreaEditorIdx) {
+        console.log('balloonEmit');
+        // this.$eventHub.$emit('clickedCanvas');
+      }
     },
   },
 };

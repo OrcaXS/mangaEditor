@@ -52,7 +52,7 @@
       <aside class="EditorLayout-rightPanel">
         <RightPanel />
       </aside>
-      <CustomTextAreas v-if="showTextArea"/>
+      <CustomTextAreas/>
     </div>
   </div>
 </template>
@@ -106,9 +106,9 @@ export default {
       return this.$store.state.canvas.currentlySelected.textAreaEditor;
     },
 
-    showTextArea() {
-      return /\d/.test(this.selectedTextAreaEditorIdx);
-    },
+    // showTextArea() {
+    //   return /\d/.test(this.selectedTextAreaEditorIdx);
+    // },
   },
 
   created() {

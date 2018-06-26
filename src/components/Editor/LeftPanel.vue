@@ -28,6 +28,7 @@
         <div
           v-for="(balloon, idx) in balloons"
           :key="idx"
+          :class="{ 'LeftPanel-elementSelected': idx === selectedBalloonIdx }"
         >
           <FontAwesomeIcon :icon="['far', 'circle']" />
           Balloon {{ idx }}
@@ -66,6 +67,10 @@ export default {
   computed: {
     selectedTextAreaIdx() {
       return this.$store.state.canvas.currentlySelected.textAreas[0];
+    },
+
+    selectedBalloonIdx() {
+      return this.$store.state.canvas.currentlySelected.balloons[0];
     },
 
     currentFilename() {

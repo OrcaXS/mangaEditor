@@ -62,8 +62,17 @@ const canvas = {
       });
       state.file[id] = {};
       // eslint-disable-next-line dot-notation
-      state.file[id]['textAreas'] = flattened;
+      Vue.set(state.file[id], 'textAreas', flattened);
+      // state.file[id]['textAreas'] = flattened;
       // Vue.set(state.file[id], 'textAreas', flattened);
+    },
+
+    PREPARE_BALLOONS(state, { id, balloons }) {
+      const newBalloons = {};
+      Object.keys(balloons).forEach((val) => {
+        newBalloons[val] = balloons[val].boundingRect;
+      });
+      Vue.set(state.file[id], 'balloons', newBalloons);
     },
 
     ADD_TEXTAREA(state, { id, data }) {

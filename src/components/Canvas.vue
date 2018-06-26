@@ -169,6 +169,10 @@ export default {
     selectedTextAreaEditorIdx() {
       return this.$store.state.canvas.currentlySelected.textAreaEditor;
     },
+
+    selectedBalloonIdx() {
+      return this.$store.state.canvas.currentlySelected.balloons[0];
+    },
   },
 
   watch: {

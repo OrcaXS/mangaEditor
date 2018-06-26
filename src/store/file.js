@@ -96,7 +96,7 @@ const file = {
       state.textAreas[id][textAreaIdx] = textAreaDetail;
     },
 
-    SET_INITIAL_TEXTAREA(state, { id, data }) {
+    PREPARE_TEXTAREAS(state, { id, data }) {
       state.textAreas[id] = {};
       const { balloonCount } = data.info;
       for (let i = 0; i < balloonCount; i += 1) {
@@ -115,8 +115,9 @@ const file = {
       commit('SET_ASSETS_DOWNLOAD_STATUS', { id: data.info.id, status: false });
       commit('SET_FILEDATA', { data });
       // commit('ADD_PREVIEW_TO_FILEDATA', { id: data.info.id });
-      commit('SET_INITIAL_TEXTAREA', { id: data.info.id, data });
+      commit('PREPARE_TEXTAREAS', { id: data.info.id, data });
       commit('ADD_TEXTAREA_FLATTENED', { id: data.info.id, data: state.textAreas[data.info.id] });
+      commit('PREPARE_BALLOONS', { id: data.info.id, balloons: state.fileData[data.info.id].balloons });
       commit('SET_STATUS', { type: 'localStorageRdy', status: true });
     },
 
