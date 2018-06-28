@@ -103,7 +103,15 @@ export default {
 
   methods: {
     groupDragEnd(e) {
-      console.log(this.$refs.textGroup.getStage().position());
+      const newPosition = {
+        x: this.textConfig.x + this.$refs.textGroup.getStage().x(),
+        y: this.textConfig.y + this.$refs.textGroup.getStage().y(),
+      };
+      this.$store.dispatch('setTextAreaPosition', {
+        id: this.$route.params.file_id,
+        idx: this.areaIndex,
+        position: newPosition,
+      });
     },
 
     rectStyle(textConfig) {

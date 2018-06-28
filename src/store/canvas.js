@@ -111,6 +111,11 @@ const canvas = {
       Vue.set(state.file[id].textAreas[idx], 'textContent', content);
     },
 
+    SET_TEXTAREA_POSITION(state, { id, idx, position }) {
+      state.file[id].textAreas[idx].x = position.x;
+      state.file[id].textAreas[idx].y = position.y;
+    },
+
     SET_COLOR(state, { id, idx, colors }) {
       state.file[id].textAreas[idx].colors = colors;
     },
@@ -153,6 +158,10 @@ const canvas = {
 
     setTextAreaContent({ commit }, { id, idx, content }) {
       commit('SET_TEXTAREA_CONTENT', { id, idx, content });
+    },
+
+    setTextAreaPosition({ commit }, { id, idx, position }) {
+      commit('SET_TEXTAREA_POSITION', { id, idx, position });
     },
 
     setColor({ commit }, { id, idx, colors }) {
