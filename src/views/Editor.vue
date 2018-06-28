@@ -27,6 +27,12 @@
         <button class="EditorLayout-toolbarBtn">
           <span>x: {{ getCursorPosition.x }} y: {{ getCursorPosition.y }}</span>
         </button>
+        <button
+          class="EditorLayout-toolbarBtn"
+          @click="resetCanvas"
+        >
+          <span>Reset Canvas</span>
+        </button>
       </div>
     </nav>
     <div
@@ -46,10 +52,15 @@
       class="EditorLayout-mainArea"
     >
       <aside class="EditorLayout-leftPanel">
-        <LeftPanel :filename="currentFile.bgImage.name"/>
+        <LeftPanel
+          :filename="currentFile.bgImage.name"
+        />
       </aside>
       <CanvasArea :file="currentFile"/>
-      <aside class="EditorLayout-rightPanel">
+      <aside
+        v-if="showRightPanel"
+        class="EditorLayout-rightPanel"
+      >
         <RightPanel />
       </aside>
       <CustomTextAreas/>
@@ -106,6 +117,14 @@ export default {
       return this.$store.state.canvas.currentlySelected.textAreaEditor;
     },
 
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreas[0];
+    },
+
+    showRightPanel() {
+      return this.selectedTextAreaEditorIdx || this.selectedTextAreaIdx;
+    },
+
     // showTextArea() {
     //   return /\d/.test(this.selectedTextAreaEditorIdx);
     // },
@@ -117,10 +136,15 @@ export default {
 
   mounted() {
     const self = this;
-    // eslint-disable-next-line no-underscore-dangle
-    self.$store._vm.$root.$on('storageReady', () => {
+    const id = this.$route.params.file_id;
+    if (typeof this.$store.state.canvas.file[id] === 'object') {
       this.isStorageReady = true;
-    });
+    } else {
+    // eslint-disable-next-line no-underscore-dangle
+      self.$store._vm.$root.$on('storageReady', () => {
+        this.isStorageReady = true;
+      });
+    }
   },
 
   methods: {
@@ -131,6 +155,12 @@ export default {
 
     modifyZoomLevel({ type, zoomLevel }) {
       this.$store.dispatch('modifyZoomLevel', { type, zoomLevel });
+    },
+
+    resetCanvas() {
+      this.$store.dispatch('resetCanvas', { id: this.$route.params.file_id });
+      this.$store.dispatch('clearSelection', { type: 'clearAll' });
+      this.$eventHub.$emit('textContentUpdated', 'updateAll');
     },
   },
 
@@ -203,7 +233,10 @@ export default {
   position: fixed;
   top: 3rem;
   left: calc(100vw - 15rem);
+}
 
+.EditorLayout-rightPanel--inactive {
+  display: none;
 }
 
 .EditorLayout-footer {
