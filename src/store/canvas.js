@@ -68,6 +68,7 @@ const canvas = {
       state.file[id] = {};
       Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
       Vue.set(state.file[id], 'balloons', flattenedBalloons);
+      Vue.set(state.file[id], 'customTextAreas', {});
     },
 
 
@@ -79,19 +80,9 @@ const canvas = {
       Vue.set(state.file[id], 'balloons', newBalloons);
     },
 
-    ADD_TEXTAREA(state, { id, data }) {
-      // const flattened = {};
-      // let idx = 0;
-      // Object.entries(data).forEach(([_key, _val]) => {
-      //   Object.entries(_val).forEach(([__key, __val]) => {
-      //     flattened[idx] = __val;
-      //     idx += 1;
-      //   });
-      // });
-      state.file[id] = {};
-      // eslint-disable-next-line dot-notation
-      state.file[id]['textAreas'] = data;
-      // Vue.set(state.file[id], 'textAreas', flattened);
+    ADD_CUSTOM_TEXTAREA(state, { id, textarea }) {
+      const currentLength = Object.keys(state.file[id].textAreas).length;
+      Vue.set(state.file[id].textAreas, currentLength, textarea);
     },
 
     SET_SCROLLING_POSITION(state, { dx, dy }) {
@@ -114,6 +105,15 @@ const canvas = {
     SET_TEXTAREA_POSITION(state, { id, idx, position }) {
       state.file[id].textAreas[idx].x = position.x;
       state.file[id].textAreas[idx].y = position.y;
+    },
+
+    TRANSFORM_TEXTAREA(state, { id, idx, newRect }) {
+      state.file[id].textAreas[idx].x = newRect.x;
+      state.file[id].textAreas[idx].y = newRect.y;
+      state.file[id].textAreas[idx].width = newRect.width;
+      state.file[id].textAreas[idx].height = newRect.height;
+      Vue.set(state.file[id].textAreas[idx], 'scaleX', newRect.scaleX);
+      Vue.set(state.file[id].textAreas[idx], 'scaleY', newRect.scaleY);
     },
 
     SET_COLOR(state, { id, idx, colors }) {
@@ -164,6 +164,10 @@ const canvas = {
       commit('SET_TEXTAREA_POSITION', { id, idx, position });
     },
 
+    transformTextArea({ commit }, { id, idx, newRect }) {
+      commit('TRANSFORM_TEXTAREA', { id, idx, newRect });
+    },
+
     setColor({ commit }, { id, idx, colors }) {
       commit('SET_COLOR', { id, idx, colors });
     },
@@ -182,6 +186,10 @@ const canvas = {
 
     deleteElement({ commit }, { id, idx, type }) {
       commit('DELETE_ELEMENT', { id, idx, type });
+    },
+
+    addCustomTextarea({ commit }, { id, textarea }) {
+      commit('ADD_CUSTOM_TEXTAREA', { id, textarea });
     },
   },
 };

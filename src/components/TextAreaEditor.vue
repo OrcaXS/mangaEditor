@@ -57,8 +57,8 @@ export default {
         fontWeight: '400',
         left: `calc(${(textArea.x + 0) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
         top: `calc(${(textArea.y + 0) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
-        width: `${textArea.width * (this.currentScale / 100)}px`,
-        height: `${textArea.height * (this.currentScale / 100)}px`,
+        width: `${textArea.width * (this.currentScale / 100) * textArea.scaleX}px`,
+        height: `${textArea.height * (this.currentScale / 100) * textArea.scaleY}px`,
         color: textArea.colors.hex || 'black',
       };
       if (fontStyles.indexOf(textArea.fontStyle) > -1) {

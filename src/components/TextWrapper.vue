@@ -65,6 +65,8 @@ export default {
           fontStyle: val.fontStyle || 'normal',
           color: val.colors.hex || 'black',
           visible: val.visible,
+          scaleX: val.scaleX || '1',
+          scaleY: val.scaleY || '1',
         };
       });
       return config;

@@ -41,6 +41,9 @@
           <v-layer ref="elementsLayer">
             <TextWrapper :stage-bounding-rect="stageBoundingRect"/>
           </v-layer>
+          <v-layer ref="customLayer">
+            <CustomTextArea />
+          </v-layer>
         </v-stage>
       </div>
     </div>
@@ -50,7 +53,8 @@
 <script>
 import TextWrapper from '@/components/TextWrapper';
 import Balloon from '@/components/Balloon/Balloon';
-import db from '@/scripts/db';
+import CustomTextArea from '@/components/Text/CustomTextArea';
+// import db from '@/scripts/db';
 
 export default {
   name: 'CanvasArea',
@@ -58,6 +62,7 @@ export default {
   components: {
     TextWrapper,
     Balloon,
+    CustomTextArea,
   },
 
   props: {
@@ -184,8 +189,11 @@ export default {
 
     },
 
-    selectedTextAreaIdx(newIdx) {
-
+    selectedTextAreaIdx(newIdx, oldIdx) {
+      if (!newIdx) {
+        const stage = this.$refs.stage.getStage();
+        stage.find('Transformer').destroy();
+      }
     },
 
     selectedTextAreaEditorIdx(newIdx) {

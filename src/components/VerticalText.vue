@@ -2,8 +2,6 @@
   <v-group
     v-if="configReady && isVisible"
     ref="textGroup"
-    :config="groupConfig"
-    @dragend="groupDragEnd"
     @click="selectTextArea(areaIndex)"
   >
     <v-text
@@ -12,16 +10,22 @@
       :config="val"
     />
     <v-rect
+      ref="hiddenRect"
       :config="hiddenRectStyle(textConfig)"
+      @dragend="onTransformEnd"
+      @transformEnd="onTransformEnd"
+      @click="showEditor(areaIndex)"
     />
-    <v-rect
+    <!-- <v-rect
       v-if="areaIndex === selectedTextAreaIdx"
       :config="rectStyle(textConfig)"
       @click="showEditor(areaIndex)"
-    />
+    /> -->
   </v-group>
 </template>
 <script>
+import Konva from 'konva';
+
 export default {
   name: 'VerticalText',
   props: {
@@ -103,15 +107,35 @@ export default {
 
   methods: {
     groupDragEnd(e) {
-      const newPosition = {
-        x: this.textConfig.x + this.$refs.textGroup.getStage().x(),
-        y: this.textConfig.y + this.$refs.textGroup.getStage().y(),
+      // console.log('dragEnd');
+      // const newPosition = {
+      //   x: this.textConfig.x + this.$refs.textGroup.getStage().x(),
+      //   y: this.textConfig.y + this.$refs.textGroup.getStage().y(),
+      // };
+      // this.$store.dispatch('setTextAreaPosition', {
+      //   id: this.$route.params.file_id,
+      //   idx: this.areaIndex,
+      //   position: newPosition,
+      // });
+    },
+
+    onTransformEnd(e) {
+      const hiddenRect = this.$refs.hiddenRect.getStage();
+      const newRect = {
+        x: hiddenRect.x(),
+        y: hiddenRect.y(),
+        width: hiddenRect.width(),
+        height: hiddenRect.height(),
+        scaleX: hiddenRect.scaleX(),
+        scaleY: hiddenRect.scaleY(),
       };
-      this.$store.dispatch('setTextAreaPosition', {
+      console.log(newRect);
+      this.$store.dispatch('transformTextArea', {
         id: this.$route.params.file_id,
         idx: this.areaIndex,
-        position: newPosition,
+        newRect,
       });
+      this.$eventHub.$emit('textContentUpdated', this.areaIndex);
     },
 
     rectStyle(textConfig) {
@@ -120,8 +144,24 @@ export default {
         y: textConfig.y,
         width: textConfig.width,
         height: textConfig.height,
+        scaleX: textConfig.scaleX,
+        scaleY: textConfig.scaleY,
         stroke: 'purple',
         strokeWidth: 3,
+      };
+    },
+
+    testRectStyle() {
+      return {
+        x: 300,
+        y: 300,
+        width: 100,
+        height: 100,
+        fill: 'white',
+        name: 'rect',
+        stroke: 'blue',
+        strokeWidth: 5,
+        draggable: true
       };
     },
 
@@ -131,6 +171,9 @@ export default {
         y: textConfig.y,
         width: textConfig.width,
         height: textConfig.height,
+        scaleX: textConfig.scaleX,
+        scaleY: textConfig.scaleY,
+        draggable: true,
       };
     },
 
@@ -141,8 +184,27 @@ export default {
       // this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
     },
 
+    // selectTextArea(areaIndex) {
+    //   this.$store.dispatch('setSelection', { type: 'textAreas', idx: areaIndex });
+    // },
+
     selectTextArea(areaIndex) {
       this.$store.dispatch('setSelection', { type: 'textAreas', idx: areaIndex });
+
+      const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
+      const tr = new Konva.Transformer({
+        resizeEnabled: true,
+        rotateEnabled: false,
+      });
+      this.$refs.textGroup.getStage().add(tr);
+      tr.attachTo(this.$refs.hiddenRect.getStage());
+      this.$refs.textGroup.getStage().draw();
+    },
+
+    deleteTransformer() {
+      // console.log('clickedOutside');
+      // const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
+      // stage.find('Transformer').destroy();
     },
 
     generateCharConfig() {
@@ -222,10 +284,13 @@ export default {
       }
 
 
-      let offsetX = this.textConfig.width - this.textConfig.fontSize;
+      let offsetX = (this.textConfig.width * this.textConfig.scaleX) - this.textConfig.fontSize;
       let offsetY = 0;
       this.charConfig = {};
       this.configReady = false;
+
+      console.log(this.textConfig.width * this.textConfig.scaleX);
+      console.log(this.textConfig.height * this.textConfig.scaleX);
 
 
       if (this.textConfig.text.length) {
@@ -264,12 +329,11 @@ export default {
               fontFamily: this.textConfig.fontFamily,
               fontStyle: this.textConfig.fontStyle,
               fill: this.textConfig.color,
-            // draggale: true,
             };
 
             this.charConfig[i] = config;
             offsetY += this.textConfig.textSpacing * this.textConfig.fontSize;
-            if (offsetY >= this.textConfig.height) {
+            if (offsetY >= (this.textConfig.height * this.textConfig.scaleY)) {
               offsetY = 0;
               offsetX -= this.textConfig.lineSpacing * this.textConfig.fontSize;
             }
