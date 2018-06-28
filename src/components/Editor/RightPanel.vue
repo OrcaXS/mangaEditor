@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="selectedTextArea"
     class="RightPanel"
   >
     <div class="RightPanel-styles">
@@ -96,7 +95,7 @@ export default {
 
   computed: {
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0];
+      return this.$store.state.canvas.currentlySelected.textAreas[0] || this.$store.state.canvas.currentlySelected.textAreaEditor;
     },
 
     selectedTextArea() {
@@ -114,8 +113,8 @@ export default {
         return this.selectedTextArea.colors;
       },
 
-      set(color) {
-        this.$store.dispatch('setColor', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, color });
+      set(colors) {
+        this.$store.dispatch('setColor', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, colors });
       },
     },
 

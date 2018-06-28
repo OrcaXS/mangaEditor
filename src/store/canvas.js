@@ -49,23 +49,27 @@ const canvas = {
       }
     },
 
-    ADD_TEXTAREA_FLATTENED(state, { id, data }) {
-      const flattened = {};
-      let idx = 0;
-      Object.values(data).forEach((val) => {
-        Object.values(val).forEach((textArea) => {
-          flattened[idx] = textArea;
-          // eslint-disable-next-line dot-notation
-          flattened[idx]['colors'] = {};
-          idx += 1;
+    PREPARE_CANVAS(state, { id, balloons, balloonCount }) {
+      const flattenedTextAreas = {};
+      const flattenedBalloons = {};
+      const balloonIdxArr = Array.from(new Array(balloonCount), (x, i) => i);
+      let textAreaIdx = 0;
+      balloonIdxArr.forEach((balloonIdx) => {
+        flattenedBalloons[balloonIdx] = balloons[balloonIdx].boundingRect;
+        flattenedBalloons[balloonIdx].visible = true;
+        const { textRect } = balloons[balloonIdx];
+        Object.values(textRect).forEach((textArea) => {
+          flattenedTextAreas[textAreaIdx] = textArea;
+          flattenedTextAreas[textAreaIdx].colors = {};
+          flattenedTextAreas[textAreaIdx].visible = true;
+          textAreaIdx += 1;
         });
       });
       state.file[id] = {};
-      // eslint-disable-next-line dot-notation
-      Vue.set(state.file[id], 'textAreas', flattened);
-      // state.file[id]['textAreas'] = flattened;
-      // Vue.set(state.file[id], 'textAreas', flattened);
+      Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
+      Vue.set(state.file[id], 'balloons', flattenedBalloons);
     },
+
 
     PREPARE_BALLOONS(state, { id, balloons }) {
       const newBalloons = {};
@@ -107,8 +111,18 @@ const canvas = {
       Vue.set(state.file[id].textAreas[idx], 'textContent', content);
     },
 
-    SET_COLOR(state, { id, idx, color }) {
-      Vue.set(state.file[id].textAreas[idx], 'colors', color);
+    SET_COLOR(state, { id, idx, colors }) {
+      state.file[id].textAreas[idx].colors = colors;
+    },
+
+    TOGGLE_ELEMENT_VISIBILITY(state, { id, idx, type }) {
+      if (type === 'textArea') state.file[id].textAreas[idx].visible = !state.file[id].textAreas[idx].visible;
+      if (type === 'balloon') state.file[id].balloons[idx].visible = !state.file[id].balloons[idx].visible;
+    },
+
+    DELETE_ELEMENT(state, { id, idx, type }) {
+      if (type === 'textArea') Vue.delete(state.file[id].textAreas, idx);
+      if (type === 'balloon') Vue.delete(state.file[id].balloons, idx);
     },
   },
 
@@ -141,8 +155,8 @@ const canvas = {
       commit('SET_TEXTAREA_CONTENT', { id, idx, content });
     },
 
-    setColor({ commit }, { id, idx, color }) {
-      commit('SET_COLOR', { id, idx, color });
+    setColor({ commit }, { id, idx, colors }) {
+      commit('SET_COLOR', { id, idx, colors });
     },
 
     setSelection({ commit }, { type, idx }) {

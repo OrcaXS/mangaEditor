@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-group
-      v-for="(balloon, idx) in fileData.balloons"
+      v-for="(balloon, idx) in balloons"
+      v-if="balloon.visible"
       :key="idx"
       @click="selectBalloon(idx)"
     >
@@ -34,8 +35,8 @@ export default {
       return this.$store.state.canvas.currentlySelected.balloons[0];
     },
 
-    fileData() {
-      return this.$store.state.file.fileData[this.$route.params.file_id];
+    balloons() {
+      return this.$store.state.canvas.file[this.$route.params.file_id].balloons;
     },
 
     selectedTextAreaEditorIdx() {
@@ -44,15 +45,15 @@ export default {
 
     balloonConfig() {
       const config = {};
-      Object.entries(this.fileData.balloons).forEach(([idx, balloon]) => {
+      Object.entries(this.balloons).forEach(([idx, balloon]) => {
         const balloonImage = new Image();
         balloonImage.src = URL.createObjectURL(this.balloonBlobs[idx]);
         config[idx] = {
-          width: balloon.boundingRect.width,
-          height: balloon.boundingRect.height,
+          width: balloon.width,
+          height: balloon.height,
           image: balloonImage,
-          x: balloon.boundingRect.x + 0,
-          y: balloon.boundingRect.y + 0,
+          x: balloon.x + 0,
+          y: balloon.y + 0,
         };
       });
       return config;
@@ -60,12 +61,12 @@ export default {
 
     balloonBoundingConfig() {
       const config = {};
-      Object.entries(this.fileData.balloons).forEach(([idx, balloon]) => {
+      Object.entries(this.balloons).forEach(([idx, balloon]) => {
         config[idx] = {
-          width: balloon.boundingRect.width,
-          height: balloon.boundingRect.height,
-          x: balloon.boundingRect.x + 0,
-          y: balloon.boundingRect.y + 0,
+          width: balloon.width,
+          height: balloon.height,
+          x: balloon.x + 0,
+          y: balloon.y + 0,
           stroke: 'skyblue',
           strokeWidth: 5,
         };
@@ -73,6 +74,16 @@ export default {
       return config;
     },
   },
+
+  watch: {
+    currentBalloon(newIdx, oldIdx) {
+      console.log({ oldIdx, newIdx });
+      if (newIdx) {
+        this.$store.dispatch('clearSelection', { type: 'textAreaEditor' });
+      }
+    },
+  },
+
 
   mounted() {
 
