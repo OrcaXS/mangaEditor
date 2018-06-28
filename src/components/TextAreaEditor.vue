@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'CustomTextAreas',
+  name: 'TextAreaEditor',
   data() {
     return {
       currentTextContent: '',

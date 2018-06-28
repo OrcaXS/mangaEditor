@@ -63,7 +63,7 @@
       >
         <RightPanel />
       </aside>
-      <CustomTextAreas/>
+      <TextAreaEditor />
     </div>
   </div>
 </template>
@@ -71,7 +71,7 @@
 <script>
 import LeftPanel from '@/components/Editor/LeftPanel';
 import RightPanel from '@/components/Editor/RightPanel';
-import CustomTextAreas from '@/components/CustomTextAreas';
+import TextAreaEditor from '@/components/TextAreaEditor';
 import CanvasArea from '@/components/Canvas';
 import db from '@/scripts/db';
 
@@ -81,7 +81,7 @@ export default {
   components: {
     LeftPanel,
     RightPanel,
-    CustomTextAreas,
+    TextAreaEditor,
     CanvasArea,
   },
 
