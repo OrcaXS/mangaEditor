@@ -166,6 +166,14 @@ const canvas = {
     clearSelection({ commit }, { type }) {
       commit('CLEAR_SELECTION', { type });
     },
+
+    toggleElementVisibility({ commit }, { id, idx, type }) {
+      commit('TOGGLE_ELEMENT_VISIBILITY', { id, idx, type });
+    },
+
+    deleteElement({ commit }, { id, idx, type }) {
+      commit('DELETE_ELEMENT', { id, idx, type });
+    },
   },
 };
 

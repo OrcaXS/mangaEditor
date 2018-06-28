@@ -10,9 +10,27 @@
           v-for="(textArea, idx) in textAreas"
           :key="idx"
           :class="{ 'LeftPanel-elementSelected': idx === selectedTextAreaIdx }"
+          class="LeftPanel-item"
         >
-          <FontAwesomeIcon :icon="['far', 'edit']" />
-          <span class="LeftPanel-elementName">({{ idx }}) {{ textArea.textContent }}</span>
+          <span
+            class="LeftPanel-elementName"
+            @click="textAreaOnClick(idx)"
+          >
+            <FontAwesomeIcon :icon="['far', 'edit']" />
+            <span>[{{ idx }}] {{ textArea.textContent }}</span>
+          </span>
+          <span class="LeftPanel-layerControl">
+            <button
+              @click="deleteElement({ type: 'textArea', idx })"
+            >
+              <FontAwesomeIcon icon="trash" />
+            </button>
+            <button
+              @click="toggleVisibility({ type: 'textArea', idx })"
+            >
+              <FontAwesomeIcon icon="eye" />
+            </button>
+          </span>
         </div>
       </div>
     </div>
@@ -29,12 +47,25 @@
           v-for="(balloon, idx) in balloons"
           :key="idx"
           :class="{ 'LeftPanel-elementSelected': idx === selectedBalloonIdx }"
+          class="LeftPanel-item"
         >
-          <FontAwesomeIcon :icon="['far', 'circle']" />
-          Balloon {{ idx }}
+          <span
+            class="LeftPanel-elementName"
+            @click="balloonOnClick(idx)"
+          >
+            <FontAwesomeIcon :icon="['far', 'circle']" />
+            <span>Balloon {{ idx }}</span>
+          </span>
           <span class="LeftPanel-layerControl">
-            <FontAwesomeIcon icon="trash" />
-            <FontAwesomeIcon icon="eye" />
+            <button
+              @click="deleteElement({ type: 'balloon', idx })"
+            >
+              <FontAwesomeIcon icon="trash" />
+            </button>
+            <button
+              @click="toggleVisibility({ type: 'balloon', idx })">
+              <FontAwesomeIcon icon="eye" />
+            </button>
           </span>
         </div>
       </div>
@@ -42,8 +73,10 @@
     <div class="LeftPanel-group">
       <div class="LeftPanel-category">BG</div>
       <div class="LeftPanel-layer">
-        <FontAwesomeIcon :icon="['far', 'image']" />
-        {{ filename }}
+        <div class="LeftPanel-item">
+          <FontAwesomeIcon :icon="['far', 'image']" />
+          <span class="LeftPanel-elementName">{{ filename }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -78,11 +111,34 @@ export default {
     },
 
     balloons() {
-      return this.$store.state.file.fileData[this.$route.params.file_id].balloons;
+      return this.$store.state.canvas.file[this.$route.params.file_id].balloons;
     },
 
     textAreas() {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
+    },
+  },
+
+  methods: {
+    textAreaOnClick(idx) {
+      this.$store.dispatch('clearSelection', { type: 'clearAll' });
+      this.$store.dispatch('setSelection', { type: 'textAreas', idx });
+    },
+
+    balloonOnClick(idx) {
+      this.$store.dispatch('clearSelection', { type: 'clearAll' });
+      this.$store.dispatch('setSelection', { type: 'balloons', idx });
+    },
+
+    deleteElement({ type, idx }) {
+      this.$store.dispatch('deleteElement', { type, idx, id: this.$route.params.file_id });
+      this.$store.dispatch('clearSelection', { type: 'clearAll' });
+      // this.$eventHub.$emit('textContentUpdated', idx);
+    },
+
+    toggleVisibility({ type, idx }) {
+      this.$store.dispatch('toggleElementVisibility', { type, idx, id: this.$route.params.file_id });
+      this.$store.dispatch('clearSelection', { type: 'clearAll' });
     },
   },
 };
@@ -109,7 +165,10 @@ export default {
 }
 
 .LeftPanel-elementName {
-  word-break: break-all;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: calc(100% - 2rem);
 }
 
 .LeftPanel-elementSelected {
@@ -120,5 +179,18 @@ export default {
 }
 
 .LeftPanel-bg {
+}
+
+.LeftPanel-item {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.LeftPanel-layerControl {
+  flex: 0 1 2rem;
+  z-index: 5;
+  /* margin-left: auto; */
+  display: flex;
+  flex-flow: row nowrap;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-group
-    v-if="configReady"
+    v-if="configReady && isVisible"
     ref="textGroup"
     :config="groupConfig"
     @dragend="groupDragEnd"
@@ -38,6 +38,10 @@ export default {
       validator(val) {
         return /\d/.test(val);
       },
+    },
+    isVisible: {
+      type: Boolean,
+      required: true,
     },
   },
 

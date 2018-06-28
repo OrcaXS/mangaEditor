@@ -5,6 +5,7 @@
       :key="idx"
       :text-config="val"
       :area-index="idx"
+      :is-visible="val.visible"
     />
   </v-group>
 </template>
@@ -63,6 +64,7 @@ export default {
           fontSize: val.fontSize || this.fontSize,
           fontStyle: val.fontStyle || 'normal',
           color: val.colors.hex || 'black',
+          visible: val.visible,
         };
       });
       return config;
@@ -71,6 +73,10 @@ export default {
 
   watch: {
     selectedTextAreaIdx(newIdx, oldIdx) {
+      if (newIdx) {
+        this.$store.dispatch('clearSelection', { type: 'balloons' });
+        this.$store.dispatch('clearSelection', { type: 'textAreaEditor' });
+      }
       if (oldIdx) {
         this.$eventHub.$emit('textContentUpdated', oldIdx);
       }
