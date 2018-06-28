@@ -90,6 +90,10 @@ export default {
         setTimeout(() => this.generateCharConfig(), 0);
         // this.$store.dispatch('clearSelection', { type: 'clearAll' });
       }
+      if (idx === 'updateAll') {
+        console.log('generateAllCharConfig');
+        setTimeout(() => this.generateCharConfig(), 0);
+      }
     });
   },
 

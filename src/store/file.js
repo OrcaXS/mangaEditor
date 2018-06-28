@@ -126,6 +126,10 @@ const file = {
       commit('CLEAR_STATUS');
     },
 
+    resetCanvas({ commit, state }, { id }) {
+      commit('PREPARE_CANVAS', { id, balloons: state.fileData[id].balloons, balloonCount: state.fileData[id].info.balloonCount });
+    },
+
     // addTextArea({ commit }, { id, textAreaIdx, textAreaDetail }) {
     //   commit('SET_TEXTAREA', { id, textAreaIdx, textAreaDetail });
     // },
