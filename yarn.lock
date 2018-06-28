@@ -1019,19 +1019,19 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.0"
 
-"@fortawesome/free-brands-svg-icons@^5.0.13":
+"@fortawesome/free-brands-svg-icons@^5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@fortawesome/free-brands-svg-icons/-/free-brands-svg-icons-5.1.0.tgz#f8a449943784cb59e0400b88cd4f33c81a281328"
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.0"
 
-"@fortawesome/free-regular-svg-icons@^5.0.13":
+"@fortawesome/free-regular-svg-icons@^5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-5.1.0.tgz#9d41c1d8167d5d4af9165bd667bbf3130a7c7d10"
   dependencies:
     "@fortawesome/fontawesome-common-types" "^0.2.0"
 
-"@fortawesome/free-solid-svg-icons@^5.0.13":
+"@fortawesome/free-solid-svg-icons@^5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.1.0.tgz#1a4b43027104d63c7862fd39333f6ed6d8bb2c9a"
   dependencies:
@@ -4257,9 +4257,9 @@ eslint-import-resolver-node@^0.3.1:
     debug "^2.6.9"
     resolve "^1.5.0"
 
-eslint-import-resolver-webpack@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/eslint-import-resolver-webpack/-/eslint-import-resolver-webpack-0.10.0.tgz#b6f2468dc3e8b4ea076e5d75bece8da932789b07"
+eslint-import-resolver-webpack@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-webpack/-/eslint-import-resolver-webpack-0.10.1.tgz#4cbceed2c0c43e488a74775c30861e58e00fb290"
   dependencies:
     array-find "^1.0.0"
     debug "^2.6.8"
@@ -4305,9 +4305,24 @@ eslint-module-utils@^2.2.0:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
-eslint-plugin-import@^2.11.0, eslint-plugin-import@^2.12.0:
+eslint-plugin-import@^2.11.0:
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.12.0.tgz#dad31781292d6664b25317fd049d2e2b2f02205d"
+  dependencies:
+    contains-path "^0.1.0"
+    debug "^2.6.8"
+    doctrine "1.5.0"
+    eslint-import-resolver-node "^0.3.1"
+    eslint-module-utils "^2.2.0"
+    has "^1.0.1"
+    lodash "^4.17.4"
+    minimatch "^3.0.3"
+    read-pkg-up "^2.0.0"
+    resolve "^1.6.0"
+
+eslint-plugin-import@^2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.13.0.tgz#df24f241175e312d91662dc91ca84064caec14ed"
   dependencies:
     contains-path "^0.1.0"
     debug "^2.6.8"
@@ -10340,9 +10355,9 @@ vue-hot-reload-api@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
 
-vue-i18n@^7.8.1:
-  version "7.8.1"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-7.8.1.tgz#2ce4b6efde679a1e05ddb5d907bfc1bc218803b2"
+vue-i18n@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.0.0.tgz#ae0c6e05ec8e36151bcf5f47c7b538c8af6d0282"
 
 vue-jest@^2.6.0:
   version "2.6.0"
@@ -10387,9 +10402,9 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-styleguidist@^1.7.10:
-  version "1.7.10"
-  resolved "https://registry.yarnpkg.com/vue-styleguidist/-/vue-styleguidist-1.7.10.tgz#8e739780485119385383419072a7d353fd344453"
+vue-styleguidist@^1.7.12:
+  version "1.7.12"
+  resolved "https://registry.yarnpkg.com/vue-styleguidist/-/vue-styleguidist-1.7.12.tgz#fb1afa0863ff36aa797325a3f38875252e9202ca"
   dependencies:
     "@vxna/mini-html-webpack-template" "^0.1.4"
     acorn "^5.5.3"
@@ -10661,9 +10676,9 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.12.0:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.12.0.tgz#14758e035ae69747f68dd0edf3c5a572a82bdee9"
+webpack@^4.12.2:
+  version "4.12.2"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.12.2.tgz#d2b8418eb40cedcbf2c1f5905d23a99546011ce9"
   dependencies:
     "@webassemblyjs/ast" "1.5.12"
     "@webassemblyjs/helper-module-context" "1.5.12"

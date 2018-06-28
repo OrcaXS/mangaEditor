@@ -8,9 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^5.0.13",
-    "@fortawesome/free-regular-svg-icons": "^5.0.13",
-    "@fortawesome/free-solid-svg-icons": "^5.0.13",
+    "@fortawesome/free-brands-svg-icons": "^5.1.0",
+    "@fortawesome/free-regular-svg-icons": "^5.1.0",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.0",
     "@fortawesome/vue-fontawesome": "^0.1.0",
     "konva": "^2.1.6",
@@ -34,8 +34,8 @@
     "@vue/eslint-config-airbnb": "^3.0.0-rc.3",
     "ava": "1.0.0-beta.6",
     "browser-env": "^3.2.5",
-    "eslint-import-resolver-webpack": "^0.10.0",
-    "eslint-plugin-import": "^2.12.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-plugin-import": "^2.13.0",
     "postcss-bem-linter": "^3.1.0",
     "postcss-cssnext": "^3.1.0",
     "postcss-hexrgba": "^1.0.1",
@@ -48,11 +48,11 @@
     "require-extension-hooks-babel": "^0.1.1",
     "require-extension-hooks-vue": "^1.0.1",
     "tailwindcss": "^0.6.1",
-    "vue-i18n": "^7.8.1",
+    "vue-i18n": "^8.0.0",
     "vue-jest": "^2.6.0",
-    "vue-styleguidist": "^1.7.10",
+    "vue-styleguidist": "^1.7.12",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.12.0"
+    "webpack": "^4.12.2"
   },
   "browserslist": [
     "> 2%"
