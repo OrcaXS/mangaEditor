@@ -49,13 +49,26 @@
             >{{ style }}</option>
           </select>
         </div>
-        <div class="RightPanel-select">
+        <div class="RightPanel-colors">
           <div
-            :style="currentColor"
+            :style="currentFgColor"
             class="RightPanel-currentColor"
+            @click="toggleColorPicker({ type: 'fg' })"
+          />
+          <div
+            :style="currentBgColor"
+            class="RightPanel-currentColor"
+            @click="toggleColorPicker({ type: 'bg' })"
           />
           <color-picker
-            v-model="textAreaColor"
+            v-show="showFgColorPicker"
+            v-model="textAreaFgColor"
+            class="RightPanel-colorPicker"
+          />
+          <color-picker
+            v-show="showBgColorPicker"
+            v-model="textAreaBgColor"
+            class="RightPanel-colorPicker"
           />
         </div>
       </div>
@@ -80,6 +93,8 @@ export default {
   data() {
     return {
       colors: {},
+      showFgColorPicker: false,
+      showBgColorPicker: false,
       fontFamilies: [
         { familyName: 'Arial', displayName: 'Arial' },
         { familyName: 'Helvetica', displayName: 'Helvetica' },
@@ -102,19 +117,39 @@ export default {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.selectedTextAreaIdx];
     },
 
-    currentColor() {
+    currentFgColor() {
       return {
-        backgroundColor: this.textAreaColor.hex || 'black',
+        backgroundColor: this.textAreaFgColor.hex || 'black',
       };
     },
 
-    textAreaColor: {
+    currentBgColor() {
+      return {
+        backgroundColor: this.textAreaBgColor.hex || 'white',
+      };
+    },
+
+    textAreaFgColor: {
       get() {
-        return this.selectedTextArea.colors;
+        return this.selectedTextArea.fgColors;
       },
 
       set(colors) {
-        this.$store.dispatch('setColor', { id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, colors });
+        this.$store.dispatch('setColor', {
+          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, type: 'fg', colors,
+        });
+      },
+    },
+
+    textAreaBgColor: {
+      get() {
+        return this.selectedTextArea.bgColors;
+      },
+
+      set(colors) {
+        this.$store.dispatch('setColor', {
+          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, type: 'bg', colors,
+        });
       },
     },
 
@@ -159,6 +194,18 @@ export default {
     onStyleChange(e) {
       console.log(e);
       this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+    },
+    toggleColorPicker({ type }) {
+      if (type === 'fg') {
+        this.showBgColorPicker = false;
+        this.showFgColorPicker = true;
+      } else if (type === 'bg') {
+        this.showBgColorPicker = true;
+        this.showFgColorPicker = false;
+      } else {
+        this.showBgColorPicker = false;
+        this.showFgColorPicker = false;
+      }
     },
   },
 
@@ -206,4 +253,8 @@ export default {
   border-radius: 2px;
 }
 
+.RightPanel-colors {
+  display: flex;
+  flex-flow: row nowrap;
+}
 </style>

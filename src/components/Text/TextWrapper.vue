@@ -50,6 +50,20 @@ export default {
         const offsetX = val.width - this.fontSize;
         const offsetY = 0;
         const textContent = val.textContent || '';
+
+        let fgColor = '';
+        let bgColor = '';
+
+        if (val.fgColors.rgba) {
+          const fgColorsRgba = val.fgColors.rgba;
+          fgColor = `rgba(${fgColorsRgba.r},${fgColorsRgba.g},${fgColorsRgba.b},${val.fgColors.a})`;
+        } else fgColor = 'rgba(0,0,0,1)';
+
+        if (val.bgColors.rgba) {
+          const bgColorsRgba = val.bgColors.rgba;
+          bgColor = `rgba(${bgColorsRgba.r},${bgColorsRgba.g},${bgColorsRgba.b},${val.bgColors.a})`;
+        } else bgColor = 'rgba(255,255,255,0)';
+
         config[idx] = {
           offsetX,
           offsetY,
@@ -63,7 +77,8 @@ export default {
           fontFamily: val.fontFamily || this.fontFamily,
           fontSize: val.fontSize || this.fontSize,
           fontStyle: val.fontStyle || 'normal',
-          color: val.colors.hex || 'black',
+          fgColor,
+          bgColor,
           visible: val.visible,
           scaleX: val.scaleX || '1',
           scaleY: val.scaleY || '1',

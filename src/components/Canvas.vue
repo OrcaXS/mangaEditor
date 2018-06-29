@@ -41,9 +41,9 @@
           <v-layer ref="elementsLayer">
             <TextWrapper :stage-bounding-rect="stageBoundingRect"/>
           </v-layer>
-          <v-layer ref="customLayer">
+          <!-- <v-layer ref="customLayer">
             <CustomTextArea />
-          </v-layer>
+          </v-layer> -->
         </v-stage>
       </div>
     </div>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import TextWrapper from '@/components/TextWrapper';
+import TextWrapper from '@/components/Text/TextWrapper';
 import Balloon from '@/components/Balloon/Balloon';
 import CustomTextArea from '@/components/Text/CustomTextArea';
 // import db from '@/scripts/db';
@@ -233,9 +233,9 @@ export default {
     // window.setTimeout(this.adjustCanvasOnRefresh(), 10000);
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
-    // this.$nextTick(() => {
-    //   window.addEventListener('resize', this.fitStageIntoContainer);
-    // });
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.fitStageIntoContainer);
+    });
   },
 
   beforeDestroy() {
@@ -249,15 +249,14 @@ export default {
     },
 
     fitStageIntoContainer() {
-      const scale = this.containerSize.width / this.stageWidth;
-      console.log(scale);
+      // const scale = this.containerSize.width / this.stageWidth;
+      console.log({ scale });
       console.log(scale * this.stageWidth);
       console.log(scale * this.stageHeight);
-      // this.$store.dispatch('setZoomLevel', { type: 'set', zoomLevel: scale });
-      this.$refs.stage.getStage().width(this.stageWidth * scale);
-      this.$refs.stage.getStage().height(this.stageHeight * scale);
-      this.$refs.stage.getStage().scale({ x: scale, y: scale });
-      this.$refs.stage.getStage().draw();
+      // this.$refs.stage.getStage().width(this.stageWidth * scale);
+      // this.$refs.stage.getStage().height(this.stageHeight * scale);
+      // this.$refs.stage.getStage().scale({ x: scale, y: scale });
+      // this.$refs.stage.getStage().draw();
     },
 
     adjustStageSize() {

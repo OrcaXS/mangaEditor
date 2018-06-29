@@ -3,11 +3,10 @@
     <nav class="EditorLayout-topbar">
       <div class="EditorLayout-toolbar">
         <button
-          v-for="icon in icons"
-          :key="icon"
           class="EditorLayout-toolbarBtn"
+          @click="addNewTextArea"
         >
-          <FontAwesomeIcon :icon="['fas', icon]" />
+          <FontAwesomeIcon icon="plus-square" />
         </button>
         <button
           class="EditorLayout-toolbarBtn"
@@ -63,7 +62,7 @@
       >
         <RightPanel />
       </aside>
-      <TextAreaEditor />
+      <TextEditor />
     </div>
   </div>
 </template>
@@ -71,7 +70,7 @@
 <script>
 import LeftPanel from '@/components/Editor/LeftPanel';
 import RightPanel from '@/components/Editor/RightPanel';
-import TextAreaEditor from '@/components/TextAreaEditor';
+import TextEditor from '@/components/Text/TextEditor';
 import CanvasArea from '@/components/Canvas';
 import db from '@/scripts/db';
 
@@ -81,7 +80,7 @@ export default {
   components: {
     LeftPanel,
     RightPanel,
-    TextAreaEditor,
+    TextEditor,
     CanvasArea,
   },
 
@@ -161,6 +160,10 @@ export default {
       this.$store.dispatch('resetCanvas', { id: this.$route.params.file_id });
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
       this.$eventHub.$emit('textContentUpdated', 'updateAll');
+    },
+
+    addNewTextArea() {
+      this.$store.dispatch('addNewTextArea', { id: this.$route.params.file_id });
     },
   },
 

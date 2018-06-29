@@ -20,6 +20,25 @@ const canvas = {
     },
   }),
 
+  getters: {
+    getRgbaColors: state => ({ id, idx }) => {
+      let fgColor = '';
+      let bgColor = '';
+
+      if (state.file[id].textAreas[idx].fgColors.rgba) {
+        const fgColorsRgba = state.file[id].textAreas[idx].fgColors.rgba;
+        fgColor = `rgba(${fgColorsRgba.r},${fgColorsRgba.g},${fgColorsRgba.b},${fgColorsRgba.a})`;
+      } else fgColor = 'rgba(0,0,0,1)';
+
+      if (state.file[id].textAreas[idx].bgColors.rgba) {
+        const bgColorsRgba = state.file[id].textAreas[idx].bgColors.rgba;
+        bgColor = `rgba(${bgColorsRgba.r},${bgColorsRgba.g},${bgColorsRgba.b},${bgColorsRgba.a})`;
+      } else bgColor = 'rgba(255,255,255,0)';
+
+      return { fgColor, bgColor };
+    },
+  },
+
   mutations: {
     SET_ZOOM(state, { type, zoomLevel }) {
       if (type === 'set') state.zoomLevel = zoomLevel;
@@ -60,8 +79,11 @@ const canvas = {
         const { textRect } = balloons[balloonIdx];
         Object.values(textRect).forEach((textArea) => {
           flattenedTextAreas[textAreaIdx] = textArea;
-          flattenedTextAreas[textAreaIdx].colors = {};
+          flattenedTextAreas[textAreaIdx].fgColors = {};
+          flattenedTextAreas[textAreaIdx].bgColors = {};
           flattenedTextAreas[textAreaIdx].visible = true;
+          flattenedTextAreas[textAreaIdx].scaleX = '1';
+          flattenedTextAreas[textAreaIdx].scaleY = '1';
           textAreaIdx += 1;
         });
       });
@@ -69,20 +91,53 @@ const canvas = {
       Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
       Vue.set(state.file[id], 'balloons', flattenedBalloons);
       Vue.set(state.file[id], 'customTextAreas', {});
+      Vue.set(state.file[id], 'textAreaIdx', textAreaIdx);
     },
 
-
-    PREPARE_BALLOONS(state, { id, balloons }) {
-      const newBalloons = {};
-      Object.keys(balloons).forEach((val) => {
-        newBalloons[val] = balloons[val].boundingRect;
-      });
-      Vue.set(state.file[id], 'balloons', newBalloons);
-    },
-
-    ADD_CUSTOM_TEXTAREA(state, { id, textarea }) {
-      const currentLength = Object.keys(state.file[id].textAreas).length;
-      Vue.set(state.file[id].textAreas, currentLength, textarea);
+    ADD_NEW_TEXTAREA(state, { id }) {
+      const { textAreaIdx } = state.file[id];
+      const newTextArea = {
+        bgColors: {
+          hsl: {
+            h: 0, s: 0, l: 1, a: 1,
+          },
+          hex: '#FFFFFF',
+          rgba: {
+            r: 255, g: 255, b: 255, a: 1,
+          },
+          hsv: {
+            h: 0, s: 0, v: 1, a: 1,
+          },
+          oldHue: 0,
+          source: 'hsva',
+          a: 1,
+        },
+        fgColors: {
+          hsl: {
+            h: 0, s: 0, l: 0, a: 1,
+          },
+          hex: '#000000',
+          rgba: {
+            r: 0, g: 0, b: 0, a: 1,
+          },
+          hsv: {
+            h: 0, s: 0, v: 0, a: 1,
+          },
+          oldHue: 0,
+          source: 'hsva',
+          a: 1,
+        },
+        visible: true,
+        scaleX: 1,
+        scaleY: 1,
+        x: 500,
+        y: 500,
+        width: 500,
+        height: 500,
+        textContent: 'Text here...',
+      };
+      Vue.set(state.file[id].textAreas, textAreaIdx, newTextArea);
+      state.file[id].textAreaIdx = textAreaIdx + 1;
     },
 
     SET_SCROLLING_POSITION(state, { dx, dy }) {
@@ -112,12 +167,20 @@ const canvas = {
       state.file[id].textAreas[idx].y = newRect.y;
       state.file[id].textAreas[idx].width = newRect.width;
       state.file[id].textAreas[idx].height = newRect.height;
-      Vue.set(state.file[id].textAreas[idx], 'scaleX', newRect.scaleX);
-      Vue.set(state.file[id].textAreas[idx], 'scaleY', newRect.scaleY);
+      state.file[id].textAreas[idx].scaleX = newRect.scaleX;
+      state.file[id].textAreas[idx].scaleY = newRect.scaleY;
     },
 
-    SET_COLOR(state, { id, idx, colors }) {
-      state.file[id].textAreas[idx].colors = colors;
+    DRAG_TEXTAREA(state, { id, idx, position }) {
+      state.file[id].textAreas[idx].x = position.x;
+      state.file[id].textAreas[idx].y = position.y;
+    },
+
+    SET_COLOR(state, {
+      id, idx, type, colors,
+    }) {
+      if (type === 'fg') state.file[id].textAreas[idx].fgColors = colors;
+      if (type === 'bg') state.file[id].textAreas[idx].bgColors = colors;
     },
 
     TOGGLE_ELEMENT_VISIBILITY(state, { id, idx, type }) {
@@ -160,16 +223,20 @@ const canvas = {
       commit('SET_TEXTAREA_CONTENT', { id, idx, content });
     },
 
-    setTextAreaPosition({ commit }, { id, idx, position }) {
-      commit('SET_TEXTAREA_POSITION', { id, idx, position });
-    },
-
     transformTextArea({ commit }, { id, idx, newRect }) {
       commit('TRANSFORM_TEXTAREA', { id, idx, newRect });
     },
 
-    setColor({ commit }, { id, idx, colors }) {
-      commit('SET_COLOR', { id, idx, colors });
+    dragTextArea({ commit }, { id, idx, position }) {
+      commit('DRAG_TEXTAREA', { id, idx, position });
+    },
+
+    setColor({ commit }, {
+      id, idx, type, colors,
+    }) {
+      commit('SET_COLOR', {
+        id, idx, type, colors,
+      });
     },
 
     setSelection({ commit }, { type, idx }) {
@@ -190,6 +257,10 @@ const canvas = {
 
     addCustomTextarea({ commit }, { id, textarea }) {
       commit('ADD_CUSTOM_TEXTAREA', { id, textarea });
+    },
+
+    addNewTextArea({ commit }, { id }) {
+      commit('ADD_NEW_TEXTAREA', { id });
     },
   },
 };

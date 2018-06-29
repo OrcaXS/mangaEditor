@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'TextAreaEditor',
+  name: 'TextEditor',
   data() {
     return {
       currentTextContent: '',
@@ -47,9 +47,16 @@ export default {
       return this.$store.state.canvas.currentScrollingPosition;
     },
 
+    getColors() {
+      return this.$store.getters.getRgbaColors({
+        id: this.$route.params.file_id, idx: this.selectedTextAreaEditorIdx,
+      });
+    },
+
     textAreaStyle() {
       const textArea = this.selectedTextArea;
       const fontStyles = ['normal', 'oblique', 'italic'];
+
       const styleObj = {
         fontSize: `${textArea.fontSize * (this.currentScale / 100)}px`,
         fontStyle: 'normal',
@@ -59,7 +66,8 @@ export default {
         top: `calc(${(textArea.y + 0) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
         width: `${textArea.width * (this.currentScale / 100) * textArea.scaleX}px`,
         height: `${textArea.height * (this.currentScale / 100) * textArea.scaleY}px`,
-        color: textArea.colors.hex || 'black',
+        color: this.getColors.fgColor,
+        background: this.getColors.bgColor,
       };
       if (fontStyles.indexOf(textArea.fontStyle) > -1) {
         styleObj.fontStyle = textArea.fontStyle;

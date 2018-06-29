@@ -1,21 +1,29 @@
 <template>
   <v-group
-    v-if="configReady && isVisible"
-    ref="textGroup"
+    v-if="configReady && isVisible && !isEditing"
+    ref="textGroupWrapper"
     @click="selectTextArea(areaIndex)"
   >
+    <!-- <v-group
+      ref="textGroup"
+      :config="groupConfig"
+      @transformEnd="onTransformEnd"
+      @dragend="onTransformEnd"
+      @click="showEditor(areaIndex)"
+    > -->
+    <v-rect
+      ref="bgRect"
+      :config="bgRectConfig"
+      @click="showEditor(areaIndex)"
+      @transformEnd="onTransformEnd"
+      @dragend="onTransformEnd"
+    />
     <v-text
       v-for="(val, idx) in charConfig"
       :key="idx"
       :config="val"
     />
-    <v-rect
-      ref="hiddenRect"
-      :config="hiddenRectStyle(textConfig)"
-      @dragend="onTransformEnd"
-      @transformEnd="onTransformEnd"
-      @click="showEditor(areaIndex)"
-    />
+
     <!-- <v-rect
       v-if="areaIndex === selectedTextAreaIdx"
       :config="rectStyle(textConfig)"
@@ -75,14 +83,50 @@ export default {
       return this.textAreas[this.areaIndex];
     },
 
+    selectedTextAreaIdx() {
+      return this.$store.state.canvas.currentlySelected.textAreas[0];
+    },
+
+    isEditing() {
+      return this.$store.state.canvas.currentlySelected.textAreaEditor === this.areaIndex;
+    },
+
     groupConfig() {
       return {
+        x: this.textConfig.x,
+        y: this.textConfig.y,
+        width: this.textConfig.width,
+        height: this.textConfig.height,
+        scaleX: this.textConfig.scaleX,
+        scaleY: this.textConfig.scaleY,
         draggable: true,
       };
     },
 
-    selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0];
+    // rectStyle() {
+    //   return {
+    //     x: 0,
+    //     y: 0,
+    //     width: this.textConfig.width,
+    //     height: this.textConfig.height,
+    //     scaleX: this.textConfig.scaleX,
+    //     scaleY: this.textConfig.scaleY,
+    //     stroke: 'purple',
+    //     strokeWidth: 3,
+    //   };
+    // },
+
+    bgRectConfig() {
+      return {
+        x: this.textConfig.x,
+        y: this.textConfig.y,
+        width: this.textConfig.width,
+        height: this.textConfig.height,
+        scaleX: this.textConfig.scaleX,
+        scaleY: this.textConfig.scaleY,
+        fill: this.textConfig.bgColor,
+        draggable: true,
+      };
     },
   },
 
@@ -120,14 +164,14 @@ export default {
     },
 
     onTransformEnd(e) {
-      const hiddenRect = this.$refs.hiddenRect.getStage();
+      const target = this.$refs.bgRect.getStage();
       const newRect = {
-        x: hiddenRect.x(),
-        y: hiddenRect.y(),
-        width: hiddenRect.width(),
-        height: hiddenRect.height(),
-        scaleX: hiddenRect.scaleX(),
-        scaleY: hiddenRect.scaleY(),
+        x: target.x(),
+        y: target.y(),
+        width: target.width(),
+        height: target.height(),
+        scaleX: target.scaleX(),
+        scaleY: target.scaleY(),
       };
       console.log(newRect);
       this.$store.dispatch('transformTextArea', {
@@ -138,43 +182,19 @@ export default {
       this.$eventHub.$emit('textContentUpdated', this.areaIndex);
     },
 
-    rectStyle(textConfig) {
-      return {
-        x: textConfig.x,
-        y: textConfig.y,
-        width: textConfig.width,
-        height: textConfig.height,
-        scaleX: textConfig.scaleX,
-        scaleY: textConfig.scaleY,
-        stroke: 'purple',
-        strokeWidth: 3,
+    onDragEnd(e) {
+      const textGroup = this.$refs.textGroup.getStage();
+      const position = {
+        x: textGroup.x(),
+        y: textGroup.y(),
       };
-    },
-
-    testRectStyle() {
-      return {
-        x: 300,
-        y: 300,
-        width: 100,
-        height: 100,
-        fill: 'white',
-        name: 'rect',
-        stroke: 'blue',
-        strokeWidth: 5,
-        draggable: true
-      };
-    },
-
-    hiddenRectStyle(textConfig) {
-      return {
-        x: textConfig.x,
-        y: textConfig.y,
-        width: textConfig.width,
-        height: textConfig.height,
-        scaleX: textConfig.scaleX,
-        scaleY: textConfig.scaleY,
-        draggable: true,
-      };
+      console.log(position);
+      this.$store.dispatch('dragTextArea', {
+        id: this.$route.params.file_id,
+        idx: this.areaIndex,
+        position,
+      });
+      this.$eventHub.$emit('textContentUpdated', this.areaIndex);
     },
 
     showEditor(areaIndex) {
@@ -192,13 +212,14 @@ export default {
       this.$store.dispatch('setSelection', { type: 'textAreas', idx: areaIndex });
 
       const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
+      stage.find('Transformer').destroy();
       const tr = new Konva.Transformer({
         resizeEnabled: true,
         rotateEnabled: false,
       });
-      this.$refs.textGroup.getStage().add(tr);
-      tr.attachTo(this.$refs.hiddenRect.getStage());
-      this.$refs.textGroup.getStage().draw();
+      this.$refs.textGroupWrapper.getStage().add(tr);
+      tr.attachTo(this.$refs.bgRect.getStage());
+      this.$refs.textGroupWrapper.getStage().draw();
     },
 
     deleteTransformer() {
@@ -278,7 +299,9 @@ export default {
 
       function needRotation(char) {
         const code = char.charCodeAt(0);
-        const LUT = [0x2e3a, 0x2014, 0x2026, 0xff5e, 0x002d, 0x2013, 0x2014, 0x002f, 0x300c, 0x300d, 0x300e, 0x300f, 0x201c, 0x201d, 0x2018, 0x2019, 0xff08, 0xff09, 0x300a, 0x300b, 0x3008, 0x3009, 0x3010, 0x3011, 0x3016, 0x3017, 0x3014, 0x3015, 0xff3b, 0xff3d, 0xff5b, 0xff5d, 0xff3f, 0xfe4f];
+        const LUT = [
+          0x2e3a, 0x2014, 0x2026, 0xff5e, 0x002d, 0x2013, 0x2014, 0x002f, 0x300c, 0x300d, 0x300e, 0x300f, 0x201c, 0x201d, 0x2018, 0x2019, 0xff08, 0xff09, 0x300a, 0x300b, 0x3008, 0x3009, 0x3010, 0x3011, 0x3016, 0x3017, 0x3014, 0x3015, 0xff3b, 0xff3d, 0xff5b, 0xff5d, 0xff3f, 0xfe4f,
+        ];
         const testResult = LUT.includes(code);
         return testResult;
       }
@@ -288,10 +311,6 @@ export default {
       let offsetY = 0;
       this.charConfig = {};
       this.configReady = false;
-
-      console.log(this.textConfig.width * this.textConfig.scaleX);
-      console.log(this.textConfig.height * this.textConfig.scaleX);
-
 
       if (this.textConfig.text.length) {
         for (let i = 0; i < this.textConfig.text.length; i += 1) {
@@ -328,7 +347,7 @@ export default {
               fontSize: this.textConfig.fontSize,
               fontFamily: this.textConfig.fontFamily,
               fontStyle: this.textConfig.fontStyle,
-              fill: this.textConfig.color,
+              fill: this.textConfig.fgColor,
             };
 
             this.charConfig[i] = config;
@@ -340,17 +359,9 @@ export default {
           }
         }
       }
-
       this.configReady = true;
     },
-
-    textAreaWidth() {
-      return {
-        width: this.$refs.textElement ? `${this.$refs.textElement.getStage().getAttr('width')}px` : '300px',
-      };
-    },
   },
-
 };
 </script>
 
