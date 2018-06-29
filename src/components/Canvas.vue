@@ -13,6 +13,7 @@
         class="canvasContainer"
       >
         <v-stage
+          v-if="loadKonva"
           ref="stage"
           :config="configKonva"
         >
@@ -77,6 +78,7 @@ export default {
       // file: {},
       // stageWidth: window.innerWidth,
       // stageHeight: window.innerHeight,
+      loadKonva: false,
       zoomLevel: {
         posX: 0,
         posY: 0,
@@ -105,14 +107,10 @@ export default {
 
     configKonva() {
       return {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: this.$refs.scrollContainer.offsetWidth,
+        height: this.$refs.scrollContainer.offsetHeight,
         // x: this.stageWidth / 2,
         // y: this.stageHeight / 2,
-        offset: {
-          // x: this.stageWidth / 2,
-          // y: this.stageHeight / 2,
-        },
       };
     },
 
@@ -217,7 +215,9 @@ export default {
   },
 
   mounted() {
-    this.setScale(this.currentScale);
+    this.loadKonva = true;
+    setTimeout(() => this.setScale(this.currentScale), 0);
+    setTimeout(() => this.windowResized(), 0);
     // this.$eventHub.$on('clicked1Canvas', () => {
     //   console.log({ textAreaIdx: this.selectedTextAreaIdx, textAreaEditorIdx: this.selectedTextAreaEditorIdx, balloonIdx: this.selectedBalloonIdx });
     //   if (this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
@@ -234,7 +234,7 @@ export default {
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
     this.$nextTick(() => {
-      window.addEventListener('resize', this.fitStageIntoContainer);
+      window.addEventListener('resize', this.windowResized);
     });
   },
 
@@ -248,11 +248,24 @@ export default {
       this.stageBoundingRect = this.$refs.stage.getStage().getContainer().getBoundingClientRect();
     },
 
+    windowResized() {
+      const stageWidth = this.$refs.stage.getStage().width();
+      const stageHeight = this.$refs.stage.getStage().height();
+      const {
+        offsetWidth: containerWidth, offsetHeight: containerHeight,
+      } = this.$refs.scrollContainer;
+      console.log({ containerWidth, containerHeight, stageWidth, stageHeight });
+      if (containerWidth !== stageWidth || containerHeight !== stageHeight) {
+        this.$store.dispatch('windowResized', { status: true });
+      } else {
+        this.$store.dispatch('windowResized', { status: false });
+      }
+    },
+
     fitStageIntoContainer() {
-      // const scale = this.containerSize.width / this.stageWidth;
-      console.log({ scale });
-      console.log(scale * this.stageWidth);
-      console.log(scale * this.stageHeight);
+      this.$refs.stage.getStage().batchDraw();
+      // console.log(scale * this.stageWidth);
+      // console.log(scale * this.stageHeight);
       // this.$refs.stage.getStage().width(this.stageWidth * scale);
       // this.$refs.stage.getStage().height(this.stageHeight * scale);
       // this.$refs.stage.getStage().scale({ x: scale, y: scale });

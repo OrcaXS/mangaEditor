@@ -32,6 +32,10 @@
         >
           <span>Reset Canvas</span>
         </button>
+        <span
+          v-if="windowNeedResize"
+          class="EditorLayout-msg"
+        >Window resized, plesase refresh this page manually.</span>
       </div>
     </nav>
     <div
@@ -122,6 +126,10 @@ export default {
 
     showRightPanel() {
       return this.selectedTextAreaEditorIdx || this.selectedTextAreaIdx;
+    },
+
+    windowNeedResize() {
+      return this.$store.state.canvas.windowResized;
     },
 
     // showTextArea() {
@@ -244,6 +252,10 @@ export default {
 
 .EditorLayout-footer {
   text-align: center;
+}
+
+.EditorLayout-msg {
+  color: white;
 }
 
 </style>

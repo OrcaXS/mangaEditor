@@ -18,6 +18,7 @@ const canvas = {
       textAreaEditor: null,
       textAreas: [],
     },
+    windowResized: false,
   }),
 
   getters: {
@@ -40,6 +41,10 @@ const canvas = {
   },
 
   mutations: {
+    WINDOW_RESIZED(state, { status }) {
+      state.windowResized = !!status;
+    },
+
     SET_ZOOM(state, { type, zoomLevel }) {
       if (type === 'set') state.zoomLevel = zoomLevel;
       if (type === 'increment') state.zoomLevel += zoomLevel;
@@ -261,6 +266,10 @@ const canvas = {
 
     addNewTextArea({ commit }, { id }) {
       commit('ADD_NEW_TEXTAREA', { id });
+    },
+
+    windowResized({ commit }, { status }) {
+      commit('WINDOW_RESIZED', { status });
     },
   },
 };
