@@ -35,12 +35,6 @@
       </div>
     </div>
     <div class="LeftPanel-group">
-      <div class="LeftPanel-category">Rectangles</div>
-      <div class="LeftPanel-layer">
-        <p>lul</p>
-      </div>
-    </div>
-    <div class="LeftPanel-group">
       <div class="LeftPanel-category">Balloons</div>
       <div class="LeftPanel-layer">
         <div
@@ -71,7 +65,7 @@
       </div>
     </div>
     <div class="LeftPanel-group">
-      <div class="LeftPanel-category">BG</div>
+      <div class="LeftPanel-category">Background</div>
       <div class="LeftPanel-layer">
         <div class="LeftPanel-item">
           <FontAwesomeIcon :icon="['far', 'image']" />
