@@ -22,7 +22,7 @@
     "vue-konva": "^1.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-persist": "^1.4.0",
+    "vuex-persist": "^1.4.3",
     "vuex-persistedstate": "^2.5.4",
     "webfontloader": "^1.6.28"
   },
@@ -52,7 +52,7 @@
     "vue-jest": "^2.6.0",
     "vue-styleguidist": "^1.7.12",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.12.2"
+    "webpack": "^4.14.0"
   },
   "browserslist": [
     "> 2%"
