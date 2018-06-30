@@ -117,15 +117,24 @@ export default {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.selectedTextAreaIdx];
     },
 
+    rgbaColors() {
+      const rgba = this.$store.getters.getRgbaColors({
+        id: this.$route.params.file_id, idx: this.selectedTextAreaIdx,
+      });
+      return rgba;
+    },
+
     currentFgColor() {
       return {
-        backgroundColor: this.textAreaFgColor.hex || 'black',
+        backgroundImage: `linear-gradient(${this.rgbaColors.fgColor},${this.rgbaColors.fgColor}),
+        url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMElEQVQ4T2N89uzZfwY8QFJSEp80A+OoAcMiDP7//483HTx//hx/Ohg1gIFx6IcBALl+VXknOCvFAAAAAElFTkSuQmCC')`
       };
     },
 
     currentBgColor() {
       return {
-        backgroundColor: this.textAreaBgColor.hex || 'white',
+        backgroundImage: `linear-gradient(${this.rgbaColors.bgColor},${this.rgbaColors.bgColor}),
+        url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMElEQVQ4T2N89uzZfwY8QFJSEp80A+OoAcMiDP7//483HTx//hx/Ohg1gIFx6IcBALl+VXknOCvFAAAAAElFTkSuQmCC')`
       };
     },
 
@@ -256,5 +265,9 @@ export default {
 .RightPanel-colors {
   display: flex;
   flex-flow: row nowrap;
+}
+
+.RightPanel-checkboard {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMElEQVQ4T2N89uzZfwY8QFJSEp80A+OoAcMiDP7//483HTx//hx/Ohg1gIFx6IcBALl+VXknOCvFAAAAAElFTkSuQmCC");
 }
 </style>

@@ -4,6 +4,12 @@
       <div class="EditorLayout-toolbar">
         <button
           class="EditorLayout-toolbarBtn"
+          @click="downloadURL"
+        >
+          <FontAwesomeIcon icon="save" />
+        </button>
+        <button
+          class="EditorLayout-toolbarBtn"
           @click="addNewTextArea"
         >
           <FontAwesomeIcon icon="plus-square" />
@@ -59,7 +65,10 @@
           :filename="currentFile.bgImage.name"
         />
       </aside>
-      <CanvasArea :file="currentFile"/>
+      <CanvasArea
+        ref="canvas"
+        :file="currentFile"
+      />
       <aside
         v-if="showRightPanel"
         class="EditorLayout-rightPanel"
@@ -173,6 +182,19 @@ export default {
     addNewTextArea() {
       this.$store.dispatch('addNewTextArea', { id: this.$route.params.file_id });
     },
+
+    downloadURL() {
+      this.$eventHub.$emit('downloadImage');
+      // this.$store.dispatch('prepareDownload', { status: true });
+      // const dataURL = this.$refs.canvas.$refs.stage.getStage().toDataURL();
+      //
+      // const link = document.createElement('a');
+      // link.download = 'stage.png';
+      // link.href = dataURL;
+      // document.body.appendChild(link);
+      // link.click();
+      // document.body.removeChild(link);
+    },
   },
 
 };
@@ -223,7 +245,6 @@ export default {
 
   &:hover {
     background-color: config('colors.peach');
-
   }
 }
 

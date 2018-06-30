@@ -150,18 +150,18 @@ export default {
   },
 
   methods: {
-    groupDragEnd(e) {
-      // console.log('dragEnd');
-      // const newPosition = {
-      //   x: this.textConfig.x + this.$refs.textGroup.getStage().x(),
-      //   y: this.textConfig.y + this.$refs.textGroup.getStage().y(),
-      // };
-      // this.$store.dispatch('setTextAreaPosition', {
-      //   id: this.$route.params.file_id,
-      //   idx: this.areaIndex,
-      //   position: newPosition,
-      // });
-    },
+    // groupDragEnd(e) {
+    // console.log('dragEnd');
+    // const newPosition = {
+    //   x: this.textConfig.x + this.$refs.textGroup.getStage().x(),
+    //   y: this.textConfig.y + this.$refs.textGroup.getStage().y(),
+    // };
+    // this.$store.dispatch('setTextAreaPosition', {
+    //   id: this.$route.params.file_id,
+    //   idx: this.areaIndex,
+    //   position: newPosition,
+    // });
+    // },
 
     onTransformEnd(e) {
       const target = this.$refs.bgRect.getStage();
@@ -222,11 +222,11 @@ export default {
       this.$refs.textGroupWrapper.getStage().draw();
     },
 
-    deleteTransformer() {
-      // console.log('clickedOutside');
-      // const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
-      // stage.find('Transformer').destroy();
-    },
+    // deleteTransformer() {
+    // console.log('clickedOutside');
+    // const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
+    // stage.find('Transformer').destroy();
+    // },
 
     generateCharConfig() {
       function measureTextHeight(text, fontSize, fontFamily) {
@@ -364,6 +364,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="postcss">
-</style>

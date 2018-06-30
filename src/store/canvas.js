@@ -19,6 +19,7 @@ const canvas = {
       textAreas: [],
     },
     windowResized: false,
+    prepareDownload: false,
   }),
 
   getters: {
@@ -43,6 +44,10 @@ const canvas = {
   mutations: {
     WINDOW_RESIZED(state, { status }) {
       state.windowResized = !!status;
+    },
+
+    PREPARE_DOWNLOAD(state, { status }) {
+      state.prepareDownload = !!status;
     },
 
     SET_ZOOM(state, { type, zoomLevel }) {
@@ -270,6 +275,10 @@ const canvas = {
 
     windowResized({ commit }, { status }) {
       commit('WINDOW_RESIZED', { status });
+    },
+
+    prepareDownload({ commit }, { status }) {
+      commit('PREPARE_DOWNLOAD', { status });
     },
   },
 };

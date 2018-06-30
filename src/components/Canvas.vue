@@ -176,6 +176,10 @@ export default {
     selectedBalloonIdx() {
       return this.$store.state.canvas.currentlySelected.balloons[0];
     },
+
+    prepareDownload() {
+      return this.$store.state.canvas.prepareDownload;
+    },
   },
 
   watch: {
@@ -183,19 +187,11 @@ export default {
       this.setScale(newScale);
     },
 
-    selectedBalloonIdx(newIdx) {
-
-    },
-
     selectedTextAreaIdx(newIdx, oldIdx) {
       if (!newIdx) {
         const stage = this.$refs.stage.getStage();
         stage.find('Transformer').destroy();
       }
-    },
-
-    selectedTextAreaEditorIdx(newIdx) {
-
     },
   },
 
@@ -233,13 +229,17 @@ export default {
     // window.setTimeout(this.adjustCanvasOnRefresh(), 10000);
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
+    this.$eventHub.$on('downloadImage', () => {
+      this.downloadImage();
+    });
+
     this.$nextTick(() => {
       window.addEventListener('resize', this.windowResized);
     });
   },
 
   beforeDestroy() {
-    // this.$eventHub.$off('clickedCanvas');
+    this.$eventHub.$off('downloadImage');
   },
 
 
@@ -278,21 +278,21 @@ export default {
       this.$refs.stage.getStage().draw();
     },
 
-    fitImageIntoStage() {
-      if (this.imageNeedResize) {
-        const scale = this.containerSize.width / this.bgImageConfig.width;
-        console.log(this.containerSize.width);
-        console.log(this.bgImageConfig);
-        this.$refs.image.getStage().width(this.bgImageConfig.width * scale);
-        this.$refs.image.getStage().height(this.bgImageConfig.height * scale);
-        this.$refs.image.getStage().scale({ x: scale, y: scale });
-        this.$refs.image.getStage().draw();
-      } else {
-        this.$refs.image.getStage().x(160);
-        this.$refs.image.getStage().y(50);
-        this.$refs.image.getStage().draw();
-      }
-    },
+    // fitImageIntoStage() {
+    //   if (this.imageNeedResize) {
+    //     const scale = this.containerSize.width / this.bgImageConfig.width;
+    //     console.log(this.containerSize.width);
+    //     console.log(this.bgImageConfig);
+    //     this.$refs.image.getStage().width(this.bgImageConfig.width * scale);
+    //     this.$refs.image.getStage().height(this.bgImageConfig.height * scale);
+    //     this.$refs.image.getStage().scale({ x: scale, y: scale });
+    //     this.$refs.image.getStage().draw();
+    //   } else {
+    //     this.$refs.image.getStage().x(160);
+    //     this.$refs.image.getStage().y(50);
+    //     this.$refs.image.getStage().draw();
+    //   }
+    // },
 
     setScale(scale) {
       this.$refs.stage.getStage().scale({ x: scale / 100, y: scale / 100 });
@@ -315,14 +315,15 @@ export default {
     },
 
     customScroll(e) {
+      const stage = this.$refs.stage.getStage();
       const updateScroll = () => {
         const dx = this.$refs.scrollContainer.scrollLeft;
         const dy = this.$refs.scrollContainer.scrollTop;
         this.$store.dispatch('setScrollingPosition', { dx, dy });
         this.$refs.stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;
-        this.$refs.stage.getStage().x(-dx);
-        this.$refs.stage.getStage().y(-dy);
-        this.$refs.stage.getStage().batchDraw();
+        stage.x(-dx);
+        stage.y(-dy);
+        stage.batchDraw();
       };
       window.requestAnimationFrame(updateScroll);
     },
@@ -331,6 +332,33 @@ export default {
       console.log('clickedCanvas');
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
       // this.$eventHub.$emit('clickedCanvas');
+    },
+
+    async downloadImage() {
+      this.setScale('100');
+      console.log(this.$refs.stage.getStage().scale());
+      const oldSize = this.$refs.stage.getStage().size();
+      const exportSize = this.dimension;
+      this.$refs.stage.getStage().size(exportSize);
+      console.log(this.$refs.stage.getStage().size());
+      this.$refs.stage.getStage().draw();
+
+      const dataURL = this.$refs.stage.getStage().toDataURL({
+      });
+
+      const blob = await (await fetch(dataURL)).blob();
+      const objectURL = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.download = 'stage.png';
+      link.href = objectURL;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      this.setScale(this.currentScale);
+      this.$refs.stage.getStage().size(oldSize);
+      this.$refs.stage.getStage().draw();
     },
   },
 
