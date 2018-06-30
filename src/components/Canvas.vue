@@ -187,7 +187,7 @@ export default {
       this.setScale(newScale);
     },
 
-    selectedTextAreaIdx(newIdx, oldIdx) {
+    selectedTextAreaIdx(newIdx) {
       if (!newIdx) {
         const stage = this.$refs.stage.getStage();
         stage.find('Transformer').destroy();
@@ -215,7 +215,6 @@ export default {
     setTimeout(() => this.setScale(this.currentScale), 0);
     setTimeout(() => this.windowResized(), 0);
     // this.$eventHub.$on('clicked1Canvas', () => {
-    //   console.log({ textAreaIdx: this.selectedTextAreaIdx, textAreaEditorIdx: this.selectedTextAreaEditorIdx, balloonIdx: this.selectedBalloonIdx });
     //   if (this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
     //     this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
     //     this.$store.dispatch('clearSelection', { type: 'clearAll' });
@@ -254,7 +253,6 @@ export default {
       const {
         offsetWidth: containerWidth, offsetHeight: containerHeight,
       } = this.$refs.scrollContainer;
-      console.log({ containerWidth, containerHeight, stageWidth, stageHeight });
       if (containerWidth !== stageWidth || containerHeight !== stageHeight) {
         this.$store.dispatch('windowResized', { status: true });
       } else {
@@ -305,7 +303,7 @@ export default {
       this.setScale(this.zoomLevel.scale * 100);
     },
 
-    setCursorPosition(e) {
+    setCursorPosition() {
       const updatePosition = () => {
         const cursorPos = this.$refs.stage.getStage().getPointerPosition();
         this.$store.dispatch('setCursorPosition', { cursorCoordinates: cursorPos });
@@ -314,7 +312,7 @@ export default {
       window.requestAnimationFrame(updatePosition);
     },
 
-    customScroll(e) {
+    customScroll() {
       const stage = this.$refs.stage.getStage();
       const updateScroll = () => {
         const dx = this.$refs.scrollContainer.scrollLeft;
@@ -328,7 +326,7 @@ export default {
       window.requestAnimationFrame(updateScroll);
     },
 
-    canvasOnClick(e) {
+    canvasOnClick() {
       console.log('clickedCanvas');
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
       // this.$eventHub.$emit('clickedCanvas');
