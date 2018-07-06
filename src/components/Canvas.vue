@@ -17,12 +17,12 @@
           ref="stage"
           :config="configKonva"
         >
-          <v-layer ref="frameLayer">
+          <!-- <v-layer ref="frameLayer">
             <v-rect
               ref="frame"
               :config="configFrame"
             />
-          </v-layer>
+          </v-layer> -->
           <v-layer
             ref="bgLayer"
             @click="canvasOnClick"
@@ -42,9 +42,9 @@
           <v-layer ref="elementsLayer">
             <TextWrapper :stage-bounding-rect="stageBoundingRect"/>
           </v-layer>
-          <!-- <v-layer ref="customLayer">
+          <v-layer ref="customLayer">
             <CustomTextArea />
-          </v-layer> -->
+          </v-layer>
         </v-stage>
       </div>
     </div>
@@ -323,7 +323,7 @@ export default {
         stage.y(-dy);
         stage.batchDraw();
       };
-      window.requestAnimationFrame(updateScroll);
+      requestAnimationFrame(updateScroll);
     },
 
     canvasOnClick() {
