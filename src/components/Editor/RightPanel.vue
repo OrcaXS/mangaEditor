@@ -188,7 +188,7 @@ export default {
 
     fontSize: {
       get() {
-        return this.selectedTextArea.fontSize || '30';
+        return this.selectedTextArea.fontSize || '24';
       },
 
       set(val) {

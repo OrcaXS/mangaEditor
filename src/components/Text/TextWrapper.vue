@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       // text: '',
-      fontSize: 30,
+      fontSize: 24,
       lineSpacing: 1.10,
       textSpacing: 1.00,
       fontFamily: 'Arial',

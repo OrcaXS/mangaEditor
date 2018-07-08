@@ -58,7 +58,7 @@ export default {
       const fontStyles = ['normal', 'oblique', 'italic'];
 
       const styleObj = {
-        fontSize: `${textArea.fontSize * (this.currentScale / 100)}px`,
+        fontSize: textArea.fontSize ? `${textArea.fontSize * (this.currentScale / 100)}px` : '24px',
         fontStyle: 'normal',
         fontFamily: `"${textArea.fontFamily}", sans-serif`,
         fontWeight: '400',
