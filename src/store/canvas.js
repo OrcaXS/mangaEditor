@@ -222,7 +222,7 @@ const canvas = {
     },
 
     SET_ELEMENT_VISIBILITY(state, {
-      id, idx, type, status
+      id, idx, type, status,
     }) {
       if (type === 'textArea') state.file[id].textAreas[idx].visible = !!status;
       if (type === 'balloon') state.file[id].balloons[idx].visible = !!status;
