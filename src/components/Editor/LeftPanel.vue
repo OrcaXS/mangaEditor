@@ -67,7 +67,10 @@
               >
                 <FontAwesomeIcon icon="trash" />
               </button>
-              <button @click="toggleVisibility({ type: 'balloon', idx: bIdx })"> <FontAwesomeIcon icon="eye" />
+              <button
+                @click="toggleVisibility({ type: 'balloon', idx: bIdx })"
+              >
+                <FontAwesomeIcon icon="eye" />
               </button>
             </span>
           </div>

@@ -2,11 +2,14 @@
   <div>
     <v-group
       v-for="(balloon, idx) in balloons"
-      v-if="balloon.visible"
+
       :key="idx"
       @click="selectBalloon(idx)"
     >
-      <v-image :config="balloonConfig[idx]" />
+      <v-image
+        v-if="balloon.visible"
+        :config="balloonConfig[idx]"
+      />
       <v-rect
         v-if="idx === currentBalloon"
         :config="balloonBoundingConfig[idx]"
@@ -93,10 +96,6 @@ export default {
       // this.$store.dispatch('clearSelection', { type: 'textAreas', idx });
       this.$store.dispatch('clearSelection', { type: 'clearAll', idx });
       // this.$store.dispatch('setSelection', { type: 'balloons', idx });
-      if (this.selectedTextAreaEditorIdx) {
-        console.log('balloonEmit');
-        // this.$eventHub.$emit('clickedCanvas');
-      }
     },
   },
 };
