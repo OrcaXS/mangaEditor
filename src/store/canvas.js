@@ -120,8 +120,8 @@ const canvas = {
           flattenedTextAreas[textAreaIdx].fgColors = {};
           flattenedTextAreas[textAreaIdx].bgColors = {};
           flattenedTextAreas[textAreaIdx].visible = true;
-          flattenedTextAreas[textAreaIdx].scaleX = '1';
-          flattenedTextAreas[textAreaIdx].scaleY = '1';
+          flattenedTextAreas[textAreaIdx].scaleX = 1;
+          flattenedTextAreas[textAreaIdx].scaleY = 1;
           textAreaIdx += 1;
         });
       });

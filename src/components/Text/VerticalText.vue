@@ -40,7 +40,7 @@ export default {
       type: Object,
       required: true,
       validator(val) {
-        return val.x && val.y && val.width && val.height && val.lineSpacing && val.textSpacing;
+        return val.x.toString() && val.y.toString() && val.width && val.height && val.lineSpacing && val.textSpacing;
       },
     },
     textAreaIdx: {
