@@ -78,6 +78,32 @@ const canvas = {
       }
     },
 
+    PREPARE_CANVAS_FLATTENED(state, { id, balloons, balloonCount }) {
+      const flattenedTextAreas = {};
+      const flattenedBalloons = {};
+      const balloonIdxArr = Array.from(new Array(balloonCount), (x, i) => i);
+      let textAreaIdx = 0;
+      balloonIdxArr.forEach((balloonIdx) => {
+        flattenedBalloons[balloonIdx] = balloons[balloonIdx].boundingRect;
+        flattenedBalloons[balloonIdx].visible = false;
+        const { textRect } = balloons[balloonIdx];
+        Object.values(textRect).forEach((textArea) => {
+          flattenedTextAreas[textAreaIdx] = textArea;
+          flattenedTextAreas[textAreaIdx].fgColors = {};
+          flattenedTextAreas[textAreaIdx].bgColors = {};
+          flattenedTextAreas[textAreaIdx].visible = true;
+          flattenedTextAreas[textAreaIdx].scaleX = '1';
+          flattenedTextAreas[textAreaIdx].scaleY = '1';
+          textAreaIdx += 1;
+        });
+      });
+      state.file[id] = {};
+      Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
+      Vue.set(state.file[id], 'balloons', flattenedBalloons);
+      Vue.set(state.file[id], 'customTextAreas', {});
+      Vue.set(state.file[id], 'textAreaIdx', textAreaIdx);
+    },
+
     PREPARE_CANVAS(state, { id, balloons, balloonCount }) {
       const flattenedTextAreas = {};
       const flattenedBalloons = {};
@@ -85,10 +111,12 @@ const canvas = {
       let textAreaIdx = 0;
       balloonIdxArr.forEach((balloonIdx) => {
         flattenedBalloons[balloonIdx] = balloons[balloonIdx].boundingRect;
-        flattenedBalloons[balloonIdx].visible = true;
+        flattenedBalloons[balloonIdx].visible = false;
         const { textRect } = balloons[balloonIdx];
         Object.values(textRect).forEach((textArea) => {
           flattenedTextAreas[textAreaIdx] = textArea;
+          flattenedTextAreas[textAreaIdx].balloonIdx = balloonIdx;
+          flattenedTextAreas[textAreaIdx].rectCounts = balloons[balloonIdx].textRectCount;
           flattenedTextAreas[textAreaIdx].fgColors = {};
           flattenedTextAreas[textAreaIdx].bgColors = {};
           flattenedTextAreas[textAreaIdx].visible = true;
@@ -193,6 +221,14 @@ const canvas = {
       if (type === 'bg') state.file[id].textAreas[idx].bgColors = colors;
     },
 
+    SET_ELEMENT_VISIBILITY(state, {
+      id, idx, type, status
+    }) {
+      if (type === 'textArea') state.file[id].textAreas[idx].visible = !!status;
+      if (type === 'balloon') state.file[id].balloons[idx].visible = !!status;
+    },
+
+
     TOGGLE_ELEMENT_VISIBILITY(state, { id, idx, type }) {
       if (type === 'textArea') state.file[id].textAreas[idx].visible = !state.file[id].textAreas[idx].visible;
       if (type === 'balloon') state.file[id].balloons[idx].visible = !state.file[id].balloons[idx].visible;
@@ -260,6 +296,15 @@ const canvas = {
     toggleElementVisibility({ commit }, { id, idx, type }) {
       commit('TOGGLE_ELEMENT_VISIBILITY', { id, idx, type });
     },
+
+    setElementVisibility({ commit }, {
+      id, idx, type, status,
+    }) {
+      commit('SET_ELEMENT_VISIBILITY', {
+        id, idx, type, status,
+      });
+    },
+
 
     deleteElement({ commit }, { id, idx, type }) {
       commit('DELETE_ELEMENT', { id, idx, type });

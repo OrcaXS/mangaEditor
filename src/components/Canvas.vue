@@ -17,12 +17,6 @@
           ref="stage"
           :config="configKonva"
         >
-          <!-- <v-layer ref="frameLayer">
-            <v-rect
-              ref="frame"
-              :config="configFrame"
-            />
-          </v-layer> -->
           <v-layer
             ref="bgLayer"
             @click="canvasOnClick"

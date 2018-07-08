@@ -84,15 +84,15 @@ export default {
     },
   },
 
-
   mounted() {
 
   },
 
   methods: {
     selectBalloon(idx) {
-      this.$store.dispatch('setSelection', { type: 'balloons', idx });
-      this.$store.dispatch('clearSelection', { type: 'textAreas', idx });
+      // this.$store.dispatch('clearSelection', { type: 'textAreas', idx });
+      this.$store.dispatch('clearSelection', { type: 'clearAll', idx });
+      // this.$store.dispatch('setSelection', { type: 'balloons', idx });
       if (this.selectedTextAreaEditorIdx) {
         console.log('balloonEmit');
         // this.$eventHub.$emit('clickedCanvas');

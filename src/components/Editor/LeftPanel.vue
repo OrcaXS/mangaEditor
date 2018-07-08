@@ -4,6 +4,15 @@
     class="LeftPanel"
   >
     <div class="LeftPanel-group">
+      <div class="LeftPanel-category">Custom Textareas</div>
+      <div class="LeftPanel-layer">
+        <div class="LeftPanel-item">
+          <FontAwesomeIcon :icon="['far', 'image']" />
+          <span class="LeftPanel-elementName">Textareas</span>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="LeftPanel-group">
       <div class="LeftPanel-category">Texts</div>
       <div class="LeftPanel-layer">
         <div
@@ -33,34 +42,57 @@
           </span>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="LeftPanel-group">
       <div class="LeftPanel-category">Balloons</div>
       <div class="LeftPanel-layer">
         <div
-          v-for="(balloon, idx) in balloons"
-          :key="idx"
-          :class="{ 'LeftPanel-elementSelected': idx === selectedBalloonIdx }"
-          class="LeftPanel-item"
+          v-for="(balloon, bIdx) in balloons"
+          :key="bIdx"
+          :class="{ 'LeftPanel-elementSelected': bIdx === selectedBalloonIdx }"
         >
-          <span
-            class="LeftPanel-elementName"
-            @click="balloonOnClick(idx)"
-          >
-            <FontAwesomeIcon :icon="['far', 'circle']" />
-            <span>Balloon {{ idx }}</span>
-          </span>
-          <span class="LeftPanel-layerControl">
-            <button
-              @click="deleteElement({ type: 'balloon', idx })"
+          <div class="LeftPanel-item">
+            <button @click="accordionOnClick">
+              <FontAwesomeIcon :icon="['far', 'circle']" />
+            </button>
+            <span
+              class="LeftPanel-elementName"
+              @click="balloonOnClick(bIdx)"
             >
-              <FontAwesomeIcon icon="trash" />
-            </button>
-            <button
-              @click="toggleVisibility({ type: 'balloon', idx })">
-              <FontAwesomeIcon icon="eye" />
-            </button>
-          </span>
+              <span>Balloon {{ bIdx }}</span>
+            </span>
+            <span class="LeftPanel-layerControl">
+              <button
+                @click="deleteElement({ type: 'balloon', idx: bIdx })"
+              >
+                <FontAwesomeIcon icon="trash" />
+              </button>
+              <button @click="toggleVisibility({ type: 'balloon', idx: bIdx })"> <FontAwesomeIcon icon="eye" />
+              </button>
+            </span>
+          </div>
+          <div
+            v-for="(textArea, tIdx) in textAreas"
+            v-if="textArea.balloonIdx.toString() === bIdx"
+            :key="tIdx"
+            :class="{ 'LeftPanel-elementSelected': tIdx === selectedTextAreaIdx }"
+            class="LeftPanel-item"
+          >
+            <FontAwesomeIcon :icon="['far', 'edit']" />
+            {{ tIdx }}
+            <span class="LeftPanel-layerControl">
+              <button
+                @click="deleteElement({ type: 'textArea', idx: tIdx })"
+              >
+                <FontAwesomeIcon icon="trash" />
+              </button>
+              <button
+                @click="toggleVisibility({ type: 'textArea', idx: tIdx })"
+              >
+                <FontAwesomeIcon icon="eye" />
+              </button>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +146,10 @@ export default {
   },
 
   methods: {
+    accordionOnClick() {
+      console.log('clickedAccordion');
+    },
+
     textAreaOnClick(idx) {
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
       this.$store.dispatch('setSelection', { type: 'textAreas', idx });
@@ -178,7 +214,14 @@ export default {
 .LeftPanel-item {
   display: flex;
   flex-flow: row nowrap;
+  width: 100%;
 }
+
+.LeftPanel-item--balloons {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 
 .LeftPanel-layerControl {
   flex: 0 1 2rem;

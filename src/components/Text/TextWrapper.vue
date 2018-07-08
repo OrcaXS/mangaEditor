@@ -4,8 +4,9 @@
       v-for="(val, idx) in verticalTextConfigs"
       :key="idx"
       :text-config="val"
-      :area-index="idx"
+      :text-area-idx="idx"
       :is-visible="val.visible"
+      :balloon-idx="val.balloonIdx"
     />
   </v-group>
 </template>
@@ -82,6 +83,7 @@ export default {
           visible: val.visible,
           scaleX: val.scaleX || '1',
           scaleY: val.scaleY || '1',
+          balloonIdx: val.balloonIdx.toString(),
         };
       });
       return config;

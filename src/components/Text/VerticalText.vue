@@ -2,19 +2,18 @@
   <v-group
     v-if="configReady && isVisible && !isEditing"
     ref="textGroupWrapper"
-    @click="selectTextArea(areaIndex)"
+    @click="selectTextArea(textAreaIdx)"
   >
     <!-- <v-group
       ref="textGroup"
       :config="groupConfig"
       @transformEnd="onTransformEnd"
       @dragend="onTransformEnd"
-      @click="showEditor(areaIndex)"
+      @click="showEditor(textAreaIdx)"
     > -->
     <v-rect
       ref="bgRect"
       :config="bgRectConfig"
-      @click="showEditor(areaIndex)"
       @transformEnd="onTransformEnd"
       @dragend="onTransformEnd"
     />
@@ -25,9 +24,9 @@
     />
 
     <!-- <v-rect
-      v-if="areaIndex === selectedTextAreaIdx"
+      v-if="textAreaIdx === selectedTextAreaIdx"
       :config="rectStyle(textConfig)"
-      @click="showEditor(areaIndex)"
+      @click="showEditor(textAreaIdx)"
     /> -->
   </v-group>
 </template>
@@ -44,7 +43,14 @@ export default {
         return val.x && val.y && val.width && val.height && val.lineSpacing && val.textSpacing;
       },
     },
-    areaIndex: {
+    textAreaIdx: {
+      type: String,
+      required: true,
+      validator(val) {
+        return /\d/.test(val);
+      },
+    },
+    balloonIdx: {
       type: String,
       required: true,
       validator(val) {
@@ -80,7 +86,7 @@ export default {
     },
 
     currentTextArea() {
-      return this.textAreas[this.areaIndex];
+      return this.textAreas[this.textAreaIdx];
     },
 
     selectedTextAreaIdx() {
@@ -88,7 +94,7 @@ export default {
     },
 
     isEditing() {
-      return this.$store.state.canvas.currentlySelected.textAreaEditor === this.areaIndex;
+      return this.$store.state.canvas.currentlySelected.textAreaEditor === this.textAreaIdx;
     },
 
     groupConfig() {
@@ -133,7 +139,7 @@ export default {
   mounted() {
     this.generateCharConfig();
     this.$eventHub.$on('textContentUpdated', (idx) => {
-      if (this.areaIndex === idx) {
+      if (this.textAreaIdx === idx) {
         console.log('generateCharConfig');
         setTimeout(() => this.generateCharConfig(), 0);
         // this.$store.dispatch('clearSelection', { type: 'clearAll' });
@@ -150,19 +156,6 @@ export default {
   },
 
   methods: {
-    // groupDragEnd(e) {
-    // console.log('dragEnd');
-    // const newPosition = {
-    //   x: this.textConfig.x + this.$refs.textGroup.getStage().x(),
-    //   y: this.textConfig.y + this.$refs.textGroup.getStage().y(),
-    // };
-    // this.$store.dispatch('setTextAreaPosition', {
-    //   id: this.$route.params.file_id,
-    //   idx: this.areaIndex,
-    //   position: newPosition,
-    // });
-    // },
-
     onTransformEnd(e) {
       const target = this.$refs.bgRect.getStage();
       const newRect = {
@@ -176,10 +169,10 @@ export default {
       console.log(newRect);
       this.$store.dispatch('transformTextArea', {
         id: this.$route.params.file_id,
-        idx: this.areaIndex,
+        idx: this.textAreaIdx,
         newRect,
       });
-      this.$eventHub.$emit('textContentUpdated', this.areaIndex);
+      this.$eventHub.$emit('textContentUpdated', this.textAreaIdx);
     },
 
     onDragEnd(e) {
@@ -191,35 +184,43 @@ export default {
       console.log(position);
       this.$store.dispatch('dragTextArea', {
         id: this.$route.params.file_id,
-        idx: this.areaIndex,
+        idx: this.textAreaIdx,
         position,
       });
-      this.$eventHub.$emit('textContentUpdated', this.areaIndex);
+      this.$eventHub.$emit('textContentUpdated', this.textAreaIdx);
     },
 
-    showEditor(areaIndex) {
+    showEditor(textAreaIdx) {
       console.log('showEditor');
-      this.$store.dispatch('setSelection', { type: 'textAreaEditor', idx: areaIndex });
+      this.$store.dispatch('setSelection', { type: 'textAreaEditor', idx: textAreaIdx });
+      this.$store.dispatch('setElementVisibility', {
+        id: this.$route.params.file_id, type: 'balloon', idx: this.balloonIdx, status: true,
+      });
       this.$store.dispatch('clearSelection', { type: 'textAreas' });
       // this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
     },
 
-    // selectTextArea(areaIndex) {
-    //   this.$store.dispatch('setSelection', { type: 'textAreas', idx: areaIndex });
+    // selectTextArea(textAreaIdx) {
+    //   this.$store.dispatch('setSelection', { type: 'textAreas', idx: textAreaIdx });
     // },
 
-    selectTextArea(areaIndex) {
-      this.$store.dispatch('setSelection', { type: 'textAreas', idx: areaIndex });
+    selectTextArea(textAreaIdx) {
+      console.log('textareaSelected');
+      if (this.selectedTextAreaIdx !== textAreaIdx) {
+        this.$store.dispatch('setSelection', { type: 'textAreas', idx: textAreaIdx });
 
-      const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
-      stage.find('Transformer').destroy();
-      const tr = new Konva.Transformer({
-        resizeEnabled: true,
-        rotateEnabled: false,
-      });
-      this.$refs.textGroupWrapper.getStage().add(tr);
-      tr.attachTo(this.$refs.bgRect.getStage());
-      this.$refs.textGroupWrapper.getStage().draw();
+        const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
+        stage.find('Transformer').destroy();
+        const tr = new Konva.Transformer({
+          resizeEnabled: true,
+          rotateEnabled: false,
+        });
+        this.$refs.textGroupWrapper.getStage().add(tr);
+        tr.attachTo(this.$refs.bgRect.getStage());
+        this.$refs.textGroupWrapper.getStage().draw();
+      } else {
+        this.showEditor(textAreaIdx);
+      }
     },
 
     // deleteTransformer() {
