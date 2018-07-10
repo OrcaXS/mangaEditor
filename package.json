@@ -13,7 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.0",
     "@fortawesome/vue-fontawesome": "^0.1.0",
-    "konva": "^2.1.6",
+    "konva": "^2.1.7",
     "localforage": "^1.7.2",
     "register-service-worker": "^1.4.1",
     "v-click-outside": "^1.0.5",
@@ -52,7 +52,7 @@
     "vue-jest": "^2.6.0",
     "vue-styleguidist": "^1.7.12",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.14.0"
+    "webpack": "^4.15.1"
   },
   "browserslist": [
     "> 2%"
