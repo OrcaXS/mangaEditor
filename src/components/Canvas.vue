@@ -333,16 +333,22 @@ export default {
       const exportSize = this.dimension;
       this.$refs.stage.getStage().size(exportSize);
       console.log(this.$refs.stage.getStage().size());
+      // eslint-disable-next-line no-underscore-dangle
+      const ctx = this.$refs.bgLayer.getStage().getContext()._context;
+      ctx.imageSmoothingEnabled = false;
       this.$refs.stage.getStage().draw();
 
       const dataURL = this.$refs.stage.getStage().toDataURL({
+        mimeType: 'image/jpeg',
+        quality: 0.9,
+        pixelRatio: 1,
       });
 
       const blob = await (await fetch(dataURL)).blob();
       const objectURL = URL.createObjectURL(blob);
 
       const link = document.createElement('a');
-      link.download = 'stage.png';
+      link.download = 'stage.jpg';
       link.href = objectURL;
       document.body.appendChild(link);
       link.click();
