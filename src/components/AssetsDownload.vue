@@ -24,7 +24,7 @@ export default {
 
     balloonCount() {
       return this.fileData.info.balloonCount;
-    }
+    },
   },
 
   mounted() {
