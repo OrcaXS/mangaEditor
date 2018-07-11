@@ -87,7 +87,7 @@
         v-t="{ path: 'editor.text_content' }"
         class="RightPanel-category"
       />
-        <div class="RightPanel-content">
+      <div class="RightPanel-content">
         <p v-if="selectedTextArea.textContent">{{ selectedTextArea.textContent }}</p>
         <p v-else>(empty)</p>
       </div>
