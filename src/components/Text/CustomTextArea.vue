@@ -1,19 +1,19 @@
 <template>
   <v-group ref="group">
-    <v-rect
-      ref="rect"
-      :config="{
-        x: 60,
-        y: 60,
-        width: 100,
-        height: 100,
-        fill: 'white',
-        name: 'rect',
-        stroke: 'blue',
-        strokeWidth: 5,
-        draggable: true
-      }"
-    />
+    <!-- <v&#45;rect -->
+    <!--   ref="rect" -->
+    <!--   :config="{ -->
+    <!--     x: 60, -->
+    <!--     y: 60, -->
+    <!--     width: 100, -->
+    <!--     height: 100, -->
+    <!--     fill: 'white', -->
+    <!--     name: 'rect', -->
+    <!--     stroke: 'blue', -->
+    <!--     strokeWidth: 5, -->
+    <!--     draggable: true -->
+    <!--   }" -->
+    <!-- /> -->
   </v-group>
 </template>
 <script>

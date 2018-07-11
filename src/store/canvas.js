@@ -1,5 +1,53 @@
 import Vue from 'vue';
 
+const defaultBgColors = {
+  hsl: {
+    h: 0, s: 0, l: 1, a: 1,
+  },
+  hex: '#FFFFFF',
+  rgba: {
+    r: 255, g: 255, b: 255, a: 1,
+  },
+  hsv: {
+    h: 0, s: 0, v: 1, a: 1,
+  },
+  oldHue: 0,
+  source: 'hsva',
+  a: 1,
+};
+
+const defaultBgColorsTransparent = {
+  hsl: {
+    h: 0, s: 0, l: 1, a: 0,
+  },
+  hex: '#FFFFFF',
+  rgba: {
+    r: 255, g: 255, b: 255, a: 0,
+  },
+  hsv: {
+    h: 0, s: 0, v: 1, a: 0,
+  },
+  oldHue: 0,
+  source: 'hsva',
+  a: 0,
+};
+
+const defaultFgColors = {
+  hsl: {
+    h: 0, s: 0, l: 0, a: 1,
+  },
+  hex: '#000000',
+  rgba: {
+    r: 0, g: 0, b: 0, a: 1,
+  },
+  hsv: {
+    h: 0, s: 0, v: 0, a: 1,
+  },
+  oldHue: 0,
+  source: 'hsva',
+  a: 1,
+};
+
 const canvas = {
   state: () => ({
     savedCanvases: [/* id */],
@@ -78,32 +126,6 @@ const canvas = {
       }
     },
 
-    PREPARE_CANVAS_FLATTENED(state, { id, balloons, balloonCount }) {
-      const flattenedTextAreas = {};
-      const flattenedBalloons = {};
-      const balloonIdxArr = Array.from(new Array(balloonCount), (x, i) => i);
-      let textAreaIdx = 0;
-      balloonIdxArr.forEach((balloonIdx) => {
-        flattenedBalloons[balloonIdx] = balloons[balloonIdx].boundingRect;
-        flattenedBalloons[balloonIdx].visible = false;
-        const { textRect } = balloons[balloonIdx];
-        Object.values(textRect).forEach((textArea) => {
-          flattenedTextAreas[textAreaIdx] = textArea;
-          flattenedTextAreas[textAreaIdx].fgColors = {};
-          flattenedTextAreas[textAreaIdx].bgColors = {};
-          flattenedTextAreas[textAreaIdx].visible = true;
-          flattenedTextAreas[textAreaIdx].scaleX = '1';
-          flattenedTextAreas[textAreaIdx].scaleY = '1';
-          textAreaIdx += 1;
-        });
-      });
-      state.file[id] = {};
-      Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
-      Vue.set(state.file[id], 'balloons', flattenedBalloons);
-      Vue.set(state.file[id], 'customTextAreas', {});
-      Vue.set(state.file[id], 'textAreaIdx', textAreaIdx);
-    },
-
     PREPARE_CANVAS(state, { id, balloons, balloonCount }) {
       const flattenedTextAreas = {};
       const flattenedBalloons = {};
@@ -117,8 +139,8 @@ const canvas = {
           flattenedTextAreas[textAreaIdx] = textArea;
           flattenedTextAreas[textAreaIdx].balloonIdx = balloonIdx;
           flattenedTextAreas[textAreaIdx].rectCounts = balloons[balloonIdx].textRectCount;
-          flattenedTextAreas[textAreaIdx].fgColors = {};
-          flattenedTextAreas[textAreaIdx].bgColors = {};
+          flattenedTextAreas[textAreaIdx].fgColors = defaultFgColors;
+          flattenedTextAreas[textAreaIdx].bgColors = defaultBgColorsTransparent;
           flattenedTextAreas[textAreaIdx].visible = true;
           flattenedTextAreas[textAreaIdx].scaleX = 1;
           flattenedTextAreas[textAreaIdx].scaleY = 1;
@@ -135,36 +157,8 @@ const canvas = {
     ADD_NEW_TEXTAREA(state, { id }) {
       const { textAreaIdx } = state.file[id];
       const newTextArea = {
-        bgColors: {
-          hsl: {
-            h: 0, s: 0, l: 1, a: 1,
-          },
-          hex: '#FFFFFF',
-          rgba: {
-            r: 255, g: 255, b: 255, a: 1,
-          },
-          hsv: {
-            h: 0, s: 0, v: 1, a: 1,
-          },
-          oldHue: 0,
-          source: 'hsva',
-          a: 1,
-        },
-        fgColors: {
-          hsl: {
-            h: 0, s: 0, l: 0, a: 1,
-          },
-          hex: '#000000',
-          rgba: {
-            r: 0, g: 0, b: 0, a: 1,
-          },
-          hsv: {
-            h: 0, s: 0, v: 0, a: 1,
-          },
-          oldHue: 0,
-          source: 'hsva',
-          a: 1,
-        },
+        bgColors: defaultBgColors,
+        fgColors: defaultFgColors,
         visible: true,
         scaleX: 1,
         scaleY: 1,
