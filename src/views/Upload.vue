@@ -31,13 +31,17 @@
             <span class="file-cta">
               <span class="file-icon">
                 <i class="fas fa-upload" />
-                <span class="file-label">
-                  Choose a file...
-                </span>
+                <span
+                  v-t="{ path: 'upload.choose_file' }"
+                  class="file-label"
+                />
               </span>
             </span>
           </label>
-          <span class="Upload-dragText">... Or drag the file inside</span>
+          <span
+            v-t="{ path: 'upload.drag_file' }"
+            class="Upload-dragText"
+          />
         </div>
         <div
           v-if="fileSelected"

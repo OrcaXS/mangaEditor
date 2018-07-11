@@ -1,5 +1,5 @@
 <template>
-  <div>Downloading balloons...</div>
+  <div v-t="{ path: 'download.balloons_downloading' }" />
 </template>
 
 <script>

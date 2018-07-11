@@ -36,12 +36,13 @@
           class="EditorLayout-toolbarBtn"
           @click="resetCanvas"
         >
-          <span>Reset Canvas</span>
+          <span v-t="{ path: 'editor.reset' }" />
         </button>
         <span
+          v-t="{ path: 'editor.resize_msg' }"
           v-if="windowNeedResize"
           class="EditorLayout-msg"
-        >Window resized, plesase refresh this page manually.</span>
+        />
       </div>
     </nav>
     <div

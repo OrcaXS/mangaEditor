@@ -3,12 +3,12 @@
     <nav class="DefaultLayout-nav">
       <div class="DefaultLayout-langSelector">
         <FontAwesomeIcon icon="language" />
-        Language
+        <span v-t="{ path: 'misc.language' }" />
       </div>
     </nav>
     <slot/>
     <footer class="DefaultLayout-footer">
-      Powered by Machine Learning(TM)
+      <span v-t="{ path: 'misc.powered' }" />
     </footer>
   </div>
 </template>

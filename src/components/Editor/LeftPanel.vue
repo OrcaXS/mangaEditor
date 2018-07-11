@@ -4,47 +4,25 @@
     class="LeftPanel"
   >
     <div class="LeftPanel-group">
-      <div class="LeftPanel-category">Custom Textareas</div>
+      <div
+        v-t="{ path: 'editor.custom_textarea' }"
+        class="LeftPanel-category"
+      />
       <div class="LeftPanel-layer">
         <div class="LeftPanel-item">
           <FontAwesomeIcon :icon="['far', 'image']" />
-          <span class="LeftPanel-elementName">Textareas</span>
+          <span
+            v-t="{ path: 'editor.textareas' }"
+            class="LeftPanel-elementName"
+          />
         </div>
       </div>
     </div>
-    <!-- <div class="LeftPanel-group">
-      <div class="LeftPanel-category">Texts</div>
-      <div class="LeftPanel-layer">
-        <div
-          v-for="(textArea, idx) in textAreas"
-          :key="idx"
-          :class="{ 'LeftPanel-elementSelected': idx === selectedTextAreaIdx }"
-          class="LeftPanel-item"
-        >
-          <span
-            class="LeftPanel-elementName"
-            @click="textAreaOnClick(idx)"
-          >
-            <FontAwesomeIcon :icon="['far', 'edit']" />
-            <span>[{{ idx }}] {{ textArea.textContent }}</span>
-          </span>
-          <span class="LeftPanel-layerControl">
-            <button
-              @click="deleteElement({ type: 'textArea', idx })"
-            >
-              <FontAwesomeIcon icon="trash" />
-            </button>
-            <button
-              @click="toggleVisibility({ type: 'textArea', idx })"
-            >
-              <FontAwesomeIcon icon="eye" />
-            </button>
-          </span>
-        </div>
-      </div>
-    </div> -->
     <div class="LeftPanel-group">
-      <div class="LeftPanel-category">Balloons</div>
+      <div
+        v-t="{ path: 'editor.balloons'}"
+        class="LeftPanel-category"
+      />
       <div class="LeftPanel-layer">
         <div
           v-for="(balloon, bIdx) in balloons"
@@ -100,7 +78,10 @@
       </div>
     </div>
     <div class="LeftPanel-group">
-      <div class="LeftPanel-category">Background</div>
+      <div
+        v-t="{ path: 'editor.background' }"
+        class="LeftPanel-category"
+      />
       <div class="LeftPanel-layer">
         <div class="LeftPanel-item">
           <FontAwesomeIcon :icon="['far', 'image']" />

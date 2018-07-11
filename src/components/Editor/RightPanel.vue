@@ -3,12 +3,10 @@
     class="RightPanel"
   >
     <div class="RightPanel-styles">
-      <div class="RightPanel-category">Text Content</div>
-      <div class="RightPanel-content">
-        <p v-if="selectedTextArea.textContent">{{ selectedTextArea.textContent }}</p>
-        <p v-else>(empty)</p>
-      </div>
-      <div class="RightPanel-category">Font &amp; Styles</div>
+      <div
+        v-t="{ path: 'editor.text_styles' }"
+        class="RightPanel-category"
+      />
       <div class="RightPanel-fonts">
         <div class="RightPanel-select">
           <select
@@ -49,34 +47,50 @@
             >{{ style }}</option>
           </select>
         </div>
-        <div class="RightPanel-colors">
+      </div>
+
+      <div
+        v-t="{ path: 'editor.colors' }"
+        class="RightPanel-category"
+      />
+      <div class="RightPanel-colors">
+        <div class="RightPanel-colorType">
+          <p v-t="{ path: 'editor.foreground' }" />
           <div
             :style="currentFgColor"
             class="RightPanel-currentColor"
             @click="toggleColorPicker({ type: 'fg' })"
           />
-          <div
-            :style="currentBgColor"
-            class="RightPanel-currentColor"
-            @click="toggleColorPicker({ type: 'bg' })"
-          />
-          <color-picker
-            v-show="showFgColorPicker"
-            v-model="textAreaFgColor"
-            class="RightPanel-colorPicker"
-          />
-          <color-picker
-            v-show="showBgColorPicker"
-            v-model="textAreaBgColor"
-            class="RightPanel-colorPicker"
-          />
         </div>
+        <div class="RightPanel-colorType">
+          <div>
+            <p v-t="{ path: 'editor.background' }" />
+            <div
+              :style="currentBgColor"
+              class="RightPanel-currentColor"
+              @click="toggleColorPicker({ type: 'bg' })"
+            />
+          </div>
+        </div>
+        <color-picker
+          v-show="showFgColorPicker"
+          v-model="textAreaFgColor"
+          class="RightPanel-colorPicker"
+        />
+        <color-picker
+          v-show="showBgColorPicker"
+          v-model="textAreaBgColor"
+          class="RightPanel-colorPicker"
+        />
       </div>
-      <div class="RightPanel-category">Position &amp; Style</div>
-      <p class="RightPanel-content">x: {{ selectedTextArea.x }}</p>
-      <p class="RightPanel-content">y: {{ selectedTextArea.y }}</p>
-      <p class="RightPanel-content">width: {{ selectedTextArea.width }}</p>
-      <p class="RightPanel-content">height: {{ selectedTextArea.height }}</p>
+      <div
+        v-t="{ path: 'editor.text_content' }"
+        class="RightPanel-category"
+      />
+        <div class="RightPanel-content">
+        <p v-if="selectedTextArea.textContent">{{ selectedTextArea.textContent }}</p>
+        <p v-else>(empty)</p>
+      </div>
     </div>
   </div>
 </template>
@@ -207,9 +221,9 @@ export default {
     toggleColorPicker({ type }) {
       if (type === 'fg') {
         this.showBgColorPicker = false;
-        this.showFgColorPicker = true;
+        this.showFgColorPicker = !this.showFgColorPicker;
       } else if (type === 'bg') {
-        this.showBgColorPicker = true;
+        this.showBgColorPicker = !this.showBgColorPicker;
         this.showFgColorPicker = false;
       } else {
         this.showBgColorPicker = false;
@@ -225,9 +239,12 @@ export default {
 @import url(//fonts.googleapis.com/earlyaccess/notosansjapanese.css);
 
 .RightPanel {
-  height: calc(100vw - 3rem);
+  font-size: 0.85rem;
   /* border: 1px solid config('colors.grey-light'); */
   background-color: config('colors.peach-lighter');
+  box-shadow: -2px 5px 10px 1px rgba(0,0,0,0.5);
+  border-radius: 1px;
+  border: 2px solid config('colors.peach-shade-1');
 }
 
 .RightPanel-category {
@@ -257,14 +274,23 @@ export default {
 }
 
 .RightPanel-currentColor {
-  width: 1rem;
-  height: 1rem;
+  height: 2rem;
   border-radius: 2px;
+}
+
+.RightPanel-colorType {
+  width: 50%;
+}
+
+.RightPanel-fonts {
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .RightPanel-colors {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
+  padding: .5rem;
 }
 
 </style>

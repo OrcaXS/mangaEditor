@@ -1,4 +1,35 @@
 {
+  "misc": {
+    "language": "Language",
+    "powered": "Powered by Machine Learning(TM)"
+  },
+  "upload": {
+    "choose_file": "Choose a file...",
+    "drag_file": "... Or drag the file inside"
+  },
+  "editor": {
+    "custom_textarea": "Custom Textareas",
+    "balloons": "Balloons",
+    "background": "Backgroud",
+    "save": "Save as jpg file",
+    "add": "Add new Textarea",
+    "zoom_in": "Zoom in",
+    "zoom_out": "Zoom out",
+    "reset": "Reset Canvas",
+    "resize_msg": "Window resized, please refresh this page manually",
+    "delete": "Delete this element",
+    "toggle_visibility": "Toggle visibility of this element",
+    "text_content": "Text Content",
+    "colors": "Colors",
+    "foreground": "Text",
+    "text_styles": "Text Styles",
+    "font_family": "Family",
+    "font_size": "Size",
+    "font_style": "Style"
+  },
+  "download": {
+    "balloons_downloading": "Downloading balloons..."
+  },
   "welcome": "Welcome",
   "undo": "Undo",
   "redo": "Redo"
