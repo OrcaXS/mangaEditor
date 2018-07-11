@@ -8,6 +8,7 @@ import localforage from 'localforage';
 // import getters from './getters';
 import canvas from './canvas';
 import file from './file';
+import customConfig from './customConfig';
 
 Vue.use(Vuex);
 
@@ -36,6 +37,7 @@ const createStore = () => new Vuex.Store({
   modules: {
     canvas,
     file,
+    customConfig,
   },
   plugins: [vuexLocalForage.plugin, vuexPersistEmitter()],
 });
