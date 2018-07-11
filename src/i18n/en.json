@@ -7,6 +7,12 @@
     "choose_file": "Choose a file...",
     "drag_file": "... Or drag the file inside"
   },
+  "config": {
+    "font_management": "Custom Font Management",
+    "font_explanation": "Since the browser doesn't have the permission to read the list of fonts installed on your computer, if you want to use them, you have to add them manually.",
+    "fontname_hint": "Enter font-family name...",
+    "add_font": "Add"
+  },
   "editor": {
     "custom_textarea": "Custom Textareas",
     "balloons": "Balloons",
@@ -17,8 +23,8 @@
     "zoom_out": "Zoom out",
     "reset": "Reset Canvas",
     "resize_msg": "Window resized, please refresh this page manually",
-    "delete": "Delete this element",
-    "toggle_visibility": "Toggle visibility of this element",
+    "delete": "Delete element",
+    "toggle_visibility": "Hide/Show element",
     "text_content": "Text Content",
     "colors": "Colors",
     "foreground": "Text",
