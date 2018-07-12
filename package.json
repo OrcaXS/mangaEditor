@@ -41,18 +41,18 @@
     "postcss-hexrgba": "^1.0.1",
     "postcss-import": "^11.1.0",
     "postcss-import-resolver": "^1.1.0",
-    "postcss-loader": "^2.1.5",
+    "postcss-loader": "^2.1.6",
     "postcss-reporter": "^5.0.0",
     "postcss-url": "^7.3.2",
     "require-extension-hooks": "^0.3.2",
     "require-extension-hooks-babel": "^0.1.1",
     "require-extension-hooks-vue": "^1.0.1",
-    "tailwindcss": "^0.6.1",
+    "tailwindcss": "^0.6.3",
     "vue-i18n": "^8.0.0",
     "vue-jest": "^2.6.0",
     "vue-styleguidist": "^1.7.12",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.15.1"
+    "webpack": "^4.16.0"
   },
   "browserslist": [
     "> 2%"
