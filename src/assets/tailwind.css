@@ -26,12 +26,34 @@ button:focus {
   @apply .bg-green-dark;
 }
 
-.Config-AddFontBtn {
-  @apply bg-white text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow;
+.Config-addFontBtn {
+  @apply bg-blue text-white font-semibold py-2 px-4 border border-grey-light rounded shadow;
   margin-left: 1rem;
+  height: 2.5em;
 }
 
-.Config-AddFontBtn:hover {
-  @apply bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow;
-  margin-left: 1rem;
+.Config-addFontBtn:hover {
+  @apply bg-blue-light text-white font-semibold py-2 px-4 border border-grey-light rounded shadow;
+}
+
+.Config-testArea {
+  @apply max-w-sm rounded overflow-hidden py-2 px-3 bg-grey-light;
+}
+
+.Config-fontName {
+  @apply bg-white text-grey-darkest py-1 px-4 border border-grey-light rounded;
+  font-family: sans-serif;
+  margin-left: 1em;
+}
+
+.Config-fontName--selected {
+  @apply bg-blue-dark text-white py-1 px-4 border border-grey-light rounded;
+  font-family: sans-serif;
+  margin-left: 1em;
+}
+
+.Config-fontName:hover {
+  @apply bg-grey-lightest text-grey-darkest py-1 px-4 border border-grey-light rounded;
+  font-family: sans-serif;
+  margin-left: 1em;
 }
