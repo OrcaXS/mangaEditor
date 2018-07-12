@@ -25,3 +25,13 @@ button:focus {
 .btn-green:hover {
   @apply .bg-green-dark;
 }
+
+.Config-AddFontBtn {
+  @apply bg-white text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow;
+  margin-left: 1rem;
+}
+
+.Config-AddFontBtn:hover {
+  @apply bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow;
+  margin-left: 1rem;
+}
