@@ -128,7 +128,7 @@ export default {
         image: bgImage,
         width: this.dimension.width,
         height: this.dimension.height,
-        stroke: 'red',
+        stroke: '#451225',
         strokeWidth: 10,
       };
     },
@@ -371,7 +371,6 @@ export default {
 }
 
 .canvasContainer {
-  border: 1px solid black;
 }
 
 .scrollContainer {
@@ -381,8 +380,6 @@ export default {
 }
 
 .largeContainer {
-  /* width: 2000px; */
-  /* height: 2000px; */
   overflow: hidden;
 }
 </style>

@@ -152,13 +152,12 @@ export default {
   },
 
   mounted() {
-    const self = this;
     const id = this.$route.params.file_id;
     if (typeof this.$store.state.canvas.file[id] === 'object') {
       this.isStorageReady = true;
     } else {
     // eslint-disable-next-line no-underscore-dangle
-      self.$store._vm.$root.$on('storageReady', () => {
+      this.$store._vm.$root.$on('storageReady', () => {
         this.isStorageReady = true;
       });
     }
@@ -261,7 +260,6 @@ export default {
 
 .EditorLayout-rightPanel {
   z-index: 10;
-  height: calc(100vw - 3rem);
   width: 15rem;
   position: fixed;
   top: 3rem;

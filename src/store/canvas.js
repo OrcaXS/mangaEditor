@@ -144,10 +144,12 @@ const canvas = {
           flattenedTextAreas[textAreaIdx].visible = true;
           flattenedTextAreas[textAreaIdx].scaleX = 1;
           flattenedTextAreas[textAreaIdx].scaleY = 1;
+          flattenedTextAreas[textAreaIdx].textContent = '';
+          flattenedTextAreas[textAreaIdx].textAreaEnabled = false;
           textAreaIdx += 1;
         });
       });
-      state.file[id] = {};
+      Vue.set(state.file, id, {});
       Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
       Vue.set(state.file[id], 'balloons', flattenedBalloons);
       Vue.set(state.file[id], 'customTextAreas', {});
@@ -186,7 +188,10 @@ const canvas = {
     },
 
     SET_TEXTAREA_CONTENT(state, { id, idx, content }) {
-      Vue.set(state.file[id].textAreas[idx], 'textContent', content);
+      state.file[id].textAreas[idx].textContent = content;
+      if (!state.file[id].textAreas[idx].textAreaEnabled) {
+        state.file[id].textAreas[idx].textAreaEnabled = true;
+      }
     },
 
     SET_TEXTAREA_POSITION(state, { id, idx, position }) {
@@ -298,7 +303,6 @@ const canvas = {
         id, idx, type, status,
       });
     },
-
 
     deleteElement({ commit }, { id, idx, type }) {
       commit('DELETE_ELEMENT', { id, idx, type });

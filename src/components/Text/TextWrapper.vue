@@ -47,10 +47,11 @@ export default {
 
     verticalTextConfigs() {
       const config = {};
-      Object.entries(this.textAreas).forEach(([idx, val]) => {
+      const { textAreas } = this.$store.state.canvas.file[this.$route.params.file_id];
+      Object.entries(textAreas).forEach(([idx, val]) => {
         const offsetX = val.width - this.fontSize;
         const offsetY = 0;
-        const textContent = val.textContent || '';
+        const textContent = val.textAreaEnabled ? val.textContent : '';
 
         let fgColor = '';
         let bgColor = '';
