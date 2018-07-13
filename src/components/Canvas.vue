@@ -168,7 +168,7 @@ export default {
     },
 
     selectedBalloonIdx() {
-      return this.$store.state.canvas.currentlySelected.balloons[0];
+      return this.$store.state.canvas.currentlySelected.balloon;
     },
 
     prepareDownload() {

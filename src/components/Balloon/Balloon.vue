@@ -35,7 +35,7 @@ export default {
 
   computed: {
     currentBalloon() {
-      return this.$store.state.canvas.currentlySelected.balloons[0];
+      return this.$store.state.canvas.currentlySelected.balloon;
     },
 
     balloons() {
