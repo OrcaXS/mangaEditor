@@ -154,7 +154,8 @@ export default {
   mounted() {
     const id = this.$route.params.file_id;
     if (typeof this.$store.state.canvas.file[id] === 'object') {
-      this.isStorageReady = true;
+      // this.isStorageReady = true;
+      window.location.reload(true);
     } else {
     // eslint-disable-next-line no-underscore-dangle
       this.$store._vm.$root.$on('storageReady', () => {
