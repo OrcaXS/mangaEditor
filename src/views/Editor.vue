@@ -148,16 +148,18 @@ export default {
   },
 
   created() {
-    this.getFile({ id: this.$route.params.file_id });
+    const id = this.$route.params.file_id;
+    this.getFile({ id });
+    if (typeof this.$store.state.canvas.file[id] === 'object') {
+      // this.isStorageReady = true;
+      window.location.reload(true);
+    }
   },
 
   mounted() {
     const id = this.$route.params.file_id;
-    if (typeof this.$store.state.canvas.file[id] === 'object') {
-      // this.isStorageReady = true;
-      window.location.reload(true);
-    } else {
-    // eslint-disable-next-line no-underscore-dangle
+    if (typeof this.$store.state.canvas.file[id] !== 'object') {
+      // eslint-disable-next-line no-underscore-dangle
       this.$store._vm.$root.$on('storageReady', () => {
         this.isStorageReady = true;
       });
