@@ -1,30 +1,14 @@
+import Vue from 'vue';
 import remote from '@/scripts/fetchFile';
 import db from '@/scripts/db';
 import router from '@/router';
-
-const readFile = (blob) => {
-  const tempFileReader = new FileReader();
-  return new Promise((resolve, reject) => {
-    tempFileReader.onerror = () => {
-      tempFileReader.abort();
-      reject(new DOMException('Problem parsing input file.'));
-    };
-    tempFileReader.onload = () => {
-      resolve(tempFileReader.result);
-    };
-    tempFileReader.readAsDataURL(blob);
-  });
-};
 
 const file = {
   state: () => ({
     id: [/* id */],
     fileData: {/* [id: id]: data */},
-    textAreas: {/* [id: id]: [textAreaNo]: { textAreaObj } */},
     assetsDownloaded: {/* [id: id]: boolean */},
     errInfo: '',
-    // previewImageEncoded: '',
-    // previewFilename: '',
     status: {
       fileUploaded: false,
       localStorageRdy: false,
@@ -42,41 +26,16 @@ const file = {
         acc[idx] = val;
         return acc;
       }, {});
-      state.fileData[data.info.id] = {};
-      // eslint-disable-next-line dot-notation
-      state.fileData[data.info.id]['info'] = data.info;
-      // eslint-disable-next-line dot-notation
-      state.fileData[data.info.id]['balloons'] = balloonsToObj;
-      // eslint-disable-next-line dot-notation
-      // state.fileData[data.info.id]['localImageEncoded'] = state.previewImageEncoded;
-      // state.previewImageEncoded = '';
-    },
-
-    // ADD_FILENAME_TO_FILEDATA(state, { filename, id }) {
-    //   state.fileData[id].info.filename = filename;
-    // },
-
-    ADD_PREVIEW_TO_FILEDATA(state, { id }) {
-      // eslint-disable-next-line dot-notation
-      // state.fileData[id]['localImageEncoded'] = state.previewImageEncoded;
-      // eslint-disable-next-line dot-notation
-      state.fileData[id].info.filename = state.previewFilename;
-      state.previewImageEncoded = '';
-      state.previewFilename = '';
-    },
-
-    SET_PREVIEW(state, { dataUri, filename }) {
-      state.previewImageEncoded = dataUri;
-      state.previewFilename = filename;
+      Vue.set(state.fileData, data.info.id, {});
+      Vue.set(state.fileData[data.info.id], 'info', data.info);
+      Vue.set(state.fileData[data.info.id], 'balloons', balloonsToObj);
     },
 
     SET_ASSETS_DOWNLOAD_STATUS(state, { id, status = false }) {
-      state.assetsDownloaded[id] = status;
+      Vue.set(state.assetsDownloaded, id, status);
     },
 
     ADD_BALLOON_DATAURI(state, { id, blob, balloonIdx }) {
-      // eslint-disable-next-line dot-notation
-      // state.fileData[id].balloons[balloonIdx]['filledMaskEncoded'] = blob;
       db.addFileBalloons({ id, blob, balloonIdx });
     },
 
@@ -90,17 +49,6 @@ const file = {
       state.status.balloonsRdy = false;
     },
 
-    SET_TEXTAREA(state, { id, textAreaIdx, textAreaDetail }) {
-      state.textAreas[id][textAreaIdx] = textAreaDetail;
-    },
-
-    // PREPARE_TEXTAREAS(state, { id, data }) {
-    //   state.textAreas[id] = {};
-    //   const { balloonCount } = data.info;
-    //   for (let i = 0; i < balloonCount; i += 1) {
-    //     state.textAreas[id][i] = data.balloons[i].textRect;
-    //   }
-    // },
   },
 
   actions: {
@@ -117,11 +65,6 @@ const file = {
       commit('SET_STATUS', { type: 'localStorageRdy', status: true });
     },
 
-
-    // setPreview({ commit }, { dataUri, filename }) {
-    //   commit('SET_PREVIEW', { dataUri, filename });
-    // },
-
     clearStatus({ commit }) {
       commit('CLEAR_STATUS');
     },
@@ -129,10 +72,6 @@ const file = {
     resetCanvas({ commit, state }, { id }) {
       commit('PREPARE_CANVAS', { id, balloons: state.fileData[id].balloons, balloonCount: state.fileData[id].info.balloonCount });
     },
-
-    // addTextArea({ commit }, { id, textAreaIdx, textAreaDetail }) {
-    //   commit('SET_TEXTAREA', { id, textAreaIdx, textAreaDetail });
-    // },
 
   },
 };
