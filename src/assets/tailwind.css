@@ -7,23 +7,23 @@ button:focus {
 }
 
 .btn {
-  @apply .font-bold .py-2 .px-4 .rounded;
+  @apply font-bold py-2 px-4 rounded;
 }
 
 .btn-blue {
-  @apply .bg-blue .text-white;
+  @apply bg-blue text-white;
 }
 
 .btn-blue:hover {
-  @apply .bg-blue-dark;
+  @apply bg-blue-dark;
 }
 
 .btn-green {
-  @apply .bg-green .text-white;
+  @apply bg-green text-white;
 }
 
 .btn-green:hover {
-  @apply .bg-green-dark;
+  @apply bg-green-dark;
 }
 
 .Config-addFontBtn {
@@ -56,4 +56,7 @@ button:focus {
   @apply bg-grey-lightest text-grey-darkest py-1 px-4 border border-grey-light rounded;
   font-family: sans-serif;
   margin-left: 1em;
+}
+
+.Thumbnail-card {
 }
