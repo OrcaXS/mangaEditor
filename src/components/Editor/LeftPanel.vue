@@ -48,7 +48,14 @@
               <button
                 @click="toggleVisibility({ type: 'balloon', idx: bIdx })"
               >
-                <FontAwesomeIcon icon="eye" />
+                <FontAwesomeIcon
+                  v-if="balloon.visible"
+                  icon="eye"
+                />
+                <FontAwesomeIcon
+                  v-else
+                  icon="eye-slash"
+                />
               </button>
             </span>
           </div>
