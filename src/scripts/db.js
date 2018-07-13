@@ -58,6 +58,15 @@ async function movePreviewToFile({ id }) {
 //   }
 // }
 
+async function getAllFiles() {
+  try {
+    const files = await localforage.getItem('files');
+    return files;
+  } catch (e) {
+    throw new Error(e);
+  }
+}
+
 async function getFile({ id }) {
   try {
     const file = await localforage.getItem('files');
@@ -96,6 +105,7 @@ const db = {
   addBalloonBlobsToFile,
   // addFileBg,
   getFile,
+  getAllFiles,
 };
 
 export default db;
