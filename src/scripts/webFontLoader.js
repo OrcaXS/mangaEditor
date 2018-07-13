@@ -2,9 +2,6 @@ import WebFont from 'webfontloader';
 
 WebFont.load({
   google: {
-    families: ['Fira+Sans:300,400,400i,600,700', 'Merienda'],
+    families: ['Fira+Sans:300,400,400i,600,700', 'Merienda', 'Open+Sans'],
   },
-  // typekit: {
-  //   id: 'wkh8kxi',
-  // },
 });
