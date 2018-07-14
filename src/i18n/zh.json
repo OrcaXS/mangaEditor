@@ -1,11 +1,14 @@
 {
   "misc": {
     "language": "语言",
+    "config": "设置",
+    "home": "主页",
     "powered": "Powered by Machine Learning(TM)"
   },
   "upload": {
     "choose_file": "选择图片……",
-    "drag_file": "或者将图片拖入本框"
+    "drag_file": "或者将图片拖入本框",
+    "click": "点击"
   },
   "config": {
     "font_management": "管理自定义字体",

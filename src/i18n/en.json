@@ -1,11 +1,14 @@
 {
   "misc": {
     "language": "Language",
+    "config": "Configuration",
+    "home": "Home",
     "powered": "Powered by Machine Learning(TM)"
   },
   "upload": {
     "choose_file": "Choose a file...",
-    "drag_file": "... Or drag the file inside"
+    "drag_file": "... Or drag the file inside",
+    "click": "Click"
   },
   "config": {
     "font_management": "Custom Font Management",
