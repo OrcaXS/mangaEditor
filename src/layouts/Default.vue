@@ -1,9 +1,57 @@
 <template>
   <div class="DefaultLayout">
     <nav class="DefaultLayout-nav">
+      <button
+        class="DefaultLayout-btn"
+        @click="routeToHome"
+      >
+        <FontAwesomeIcon icon="home" />
+        <span
+          v-t="{ path: 'misc.home' }"
+          class="DefaultLayout-text"
+        />
+      </button>
+      <button
+        class="DefaultLayout-btn"
+        @click="routeToConf"
+      >
+        <FontAwesomeIcon icon="cog" />
+        <span
+          v-t="{ path: 'misc.config' }"
+          class="DefaultLayout-text"
+        />
+      </button>
       <div class="DefaultLayout-langSelector">
-        <FontAwesomeIcon icon="language" />
-        <span v-t="{ path: 'misc.language' }" />
+        <button
+          :class="{ 'DefaultLayout-btn--active': langDropdownOpened }"
+          class="DefaultLayout-btn"
+          @click="toggleLangDropdown"
+        >
+          <FontAwesomeIcon icon="language" />
+          <span
+            v-t="{ path: 'misc.language' }"
+            class="DefaultLayout-text"
+          />
+          <FontAwesomeIcon icon="angle-down" />
+        </button>
+        <div
+          v-click-outside="closeLangDropdown"
+          v-if="langDropdownOpened"
+          class="DefaultLayout-langDropdown">
+          <ul class="list-reset">
+            <li
+              v-for="locale in localeList"
+              :key="locale.id"
+            >
+              <button
+                class="DefaultLayout-langmenuItem"
+                @click="setLocale({ id: locale.id })"
+              >
+                {{ locale.text }}
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
     <slot/>
@@ -18,6 +66,34 @@ export default {
   name: 'LayoutDefault',
 
   components: {
+  },
+  data() {
+    return {
+      langDropdownOpened: false,
+      localeList: [
+        { id: 'zh', text: '中文' },
+        { id: 'en', text: 'English' },
+      ],
+    };
+  },
+  methods: {
+    toggleLangDropdown() {
+      this.langDropdownOpened = !this.langDropdownOpened;
+    },
+    closeLangDropdown() {
+      this.langDropdownOpened = false;
+    },
+    setLocale({ id }) {
+      this.$i18n.locale = id;
+      this.$cookie.set('locale', id);
+      this.langDropdownOpened = false;
+    },
+    routeToConf() {
+      this.$router.push({ name: 'config' });
+    },
+    routeToHome() {
+      this.$router.push({ name: 'home' });
+    },
   },
 };
 </script>
@@ -35,15 +111,35 @@ export default {
 
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
 }
 
 .DefaultLayout-langSelector {
-  color: white;
   align-self: center;
 
-  padding-right: 1rem;
+  margin-left: auto;
+  /* padding-right: 1rem; */
 }
+
+.DefaultLayout-text {
+  padding: 0 .5em;
+}
+
+.DefaultLayout-btn {
+  color: white;
+  padding: 1em;
+
+  &:hover {
+    background-color: config('colors.grey-lighter');
+    color: config('colors.black');
+  }
+}
+
+.DefaultLayout-btn--active {
+  padding: 1em;
+  background-color: config('colors.grey-lighter');
+  color: config('colors.black');
+}
+
 
 .DefaultLayout-footer {
   text-align: center;

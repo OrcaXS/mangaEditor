@@ -7,6 +7,17 @@
 <script>
 export default {
   name: 'App',
+  created() {
+    this.setLocale();
+  },
+  methods: {
+    setLocale() {
+      const cookieLocale = this.$cookie.get('locale') || 'en';
+      if (cookieLocale !== this.$i18n.locale) {
+        this.$i18n.locale = cookieLocale;
+      }
+    },
+  }
 };
 </script>
 

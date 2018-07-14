@@ -5,7 +5,10 @@
         v-t="{ path: 'config.font_management' }"
         class="Config-heading"
       />
-      <p v-t="{ path: 'config.font_explanation' }"/>
+      <p
+        v-t="{ path: 'config.font_explanation' }"
+        class="Config-explanation"
+      />
       <div class="Config-mainArea">
         <form
           class="Config-inputArea"
@@ -146,6 +149,10 @@ export default {
     text-align: start;
     color: black;
   }
+}
+
+.Config-explanation {
+  max-width: 40em;
 }
 
 .Config-inputArea {

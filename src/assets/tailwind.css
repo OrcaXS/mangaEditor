@@ -60,3 +60,19 @@ button:focus {
 
 .Thumbnail-card {
 }
+
+.DefaultLayout-langDropdown {
+  @apply rounded shadow-md;
+  position: absolute;
+  /* width: 100%; */
+}
+
+.DefaultLayout-langmenuItem {
+  @apply px-4 py-2 block text-black bg-white;
+  min-width: 100%;
+  padding: .5em 1em;
+}
+
+.DefaultLayout-langmenuItem:hover {
+  @apply bg-grey-light;
+}
