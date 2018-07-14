@@ -1,6 +1,7 @@
 <template>
   <div class="Upload">
     <form
+      v-if="!isUploading"
       id="uploadForm"
       method="post"
       enctype="multipart/form-data"

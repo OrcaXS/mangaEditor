@@ -52,6 +52,9 @@ export default {
   },
   mounted() {
     this.getFiles();
+    this.$eventHub.$on('idbUpdated', () => {
+      this.getFiles();
+    });
   },
   methods: {
     async getFiles() {
