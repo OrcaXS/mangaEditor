@@ -4,6 +4,12 @@
       <div class="EditorLayout-toolbar">
         <button
           class="EditorLayout-toolbarBtn"
+          @click="routeToHome"
+        >
+          <FontAwesomeIcon icon="arrow-left" />
+        </button>
+        <button
+          class="EditorLayout-toolbarBtn"
           @click="downloadURL"
         >
           <FontAwesomeIcon icon="save" />
@@ -188,16 +194,11 @@ export default {
 
     downloadURL() {
       this.$eventHub.$emit('downloadImage');
-      // this.$store.dispatch('prepareDownload', { status: true });
-      // const dataURL = this.$refs.canvas.$refs.stage.getStage().toDataURL();
-      //
-      // const link = document.createElement('a');
-      // link.download = 'stage.png';
-      // link.href = dataURL;
-      // document.body.appendChild(link);
-      // link.click();
-      // document.body.removeChild(link);
     },
+
+    routeToHome() {
+      this.$router.push({ name: 'home' });
+    }
   },
 
 };
