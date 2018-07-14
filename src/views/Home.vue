@@ -11,7 +11,7 @@
         />
         <Upload />
       </div>
-      <p>
+      <p v-if="formattedStorageSize.percentage">
         Storage used: {{ formattedStorageSize.percentage.toFixed(2) }}%
       </p>
     </div>
@@ -57,9 +57,11 @@ export default {
     async getFiles() {
       const files = await db.getAllFiles();
       this.savedFiles = files;
-      Object.keys(files).forEach((id) => {
-        this.imageUris[id] = window.URL.createObjectURL(files[id].bgImage);
-      });
+      if (files) {
+        Object.keys(files).forEach((id) => {
+          this.imageUris[id] = window.URL.createObjectURL(files[id].bgImage);
+        });
+      }
       await this.iidbAvailSpace();
     },
 
