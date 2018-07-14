@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueKonva from 'vue-konva';
 import vClickOutside from 'v-click-outside';
 import VueI18n from 'vue-i18n';
+import VueCookie from 'vue-cookie';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import WebFontLoader from '@/scripts/webFontLoader';
 import loadFA from '@/scripts/fontawesome';
@@ -16,6 +17,7 @@ import store from './store';
 Vue.use(VueKonva);
 Vue.use(vClickOutside);
 Vue.use(VueI18n);
+Vue.use(VueCookie);
 loadFA();
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
