@@ -235,7 +235,14 @@ const canvas = {
 
     DELETE_ELEMENT(state, { id, idx, type }) {
       if (type === 'textArea') Vue.delete(state.file[id].textAreas, idx);
-      if (type === 'balloon') Vue.delete(state.file[id].balloons, idx);
+      if (type === 'balloon') {
+        Vue.delete(state.file[id].balloons, idx);
+        Object.keys(state.file[id].textAreas).forEach((textIdx) => {
+          if (state.file[id].textAreas[textIdx].balloonIdx.toString() === idx.toString()) {
+            Vue.delete(state.file[id].textAreas, textIdx);
+          }
+        });
+      }
     },
   },
 
