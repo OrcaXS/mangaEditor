@@ -14,7 +14,8 @@
     "font_management": "Custom Font Management",
     "font_explanation": "Since the browser doesn't have the permission to read the list of fonts installed on your computer, if you want to use them, you have to add them manually.",
     "fontname_hint": "Enter font-family name...",
-    "add_font": "Add"
+    "add_font": "Add",
+    "preview_description": "Click the font on the left to preview it"
   },
   "editor": {
     "custom_textarea": "Custom Textareas",
@@ -34,7 +35,9 @@
     "text_styles": "Text Styles",
     "font_family": "Family",
     "font_size": "Size",
-    "font_style": "Style"
+    "font_style": "Style",
+    "preset": "Preset",
+    "custom": "Custom"
   },
   "download": {
     "balloons_downloading": "Downloading balloons..."
