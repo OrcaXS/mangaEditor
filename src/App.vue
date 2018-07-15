@@ -7,6 +7,22 @@
 <script>
 export default {
   name: 'App',
+  metaInfo() {
+    return {
+      // if no subcomponents specify a metaInfo.title, this title will be used
+      title: 'Home',
+      // all titles will be injected into this template
+      titleTemplate: '%s | Manga Editor',
+      htmlAttrs: {
+        lang: this.currentLocale,
+      },
+    };
+  },
+  computed: {
+    currentLocale() {
+      return this.$i18n.locale;
+    },
+  },
   created() {
     this.setLocale();
   },

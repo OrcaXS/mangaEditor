@@ -76,6 +76,9 @@ export default {
   components: {
     LayoutDefault,
   },
+  metaInfo: {
+    title: 'Config', // set a title
+  },
   data() {
     return {
       fontInput: null,
