@@ -16,7 +16,7 @@ const vuexPersistEmitter = () => (store) => {
   store.subscribe((mutation) => {
     if (mutation.type === 'RESTORE_MUTATION') {
       // eslint-disable-next-line no-underscore-dangle
-      store._vm.$root.$emit('storageReady');
+      store._vm.$eventHub.$emit('storageReady');
     }
   });
 };
