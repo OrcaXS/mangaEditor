@@ -16,7 +16,7 @@
         </button>
         <button
           class="EditorLayout-toolbarBtn"
-          @click="addNewTextArea"
+          @click="addCustomTextArea"
         >
           <FontAwesomeIcon icon="plus-square" />
         </button>
@@ -188,8 +188,8 @@ export default {
       this.$eventHub.$emit('textContentUpdated', 'updateAll');
     },
 
-    addNewTextArea() {
-      this.$store.dispatch('addNewTextArea', { id: this.$route.params.file_id });
+    addCustomTextArea() {
+      this.$store.dispatch('addCustomTextArea', { id: this.$route.params.file_id });
     },
 
     downloadURL() {

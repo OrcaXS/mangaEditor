@@ -84,7 +84,7 @@ export default {
           visible: val.visible,
           scaleX: val.scaleX || '1',
           scaleY: val.scaleY || '1',
-          balloonIdx: val.balloonIdx.toString(),
+          balloonIdx: val.balloonIdx,
         };
       });
       return config;

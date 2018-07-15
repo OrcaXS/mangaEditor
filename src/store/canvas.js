@@ -87,6 +87,19 @@ const canvas = {
 
       return { fgColor, bgColor };
     },
+
+    getTextAreas: state => ({ id, type }) => {
+      const customTextAreas = {};
+      const originalTextAreas = {};
+      Object.keys(state.file[id].textAreas).forEach((idx) => {
+        if (state.file[id].textAreas[idx].type === 'custom') {
+          customTextAreas[idx] = state.file[id].textAreas[idx];
+        } else {
+          originalTextAreas[idx] = state.file[id].textAreas[idx];
+        }
+      });
+      return type === 'original' ? originalTextAreas : customTextAreas;
+    },
   },
 
   mutations: {
@@ -137,6 +150,7 @@ const canvas = {
         const { textRect } = balloons[balloonIdx];
         Object.values(textRect).forEach((textArea) => {
           flattenedTextAreas[textAreaIdx] = textArea;
+          flattenedTextAreas[textAreaIdx].type = 'originial';
           flattenedTextAreas[textAreaIdx].balloonIdx = balloonIdx;
           flattenedTextAreas[textAreaIdx].rectCounts = balloons[balloonIdx].textRectCount;
           flattenedTextAreas[textAreaIdx].fgColors = defaultFgColors;
@@ -156,9 +170,11 @@ const canvas = {
       Vue.set(state.file[id], 'textAreaIdx', textAreaIdx);
     },
 
-    ADD_NEW_TEXTAREA(state, { id }) {
+    ADD_CUSTOM_TEXTAREA(state, { id }) {
       const { textAreaIdx } = state.file[id];
       const newTextArea = {
+        type: 'custom',
+        balloonIdx: -1,
         bgColors: defaultBgColors,
         fgColors: defaultFgColors,
         visible: true,
@@ -168,7 +184,8 @@ const canvas = {
         y: 500,
         width: 500,
         height: 500,
-        textContent: 'Text here...',
+        textContent: 'Enter text...',
+        textAreaEnabled: true,
       };
       Vue.set(state.file[id].textAreas, textAreaIdx, newTextArea);
       state.file[id].textAreaIdx = textAreaIdx + 1;
@@ -315,12 +332,8 @@ const canvas = {
       commit('DELETE_ELEMENT', { id, idx, type });
     },
 
-    addCustomTextarea({ commit }, { id, textarea }) {
-      commit('ADD_CUSTOM_TEXTAREA', { id, textarea });
-    },
-
-    addNewTextArea({ commit }, { id }) {
-      commit('ADD_NEW_TEXTAREA', { id });
+    addCustomTextArea({ commit }, { id }) {
+      commit('ADD_CUSTOM_TEXTAREA', { id });
     },
 
     windowResized({ commit }, { status }) {

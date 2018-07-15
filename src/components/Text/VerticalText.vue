@@ -51,7 +51,7 @@ export default {
       },
     },
     balloonIdx: {
-      type: String,
+      type: Number,
       required: true,
       validator(val) {
         return /\d/.test(val);
@@ -192,9 +192,11 @@ export default {
 
     showEditor(textAreaIdx) {
       console.log('showEditor');
-      this.$store.dispatch('setElementVisibility', {
-        id: this.$route.params.file_id, type: 'balloon', idx: this.balloonIdx, status: true,
-      });
+      if (this.balloonIdx > -1) {
+        this.$store.dispatch('setElementVisibility', {
+          id: this.$route.params.file_id, type: 'balloon', idx: this.balloonIdx, status: true,
+        });
+      }
       this.$store.dispatch('setSelection', { type: 'textAreaEditor', idx: textAreaIdx });
       this.$store.dispatch('clearSelection', { type: 'textAreas' });
       // this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
@@ -312,7 +314,6 @@ export default {
       let offsetY = 0;
       this.charConfig = {};
       this.configReady = false;
-      console.log(this.textConfig.text);
 
       if (this.textConfig.text.length) {
         for (let i = 0; i < this.textConfig.text.length; i += 1) {

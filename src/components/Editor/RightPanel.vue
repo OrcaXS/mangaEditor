@@ -245,6 +245,7 @@ export default {
   box-shadow: -2px 5px 10px 1px rgba(0,0,0,0.5);
   border-radius: 1px;
   border: 2px solid config('colors.peach-shade-1');
+  overflow: auto;
 }
 
 .RightPanel-category {
