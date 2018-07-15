@@ -36,6 +36,8 @@ import {
   faArrowLeft,
   faCog,
   faHome,
+  faCaretRight,
+  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -51,5 +53,5 @@ import {
 
 export default function loadFA() {
   // eslint-disable-next-line max-len
-  library.add(faThList, faTags, faQuestionCircle, faInfo, faArrowRight, faLanguage, faBars, faTimes, faSearch, faAngleDown, faPlay, faPlayCircle, faPause, faPauseCircle, faCircleNotch, faChevronRight, faChevronLeft, faLongArrowAltRight, faLongArrowAltLeft, faStopwatch, faFilter, faTerminal, faUndo, faRedo, faSave, faSquare, faPlusSquare, faSearchMinus, faSearchPlus, faCircle, faImage, faEdit, faCrop, faTrash, faEye, faEyeSlash, faPlus, faArrowLeft, faCog, faHome);
+  library.add(faThList, faTags, faQuestionCircle, faInfo, faArrowRight, faLanguage, faBars, faTimes, faSearch, faAngleDown, faPlay, faPlayCircle, faPause, faPauseCircle, faCircleNotch, faChevronRight, faChevronLeft, faLongArrowAltRight, faLongArrowAltLeft, faStopwatch, faFilter, faTerminal, faUndo, faRedo, faSave, faSquare, faPlusSquare, faSearchMinus, faSearchPlus, faCircle, faImage, faEdit, faCrop, faTrash, faEye, faEyeSlash, faPlus, faArrowLeft, faCog, faHome, faCaretRight, faCaretDown);
 }
