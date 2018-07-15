@@ -9,8 +9,10 @@
       class="largeContainer"
     >
       <div
-        ref="canvasArea"
+        ref="canvasContainer"
         class="canvasContainer"
+        tabindex="0"
+        @keyup.delete="deleteTextArea()"
       >
         <v-stage
           v-if="loadKonva"
@@ -262,6 +264,16 @@ export default {
       // this.$refs.stage.getStage().height(this.stageHeight * scale);
       // this.$refs.stage.getStage().scale({ x: scale, y: scale });
       // this.$refs.stage.getStage().draw();
+    },
+
+    deleteTextArea() {
+      if (this.selectedTextAreaIdx) {
+        const tIdx = this.selectedTextAreaIdx;
+        this.$store.dispatch('clearSelection', { type: 'clearAll' });
+        this.$store.dispatch('deleteElement', {
+          id: this.$route.params.file_id, idx: tIdx, type: 'textArea',
+        });
+      }
     },
 
     adjustStageSize() {
