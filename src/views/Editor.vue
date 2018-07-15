@@ -104,6 +104,10 @@ export default {
     CanvasArea,
   },
 
+  metaInfo: {
+    title: 'Editor', // set a title
+  },
+
   data() {
     return {
       icons: [
