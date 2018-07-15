@@ -8,20 +8,29 @@
         class="RightPanel-category"
       />
       <div class="RightPanel-fonts">
-        <div class="RightPanel-select">
+        <div class="RightPanel-select--fontFamily">
           <select
             v-model="fontFamily"
             name="fontFamily"
             @change="onStyleChange"
           >
-            <option
-              v-for="font in fontFamilies"
-              :key="font.familyName"
-              :value="font.familyName"
-            >{{ font.displayName }}</option>
+            <optgroup :label="$t('editor.preset')">
+              <option
+                v-for="font in presetFonts"
+                :key="font.familyName"
+                :value="font.familyName"
+              >{{ font.displayName }}</option>
+            </optgroup>
+            <optgroup :label="$t('editor.custom')">
+              <option
+                v-for="font in customFonts"
+                :key="font"
+                :value="font"
+              >{{ font }}</option>
+            </optgroup>
           </select>
         </div>
-        <div class="RightPanel-select">
+        <div class="RightPanel-select--fontSize">
           <select
             v-model="fontSize"
             name="fontSize"
@@ -34,7 +43,7 @@
             >{{ size }}</option>
           </select>
         </div>
-        <div class="RightPanel-select">
+        <div class="RightPanel-select--fontStyle">
           <select
             v-model="fontStyle"
             name="fontStyle"
@@ -55,7 +64,10 @@
       />
       <div class="RightPanel-colors">
         <div class="RightPanel-colorType">
-          <p v-t="{ path: 'editor.foreground' }" />
+          <p
+            v-t="{ path: 'editor.foreground' }"
+            class="RightPanel-description"
+          />
           <div
             :style="currentFgColor"
             class="RightPanel-currentColor"
@@ -64,7 +76,10 @@
         </div>
         <div class="RightPanel-colorType">
           <div>
-            <p v-t="{ path: 'editor.background' }" />
+            <p
+              v-t="{ path: 'editor.background' }"
+              class="RightPanel-description"
+            />
             <div
               :style="currentBgColor"
               class="RightPanel-currentColor"
@@ -109,7 +124,7 @@ export default {
       colors: {},
       showFgColorPicker: false,
       showBgColorPicker: false,
-      fontFamilies: [
+      presetFonts: [
         { familyName: 'Arial', displayName: 'Arial' },
         { familyName: 'Helvetica', displayName: 'Helvetica' },
         { familyName: 'Comic Sans MS', displayName: 'Comic Sans MS' },
@@ -152,6 +167,15 @@ export default {
       };
     },
 
+    customFonts() {
+      return this.$store.state.customConfig.customFonts;
+    },
+
+    // fontList() {
+    //   const fonts = this.customFonts.map(fontName => ({ familyName: fontName, displayName: fontName }));
+    //   return [...this.presetFontFamilies, ...fonts];
+    // },
+    //
     textAreaFgColor: {
       get() {
         return this.selectedTextArea.fgColors;
@@ -215,7 +239,6 @@ export default {
 
   methods: {
     onStyleChange(e) {
-      console.log(e);
       this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
     },
     toggleColorPicker({ type }) {
@@ -242,9 +265,9 @@ export default {
   font-size: 0.85rem;
   /* border: 1px solid config('colors.grey-light'); */
   background-color: config('colors.peach-lighter');
-  box-shadow: -2px 5px 10px 1px rgba(0,0,0,0.5);
+  box-shadow: -2px 2px 10px 1px rgba(0,0,0,0.4);
   border-radius: 1px;
-  border: 2px solid config('colors.peach-shade-1');
+  border: 1px solid config('colors.peach');
   overflow: auto;
 }
 
@@ -292,6 +315,13 @@ export default {
   display: flex;
   flex-flow: row wrap;
   padding: .5rem;
+}
+
+.RightPanel-description {
+  color: config('colors.peach-mono-3');
+  text-align: center;
+  padding-bottom: .2em;
+  font-size: .9em;
 }
 
 </style>

@@ -237,6 +237,7 @@ export default {
   height: calc(100vh - 3rem);
   /* border: 1px solid config('colors.grey-light'); */
   background-color: config('colors.peach-lighter');
+  border-right: 1px solid config('colors.peach');
   overflow: auto;
   line-height: 1.3;
 }
