@@ -37,6 +37,10 @@
           <p lang="zh-tw">朝辭白帝彩雲間</p>
           <p lang="ja-JP">朝に辭す白帝彩雲の間</p>
           <p lang="en-US">The quick brown fox jumps over the lazy dog</p>
+          <p
+            v-t="{ path: 'config.preview_description' }"
+            class="Config-previewDescription"
+          />
         </div>
       </div>
       <div class="Config-fontList">
@@ -169,7 +173,10 @@ export default {
   margin-bottom: .5rem;
 }
 
-.Config-testArea {
+.Config-previewDescription {
+  font-size: .8em;
+  padding-top: .2em;
+  color: config('colors.grey-darker');
 }
 
 .Config-fontItem {
