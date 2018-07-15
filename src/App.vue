@@ -28,12 +28,19 @@ export default {
   },
   methods: {
     setLocale() {
-      const cookieLocale = this.$cookie.get('locale') || 'en';
+      const browserLocale = navigator.language;
+      let presetLocale = '';
+      if (browserLocale.startsWith('zh')) {
+        presetLocale = 'zh';
+      } else {
+        presetLocale = 'en';
+      }
+      const cookieLocale = this.$cookie.get('locale') || presetLocale;
       if (cookieLocale !== this.$i18n.locale) {
         this.$i18n.locale = cookieLocale;
       }
     },
-  }
+  },
 };
 </script>
 
