@@ -1,0 +1,130 @@
+.RightPanel-select--fontFamily {
+  display: inline-block;
+  position: relative;
+  margin: .2em .25em;
+  & > select {
+    display: block;
+    position: relative;
+    appearance: none;
+    /* border: 1px solid rgba(128, 128, 128, 0.5); */
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+    padding: .2em .5em;
+    width: 17em;
+    height: 1.75em;
+    background-color: config('colors.peach-lighter');
+    color: config('colors.peach-mono-3');
+    font-size: 1em;
+    cursor: pointer;
+    &:invalid {
+      color: #8E8E8E;
+    }
+  }
+  /* the angle-down arrow */
+  &:after {
+    z-index: 1;
+    display: block;
+    content: " ";
+    position: absolute;
+    width: .5em;
+    height: .5em;
+    margin-top: -.375em;
+    right: .625em;
+    top: 50%;
+    border: 1px solid #444444;
+    border-right: 0;
+    border-top: 0;
+    pointer-events: none;
+    transform: rotate(-45deg);
+    transform-origin: center;
+  }
+}
+
+.RightPanel-select--fontStyle {
+  display: inline-block;
+  position: relative;
+  margin: 0em 4em .2em .25em;
+  & > select {
+    display: block;
+    position: relative;
+    appearance: none;
+    /* border: 1px solid rgba(128, 128, 128, 0.5); */
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+    padding: .2em .5em;
+    width: 8em;
+    max-width: 100%;
+    height: 1.75em;
+    background-color: config('colors.peach-lighter');
+    color: config('colors.peach-mono-3');
+    font-size: 1em;
+    cursor: pointer;
+    &:invalid {
+      color: #8E8E8E;
+    }
+  }
+  /* the angle-down arrow */
+  &:after {
+    z-index: 1;
+    display: block;
+    content: " ";
+    position: absolute;
+    width: .5em;
+    height: .5em;
+    margin-top: -.375em;
+    right: .625em;
+    top: 50%;
+    border: 1px solid #444444;
+    border-right: 0;
+    border-top: 0;
+    pointer-events: none;
+    transform: rotate(-45deg);
+    transform-origin: center;
+  }
+}
+
+.RightPanel-select--fontSize {
+  display: inline-block;
+  position: relative;
+  margin: 0 .2em .2em .2em;
+  & > select {
+    display: block;
+    position: relative;
+    appearance: none;
+    /* border: 1px solid rgba(128, 128, 128, 0.5); */
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.15);
+    padding: .2em .5em;
+    width: 4em;
+    max-width: 100%;
+    height: 1.75em;
+    background-color: config('colors.peach-lighter');
+    color: config('colors.peach-mono-3');
+    font-size: 1em;
+    cursor: pointer;
+    &:invalid {
+      color: #8E8E8E;
+    }
+  }
+  /* the angle-down arrow */
+  &:after {
+    z-index: 1;
+    display: block;
+    content: " ";
+    position: absolute;
+    width: .5em;
+    height: .5em;
+    margin-top: -.375em;
+    right: .625em;
+    top: 50%;
+    border: 1px solid #444444;
+    border-right: 0;
+    border-top: 0;
+    pointer-events: none;
+    transform: rotate(-45deg);
+    transform-origin: center;
+  }
+}
