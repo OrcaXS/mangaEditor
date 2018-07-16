@@ -56,7 +56,7 @@
     </nav>
     <slot/>
     <footer class="DefaultLayout-footer">
-      <span v-t="{ path: 'misc.powered' }" />
+      <span v-t="{ path: 'misc.footer' }" />
     </footer>
   </div>
 </template>
@@ -143,6 +143,9 @@ export default {
 
 .DefaultLayout-footer {
   text-align: center;
+  font-size: .9em;
+  color: config('colors.grey');
+  margin-top: 1em;
 }
 
 </style>

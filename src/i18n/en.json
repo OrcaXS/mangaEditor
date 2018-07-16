@@ -3,7 +3,7 @@
     "language": "Language",
     "config": "Configuration",
     "home": "Home",
-    "powered": "Powered by Machine Learning(TM)"
+    "footer": "About this project"
   },
   "upload": {
     "choose_file": "Choose a file...",
