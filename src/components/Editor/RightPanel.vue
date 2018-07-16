@@ -127,6 +127,7 @@ export default {
       presetFonts: [
         { familyName: 'Arial', displayName: 'Arial' },
         { familyName: 'Helvetica', displayName: 'Helvetica' },
+        { familyName: 'Open Sans', displayName: 'Open Sans' },
         { familyName: 'Comic Sans MS', displayName: 'Comic Sans MS' },
         { familyName: 'Microsoft YaHei', displayName: 'Microsoft YaHei' },
         { familyName: 'source-han-serif-japanese', displayName: 'Source Han Serif JP' },
