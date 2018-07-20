@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import remote from '@/scripts/fetchFile';
-import db from '@/scripts/db';
-import router from '@/router';
 
 const file = {
   state: () => ({
@@ -35,12 +33,10 @@ const file = {
       Vue.set(state.assetsDownloaded, id, status);
     },
 
-    ADD_BALLOON_DATAURI(state, { id, blob, balloonIdx }) {
-      db.addFileBalloons({ id, blob, balloonIdx });
-    },
-
     SET_STATUS(state, { type, status }) {
-      state.status[type] = status;
+      if (type === 'fileUploaded') state.status.fileUploaded = !!status;
+      if (type === 'localStorageRdy') state.status.localStorageRdy = !!status;
+      if (type === 'balloonsRdy') state.status.balloonsRdy = !!status;
     },
 
     CLEAR_STATUS(state) {
@@ -60,7 +56,6 @@ const file = {
       commit('SET_LASTID', { id: data.info.id });
       commit('SET_ASSETS_DOWNLOAD_STATUS', { id: data.info.id, status: false });
       commit('SET_FILEDATA', { data });
-      // commit('ADD_PREVIEW_TO_FILEDATA', { id: data.info.id });
       commit('PREPARE_CANVAS', { id: data.info.id, balloons: data.balloons, balloonCount: data.info.balloonCount });
       commit('SET_STATUS', { type: 'localStorageRdy', status: true });
     },

@@ -36,7 +36,7 @@
             />
           </v-layer>
           <v-layer ref="elementsLayer">
-            <TextWrapper :stage-bounding-rect="stageBoundingRect"/>
+            <TextWrapper />
           </v-layer>
           <v-layer ref="customLayer">
             <CustomTextArea />
@@ -71,21 +71,12 @@ export default {
 
   data() {
     return {
-      // file: {},
-      // stageWidth: window.innerWidth,
-      // stageHeight: window.innerHeight,
       loadKonva: false,
       zoomLevel: {
         posX: 0,
         posY: 0,
-        scale: this.$store.state.canvas.zoomLevel ? this.$store.state.canvas.zoomLevel / 100 : 1,
         scaleBy: 1.01,
       },
-      konvaObjs: {
-        stage: {},
-        balloons: [],
-      },
-      stageBoundingRect: new DOMRect(),
     };
   },
 
@@ -233,11 +224,10 @@ export default {
     this.$eventHub.$off('downloadImage');
   },
 
-
   methods: {
-    getStageBoundingRect() {
-      this.stageBoundingRect = this.$refs.stage.getStage().getContainer().getBoundingClientRect();
-    },
+    // getStageBoundingRect() {
+    //   this.stageBoundingRect = this.$refs.stage.getStage().getContainer().getBoundingClientRect();
+    // },
 
     windowResized() {
       const stageWidth = this.$refs.stage.getStage().width();
@@ -299,11 +289,11 @@ export default {
       this.$refs.stage.getStage().batchDraw();
     },
 
-    adjustCanvasOnRefresh() {
-      this.adjustStageSize();
-      this.getStageBoundingRect();
-      this.setScale(this.zoomLevel.scale * 100);
-    },
+    // adjustCanvasOnRefresh() {
+    //   this.adjustStageSize();
+    //   this.getStageBoundingRect();
+    //   this.setScale(this.zoomLevel.scale * 100);
+    // },
 
     setCursorPosition() {
       const updatePosition = () => {

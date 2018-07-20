@@ -2,9 +2,7 @@
   <div>
     <v-group
       v-for="(balloon, idx) in balloons"
-
       :key="idx"
-      @click="selectBalloon(idx)"
     >
       <v-image
         v-if="balloon.visible"
@@ -84,18 +82,6 @@ export default {
       if (newIdx) {
         this.$store.dispatch('clearSelection', { type: 'textAreaEditor' });
       }
-    },
-  },
-
-  mounted() {
-
-  },
-
-  methods: {
-    selectBalloon(idx) {
-      // this.$store.dispatch('clearSelection', { type: 'textArea', idx });
-      this.$store.dispatch('clearSelection', { type: 'clearAll', idx });
-      // this.$store.dispatch('setSelection', { type: 'balloon', idx });
     },
   },
 };

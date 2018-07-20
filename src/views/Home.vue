@@ -31,6 +31,7 @@ export default {
     Thumbnail,
     Upload,
   },
+
   data() {
     return {
       savedFiles: {},
@@ -38,6 +39,7 @@ export default {
       availStorage: 0,
     };
   },
+
   computed: {
     formattedStorageSize() {
       return {
@@ -47,12 +49,20 @@ export default {
       };
     },
   },
+
   mounted() {
     this.getFiles();
     this.$eventHub.$on('idbUpdated', () => {
       this.getFiles();
     });
+    this.$store.dispatch('clearSelection', { type: 'clearAll' });
+    this.$store.dispatch('resetCanvasParameters');
   },
+
+  beforeDestroy() {
+    this.$eventHub.$off('idbUpdated');
+  },
+
   methods: {
     async getFiles() {
       const files = await db.getAllFiles();

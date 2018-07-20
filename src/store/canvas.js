@@ -50,17 +50,10 @@ const defaultFgColors = {
 
 const canvas = {
   state: () => ({
-    savedCanvases: [/* id */],
     file: {/* id */},
     zoomLevel: 100,
-    currentCursorPosition: {
-      x: 0,
-      y: 0,
-    },
-    currentScrollingPosition: {
-      dx: 0,
-      dy: 0,
-    },
+    currentCursorPosition: { x: 0, y: 0 },
+    currentScrollingPosition: { dx: 0, dy: 0 },
   }),
 
   getters: {
@@ -160,7 +153,8 @@ const canvas = {
     },
 
     SET_SCROLLING_POSITION(state, { dx, dy }) {
-      state.currentScrollingPosition = { dx, dy };
+      state.currentScrollingPosition.dx = dx;
+      state.currentScrollingPosition.dy = dy;
     },
 
     SET_TEXTAREA_STYLE(state, {
@@ -228,6 +222,12 @@ const canvas = {
         });
       }
     },
+
+    RESET_CANVAS_PARA(state) {
+      state.zoomLevel = 100;
+      state.currentCursorPosition = { x: 0, y: 0 };
+      state.currentScrollingPosition = { dx: 0, dy: 0 };
+    },
   },
 
   actions: {
@@ -293,6 +293,10 @@ const canvas = {
 
     addCustomTextArea({ commit }, { id }) {
       commit('ADD_CUSTOM_TEXTAREA', { id });
+    },
+
+    resetCanvasParameters({ commit }) {
+      commit('RESET_CANVAS_PARA');
     },
   },
 };

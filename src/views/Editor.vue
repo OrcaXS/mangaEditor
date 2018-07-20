@@ -167,6 +167,11 @@ export default {
     // }
   },
 
+  beforeDestroy() {
+    this.$store.dispatch('clearSelection', { type: 'clearAll' });
+    this.$store.dispatch('resetCanvasParameters');
+  },
+
   mounted() {
     const id = this.$route.params.file_id;
     // this.isStorageReady = true;

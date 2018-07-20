@@ -18,12 +18,6 @@ export default {
   components: {
     VerticalText,
   },
-  props: {
-    stageBoundingRect: {
-      type: DOMRect,
-      required: true,
-    },
-  },
 
   data() {
     return {

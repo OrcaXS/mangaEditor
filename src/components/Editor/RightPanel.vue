@@ -148,7 +148,10 @@ export default {
     },
 
     selectedTextArea() {
-      return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.currentTextAreaIdx];
+      if (this.currentTextAreaIdx) {
+        return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.currentTextAreaIdx];
+      }
+      return {};
     },
 
     rgbaColors() {
