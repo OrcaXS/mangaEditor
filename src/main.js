@@ -3,6 +3,7 @@ import VueKonva from 'vue-konva';
 import vClickOutside from 'v-click-outside';
 import VueI18n from 'vue-i18n';
 import VueCookie from 'vue-cookie';
+import VueAnalytics from 'vue-analytics';
 import Meta from 'vue-meta';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -22,12 +23,19 @@ Vue.use(VueKonva);
 Vue.use(vClickOutside);
 Vue.use(VueI18n);
 Vue.use(VueCookie);
+Vue.use(VueAnalytics, {
+  id: 'UA-***REMOVED***-1',
+  router,
+  autoTracking: {
+    screenview: true
+  },
+});
 Vue.use(Meta, {
   keyName: 'metaInfo', // the component option name that vue-meta looks for meta info on.
   attribute: 'data-vue-meta', // the attribute name vue-meta adds to the tags it observes
   ssrAttribute: 'data-vue-meta-server-rendered', // the attribute name that lets vue-meta know that meta info has already been server-rendered
-  tagIDKeyName: 'vmid' // the property name that vue-meta uses to determine whether to overwrite or append a tag
-})
+  tagIDKeyName: 'vmid', // the property name that vue-meta uses to determine whether to overwrite or append a tag
+});
 loadFA();
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);

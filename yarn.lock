@@ -10777,6 +10777,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-analytics@^5.12.2:
+  version "5.12.2"
+  resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.12.2.tgz#6318be3cfa0ce7fa6b00cb8a9fcd42268e75fab8"
+
 vue-color@^2.4.6:
   version "2.4.6"
   resolved "https://registry.yarnpkg.com/vue-color/-/vue-color-2.4.6.tgz#9dcd5850f7eec5ee3ac0b20bec7bbffb5f475f64"
