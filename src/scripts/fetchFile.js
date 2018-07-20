@@ -1,4 +1,4 @@
-import apiPrefix from '~/config';
+import { apiPrefix } from '~/config';
 import db from './db';
 
 const uploadUrl = `${apiPrefix}upload/v2/`;

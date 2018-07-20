@@ -1,3 +1,4 @@
-const apiPrefix = 'http://localhost:8080/manga/';
+const apiPrefix = 'http://localhost';
+const analyticsID = 'UA-XXXXXXXX-X';
 
-export default apiPrefix;
+export { apiPrefix, analyticsID };

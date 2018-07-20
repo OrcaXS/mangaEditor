@@ -13,6 +13,8 @@ import en from '@/i18n/en.json';
 import ja from '@/i18n/ja.json';
 import zh from '@/i18n/zh.json';
 
+import { analyticsID } from '~/config';
+
 import App from './App';
 import router from './router';
 import store from './store';
@@ -24,10 +26,10 @@ Vue.use(vClickOutside);
 Vue.use(VueI18n);
 Vue.use(VueCookie);
 Vue.use(VueAnalytics, {
-  id: 'UA-***REMOVED***-1',
+  id: analyticsID,
   router,
   autoTracking: {
-    screenview: true
+    screenview: true,
   },
 });
 Vue.use(Meta, {
