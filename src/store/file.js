@@ -5,7 +5,7 @@ import router from '@/router';
 
 const file = {
   state: () => ({
-    id: [/* id */],
+    lastId: null,
     fileData: {/* [id: id]: data */},
     assetsDownloaded: {/* [id: id]: boolean */},
     errInfo: '',
@@ -17,8 +17,8 @@ const file = {
   }),
 
   mutations: {
-    SET_ID(state, { id }) {
-      state.id.push(id);
+    SET_LASTID(state, { id }) {
+      state.lastId = id;
     },
 
     SET_FILEDATA(state, { data }) {
@@ -57,7 +57,7 @@ const file = {
       if (!data) throw new Error('Cannot fetch data.');
       // await db.movePreviewToFile({ id: data.info.id });
       commit('SET_STATUS', { type: 'fileUploaded', status: true });
-      commit('SET_ID', { id: data.info.id });
+      commit('SET_LASTID', { id: data.info.id });
       commit('SET_ASSETS_DOWNLOAD_STATUS', { id: data.info.id, status: false });
       commit('SET_FILEDATA', { data });
       // commit('ADD_PREVIEW_TO_FILEDATA', { id: data.info.id });

@@ -39,9 +39,6 @@ export default {
     };
   },
   computed: {
-    currentFiles() {
-      return this.$store.state.file.id;
-    },
     formattedStorageSize() {
       return {
         usage: (this.availStorage.usage / 1048576).toFixed(2),

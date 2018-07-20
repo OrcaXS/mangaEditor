@@ -132,7 +132,7 @@ export default {
     },
 
     lastFileId() {
-      return this.$store.state.file.id[this.$store.state.file.id.length - 1];
+      return this.$store.state.file.lastId;
     },
   },
 
