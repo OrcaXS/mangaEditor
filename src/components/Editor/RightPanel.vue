@@ -139,17 +139,21 @@ export default {
   },
 
   computed: {
-    selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0] || this.$store.state.canvas.currentlySelected.textAreaEditor;
+    selected() {
+      return this.$store.state.editor.selected;
+    },
+
+    currentTextAreaIdx() {
+      return this.selected.textArea || this.selected.textAreaEditor;
     },
 
     selectedTextArea() {
-      return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.selectedTextAreaIdx];
+      return this.$store.state.canvas.file[this.$route.params.file_id].textAreas[this.currentTextAreaIdx];
     },
 
     rgbaColors() {
       const rgba = this.$store.getters.getRgbaColors({
-        id: this.$route.params.file_id, idx: this.selectedTextAreaIdx,
+        id: this.$route.params.file_id, idx: this.currentTextAreaIdx,
       });
       return rgba;
     },
@@ -184,7 +188,7 @@ export default {
 
       set(colors) {
         this.$store.dispatch('setColor', {
-          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, type: 'fg', colors,
+          id: this.$route.params.file_id, idx: this.currentTextAreaIdx, type: 'fg', colors,
         });
       },
     },
@@ -196,7 +200,7 @@ export default {
 
       set(colors) {
         this.$store.dispatch('setColor', {
-          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, type: 'bg', colors,
+          id: this.$route.params.file_id, idx: this.currentTextAreaIdx, type: 'bg', colors,
         });
       },
     },
@@ -208,7 +212,7 @@ export default {
 
       set(val) {
         this.$store.dispatch('setTextAreaStyle', {
-          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontStyle: val,
+          id: this.$route.params.file_id, idx: this.currentTextAreaIdx, fontStyle: val,
         });
       },
     },
@@ -220,7 +224,7 @@ export default {
 
       set(val) {
         this.$store.dispatch('setTextAreaStyle', {
-          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontFamily: val,
+          id: this.$route.params.file_id, idx: this.currentTextAreaIdx, fontFamily: val,
         });
       },
     },
@@ -232,7 +236,7 @@ export default {
 
       set(val) {
         this.$store.dispatch('setTextAreaStyle', {
-          id: this.$route.params.file_id, idx: this.selectedTextAreaIdx, fontSize: val,
+          id: this.$route.params.file_id, idx: this.currentTextAreaIdx, fontSize: val,
         });
       },
     },
@@ -240,7 +244,7 @@ export default {
 
   methods: {
     onStyleChange(e) {
-      this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
+      this.$eventHub.$emit('textContentUpdated', this.currentTextAreaIdx);
     },
     toggleColorPicker({ type }) {
       if (type === 'fg') {

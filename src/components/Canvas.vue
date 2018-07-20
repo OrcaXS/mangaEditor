@@ -161,20 +161,16 @@ export default {
       return this.fileData.localImageEncoded;
     },
 
+    selected() {
+      return this.$store.state.editor.selected;
+    },
+
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0];
-    },
-
-    selectedTextAreaEditorIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreaEditor;
-    },
-
-    selectedBalloonIdx() {
-      return this.$store.state.canvas.currentlySelected.balloon;
+      return this.selected.textArea;
     },
 
     prepareDownload() {
-      return this.$store.state.canvas.prepareDownload;
+      return this.$store.state.editor.prepareDownload;
     },
   },
 

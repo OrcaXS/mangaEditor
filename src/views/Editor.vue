@@ -124,6 +124,10 @@ export default {
   },
 
   computed: {
+    selected() {
+      return this.$store.state.editor.selected;
+    },
+
     getTouchPoints() {
       return navigator.maxTouchPoints;
     },
@@ -136,16 +140,8 @@ export default {
       return this.$store.state.canvas.currentCursorPosition;
     },
 
-    selectedTextAreaEditorIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreaEditor;
-    },
-
-    selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0];
-    },
-
     showRightPanel() {
-      return this.selectedTextAreaEditorIdx || this.selectedTextAreaIdx;
+      return this.selected.textAreaEditor || this.selected.textArea;
     },
 
     windowNeedResize() {
@@ -160,26 +156,27 @@ export default {
   created() {
     const id = this.$route.params.file_id;
     this.getFile({ id });
-    if (typeof this.$store.state.canvas.file[id] === 'object') {
+    // if (typeof this.$store.state.canvas.file[id] === 'object') {
       // this.isStorageReady = true;
-      window.location.reload(true);
-    } else {
+      // window.location.reload(true);
+    // } else {
       // eslint-disable-next-line no-underscore-dangle
       // this.$eventHub.$on('storageReady', () => {
       //   this.isStorageReady = true;
       // });
-    }
+    // }
   },
 
   mounted() {
     const id = this.$route.params.file_id;
-    this.isStorageReady = true;
-    // if (typeof this.$store.state.canvas.file[id] !== 'object') {
-    //   // eslint-disable-next-line no-underscore-dangle
-    //   this.$eventHub.$on('storageReady', () => {
-    //     this.isStorageReady = true;
-    //   });
-    // }
+    // this.isStorageReady = true;
+    if (typeof this.$store.state.canvas.file[id] !== 'object') {
+      this.$eventHub.$on('storageReady', () => {
+        this.isStorageReady = true;
+      });
+    } else {
+      this.isStorageReady = true;
+    }
   },
 
   methods: {

@@ -35,7 +35,7 @@ export default {
 
   computed: {
     currentBalloon() {
-      return this.$store.state.canvas.currentlySelected.balloon;
+      return this.$store.state.editor.selected.balloon;
     },
 
     balloons() {
@@ -43,7 +43,7 @@ export default {
     },
 
     selectedTextAreaEditorIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreaEditor;
+      return this.$store.state.editor.selected.textAreaEditor;
     },
 
     balloonConfig() {
@@ -93,9 +93,9 @@ export default {
 
   methods: {
     selectBalloon(idx) {
-      // this.$store.dispatch('clearSelection', { type: 'textAreas', idx });
+      // this.$store.dispatch('clearSelection', { type: 'textArea', idx });
       this.$store.dispatch('clearSelection', { type: 'clearAll', idx });
-      // this.$store.dispatch('setSelection', { type: 'balloons', idx });
+      // this.$store.dispatch('setSelection', { type: 'balloon', idx });
     },
   },
 };

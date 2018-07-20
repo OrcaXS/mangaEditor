@@ -19,16 +19,16 @@ export default {
   },
 
   computed: {
+    selected() {
+      return this.$store.state.editor.selected;
+    },
+
     textAreas() {
       return this.$store.state.canvas.file[this.$route.params.file_id].textAreas;
     },
 
     selectedTextAreaEditorIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreaEditor;
-    },
-
-    selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas;
+      return this.selected.textAreaEditor;
     },
 
     selectedTextArea() {
@@ -49,7 +49,7 @@ export default {
 
     getColors() {
       return this.$store.getters.getRgbaColors({
-        id: this.$route.params.file_id, idx: this.selectedTextAreaEditorIdx,
+        id: this.$route.params.file_id, idx: this.selected.textAreaEditor,
       });
     },
 
@@ -83,7 +83,7 @@ export default {
     selectedTextAreaEditorIdx(newIdx, oldIdx) {
       console.log({ newIdx, oldIdx });
       if (newIdx) {
-        this.$store.dispatch('clearSelection', { type: 'textAreas' });
+        this.$store.dispatch('clearSelection', { type: 'textArea' });
         this.getTextContent();
         setTimeout(() => this.$refs.textArea.focus(), 0);
         // this.$refs.textArea.focus();
@@ -92,12 +92,6 @@ export default {
         this.$refs.textArea.blur();
         this.emitTextChange(oldIdx);
       }
-    },
-    selectedTextAreaIdx(newIdx, oldIdx) {
-      console.log({ oldIdx, newIdx });
-      // if (newIdx) {
-      //   this.$eventHub.$emit('textContentUpdated', newIdx);
-      // }
     },
   },
 

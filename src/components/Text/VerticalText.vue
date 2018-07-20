@@ -89,12 +89,16 @@ export default {
       return this.textAreas[this.textAreaIdx];
     },
 
+    selected() {
+      return this.$store.state.editor.selected;
+    },
+
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0];
+      return this.selected.textArea;
     },
 
     isEditing() {
-      return this.$store.state.canvas.currentlySelected.textAreaEditor === this.textAreaIdx;
+      return this.selected.textAreaEditor === this.textAreaIdx;
     },
 
     groupConfig() {
@@ -198,7 +202,7 @@ export default {
         });
       }
       this.$store.dispatch('setSelection', { type: 'textAreaEditor', idx: textAreaIdx });
-      this.$store.dispatch('clearSelection', { type: 'textAreas' });
+      this.$store.dispatch('clearSelection', { type: 'textArea' });
       // this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
     },
 
@@ -209,7 +213,7 @@ export default {
     selectTextArea(textAreaIdx) {
       console.log('textareaSelected');
       if (this.selectedTextAreaIdx !== textAreaIdx) {
-        this.$store.dispatch('setSelection', { type: 'textAreas', idx: textAreaIdx });
+        this.$store.dispatch('setSelection', { type: 'textArea', idx: textAreaIdx });
 
         const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
         stage.find('Transformer').destroy();

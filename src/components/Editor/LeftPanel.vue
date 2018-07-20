@@ -12,7 +12,7 @@
         <div
           v-for="(textArea, idx) in customTextAreas"
           :key="idx"
-          :class="{ 'LeftPanel-item--active': idx === selectedTextAreaIdx }"
+          :class="{ 'LeftPanel-item--active': idx === selected.textArea }"
           class="LeftPanel-item"
         >
           <FontAwesomeIcon
@@ -55,7 +55,7 @@
         <div
           v-for="(balloon, bIdx) in balloons"
           :key="bIdx"
-          :class="{ 'LeftPanel-elementSelected': bIdx === selectedBalloonIdx }"
+          :class="{ 'LeftPanel-elementSelected': bIdx === selected.balloon }"
           class="LeftPanel-balloonElement"
         >
           <div class="LeftPanel-item">
@@ -105,7 +105,7 @@
               v-for="(textArea, tIdx) in originalTextAreas"
               v-if="textArea.balloonIdx === parseInt(bIdx, 10) && accordionOpen.indexOf(bIdx) > -1"
               :key="tIdx"
-              :class="{ 'LeftPanel-item--textArea--active': tIdx === selectedTextAreaIdx }"
+              :class="{ 'LeftPanel-item--textArea--active': tIdx === selected.textArea }"
               class="LeftPanel-item--textArea"
             >
               <FontAwesomeIcon
@@ -174,12 +174,8 @@ export default {
   },
 
   computed: {
-    selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0];
-    },
-
-    selectedBalloonIdx() {
-      return this.$store.state.canvas.currentlySelected.balloon;
+    selected() {
+      return this.$store.state.editor.selected;
     },
 
     currentFilename() {
@@ -210,12 +206,12 @@ export default {
 
     textAreaOnClick(idx) {
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
-      this.$store.dispatch('setSelection', { type: 'textAreas', idx });
+      this.$store.dispatch('setSelection', { type: 'textArea', idx });
     },
 
     balloonOnClick(idx) {
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
-      this.$store.dispatch('setSelection', { type: 'balloons', idx });
+      this.$store.dispatch('setSelection', { type: 'balloon', idx });
     },
 
     deleteElement({ type, idx }) {

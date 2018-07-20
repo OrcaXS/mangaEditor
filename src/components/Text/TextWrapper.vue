@@ -42,7 +42,7 @@ export default {
     },
 
     selectedTextAreaIdx() {
-      return this.$store.state.canvas.currentlySelected.textAreas[0];
+      return this.$store.state.editor.selected.textArea;
     },
 
     verticalTextConfigs() {
@@ -94,7 +94,7 @@ export default {
   watch: {
     selectedTextAreaIdx(newIdx, oldIdx) {
       if (newIdx) {
-        this.$store.dispatch('clearSelection', { type: 'balloons' });
+        this.$store.dispatch('clearSelection', { type: 'balloon' });
         this.$store.dispatch('clearSelection', { type: 'textAreaEditor' });
       }
       if (oldIdx) {

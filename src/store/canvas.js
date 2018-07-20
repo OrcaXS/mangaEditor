@@ -61,13 +61,6 @@ const canvas = {
       dx: 0,
       dy: 0,
     },
-    currentlySelected: {
-      balloon: null,
-      textAreaEditor: null,
-      textAreas: [],
-    },
-    windowResized: false,
-    prepareDownload: false,
   }),
 
   getters: {
@@ -103,14 +96,6 @@ const canvas = {
   },
 
   mutations: {
-    WINDOW_RESIZED(state, { status }) {
-      state.windowResized = !!status;
-    },
-
-    PREPARE_DOWNLOAD(state, { status }) {
-      state.prepareDownload = !!status;
-    },
-
     SET_ZOOM(state, { type, zoomLevel }) {
       if (type === 'set') state.zoomLevel = zoomLevel;
       if (type === 'increment') state.zoomLevel += zoomLevel;
@@ -120,23 +105,6 @@ const canvas = {
     SET_CURSOR_POS(state, { cursorCoordinates }) {
       state.currentCursorPosition.x = cursorCoordinates.x;
       state.currentCursorPosition.y = cursorCoordinates.y;
-    },
-
-    SET_SELECTION(state, { type, idx }) {
-      if (type === 'textAreaEditor') state.currentlySelected.textAreaEditor = idx;
-      if (type === 'textAreas') state.currentlySelected.textAreas = [idx];
-      if (type === 'balloons') state.currentlySelected.balloon = idx;
-    },
-
-    CLEAR_SELECTION(state, { type }) {
-      if (type === 'textAreaEditor') state.currentlySelected.textAreaEditor = null;
-      if (type === 'textAreas') state.currentlySelected.textAreas = [];
-      if (type === 'balloons') state.currentlySelected.balloon = [];
-      if (type === 'clearAll') {
-        state.currentlySelected.balloon = null;
-        state.currentlySelected.textAreas = [];
-        state.currentlySelected.textAreaEditor = null;
-      }
     },
 
     PREPARE_CANVAS(state, { id, balloons, balloonCount }) {
@@ -244,7 +212,6 @@ const canvas = {
       if (type === 'balloon') state.file[id].balloons[idx].visible = !!status;
     },
 
-
     TOGGLE_ELEMENT_VISIBILITY(state, { id, idx, type }) {
       if (type === 'textArea') state.file[id].textAreas[idx].visible = !state.file[id].textAreas[idx].visible;
       if (type === 'balloon') state.file[id].balloons[idx].visible = !state.file[id].balloons[idx].visible;
@@ -308,14 +275,6 @@ const canvas = {
       });
     },
 
-    setSelection({ commit }, { type, idx }) {
-      commit('SET_SELECTION', { type, idx });
-    },
-
-    clearSelection({ commit }, { type }) {
-      commit('CLEAR_SELECTION', { type });
-    },
-
     toggleElementVisibility({ commit }, { id, idx, type }) {
       commit('TOGGLE_ELEMENT_VISIBILITY', { id, idx, type });
     },
@@ -334,14 +293,6 @@ const canvas = {
 
     addCustomTextArea({ commit }, { id }) {
       commit('ADD_CUSTOM_TEXTAREA', { id });
-    },
-
-    windowResized({ commit }, { status }) {
-      commit('WINDOW_RESIZED', { status });
-    },
-
-    prepareDownload({ commit }, { status }) {
-      commit('PREPARE_DOWNLOAD', { status });
     },
   },
 };
