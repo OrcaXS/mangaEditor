@@ -192,7 +192,7 @@ export default {
 
     originalTextAreas() {
       return this.$store.getters.getTextAreas({ id: this.$route.params.file_id, type: 'original' });
-    }
+    },
   },
 
   methods: {
