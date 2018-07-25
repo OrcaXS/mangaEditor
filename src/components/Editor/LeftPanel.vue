@@ -55,7 +55,10 @@
         <div
           v-for="(balloon, bIdx) in balloons"
           :key="bIdx"
-          :class="{ 'LeftPanel-elementSelected': bIdx === selected.balloon }"
+          :class="{
+            'LeftPanel-elementSelected': bIdx === selected.balloon,
+            'LeftPanel-elementSelected--alt': bIdx === selectedTextAreaBIdx.toString(),
+          }"
           class="LeftPanel-balloonElement"
         >
           <div class="LeftPanel-item">
@@ -178,6 +181,13 @@ export default {
       return this.$store.state.editor.selected;
     },
 
+    selectedTextAreaBIdx() {
+      if (this.$store.state.editor.selected.textArea) {
+        return this.originalTextAreas[this.selected.textArea].balloonIdx;
+      }
+      return -1;
+    },
+
     currentFilename() {
       return this.$store.state.file.fileData[this.$route.params.file_id].info.filename;
     },
@@ -294,6 +304,11 @@ export default {
   color: config('colors.peach-lighter');
 }
 
+.LeftPanel-elementSelected--alt {
+  background-color: config('colors.peach-shade-3');
+  color: config('colors.peach-lighter');
+}
+
 .LeftPanel-accordionBtn {
   font-size: 1.25em;
   color: unset;
@@ -337,7 +352,6 @@ export default {
   background-color: config('colors.peach-mono-3');
   color: config('colors.peach-lighter');
 }
-
 
 .LeftPanel-item--balloons {
   display: flex;
