@@ -8,7 +8,8 @@
   "upload": {
     "choose_file": "Choose a file...",
     "drag_file": "... Or drag the file inside",
-    "click": "Click"
+    "click": "Click",
+    "uploading": "Uploading file…"
   },
   "config": {
     "font_management": "Custom Font Management",

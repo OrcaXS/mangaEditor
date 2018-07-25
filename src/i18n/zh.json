@@ -8,7 +8,8 @@
   "upload": {
     "choose_file": "选择图片……",
     "drag_file": "或者将图片拖入本框",
-    "click": "点击"
+    "click": "点击",
+    "uploading": "正在上传文件……"
   },
   "config": {
     "font_management": "管理自定义字体",

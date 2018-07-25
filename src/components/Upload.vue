@@ -52,9 +52,7 @@
       v-if="isUploading"
       role="alert"
       class="Upload-errInfo border border-blue-light rounded bg-blue-lightest px-4 py-3 text-blue-dark">
-      <p>
-        Uploading file...
-      </p>
+      <p v-t="{ path: 'upload.uploading' }" />
     </div>
     <div
       v-if="!!errInfo"
