@@ -61,7 +61,7 @@ export default {
       const styleObj = {
         fontSize: `${fontSize * (this.currentScale / 100)}px`,
         fontStyle: 'normal',
-        fontFamily: `"${textArea.fontFamily}", sans-serif`,
+        fontFamily: `"${textArea.fontFamily || 'Arial'}", sans-serif`,
         fontWeight: '400',
         left: `calc(${(textArea.x + 0) * (this.currentScale / 100)}px + 15rem - ${this.currentScrollingPosition.dx}px)`,
         top: `calc(${(textArea.y + 0) * (this.currentScale / 100)}px + 3rem - ${this.currentScrollingPosition.dy}px)`,
