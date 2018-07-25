@@ -76,6 +76,15 @@ async function getFile({ id }) {
   }
 }
 
+async function getBalloons({ id }) {
+  try {
+    const files = await localforage.getItem('files');
+    return files[id].balloons;
+  } catch (e) {
+    throw new Error(e);
+  }
+}
+
 async function deleteFile({ id }) {
   try {
     const files = await localforage.getItem('files');
@@ -117,6 +126,7 @@ const db = {
   // addFileBg,
   getFile,
   getAllFiles,
+  getBalloons,
   deleteFile,
 };
 
