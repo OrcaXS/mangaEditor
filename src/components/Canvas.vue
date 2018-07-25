@@ -31,9 +31,7 @@
           <v-layer
             ref="balloonsLayer"
           >
-            <Balloon
-              :balloon-blobs="file.balloons"
-            />
+            <Balloon />
           </v-layer>
           <v-layer ref="elementsLayer">
             <TextWrapper />
@@ -72,11 +70,8 @@ export default {
   data() {
     return {
       loadKonva: false,
-      zoomLevel: {
-        posX: 0,
-        posY: 0,
-        scaleBy: 1.01,
-      },
+      oldSize: {},
+      oldPos: {},
     };
   },
 
@@ -163,6 +158,10 @@ export default {
     prepareDownload() {
       return this.$store.state.editor.prepareDownload;
     },
+
+    currentScroll() {
+      return this.$store.canvas.currentCursorPosition;
+    },
   },
 
   watch: {
@@ -174,6 +173,14 @@ export default {
       if (!newIdx) {
         const stage = this.$refs.stage.getStage();
         stage.find('Transformer').destroy();
+      }
+    },
+
+    prepareDownload(newVal) {
+      if (newVal) {
+        this.adjustCanvasForDownload();
+        this.downloadImage();
+        this.restoreCanvas();
       }
     },
   },
@@ -196,24 +203,10 @@ export default {
   mounted() {
     this.loadKonva = true;
     setTimeout(() => this.setScale(this.currentScale), 0);
-    setTimeout(() => this.windowResized(), 0);
-    // this.$eventHub.$on('clicked1Canvas', () => {
-    //   if (this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
-    //     this.$eventHub.$emit('textContentUpdated', this.selectedTextAreaIdx);
-    //     this.$store.dispatch('clearSelection', { type: 'clearAll' });
-    //   }
-    //   if (!this.selectedTextAreaIdx && !this.selectedTextAreaEditorIdx) {
-    //     // console.log('clearAll');
-    //     this.$store.dispatch('clearSelection', { type: 'clearAll' });
-    //   }
-    // });
-
+    // setTimeout(() => this.windowResized(), 0);
     // window.setTimeout(this.adjustCanvasOnRefresh(), 10000);
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
-    this.$eventHub.$on('downloadImage', () => {
-      this.downloadImage();
-    });
 
     this.$nextTick(() => {
       window.addEventListener('resize', this.windowResized);
@@ -222,6 +215,10 @@ export default {
 
   beforeDestroy() {
     this.$eventHub.$off('downloadImage');
+  },
+
+  updated() {
+    // this.$refs.stage.getStage().batchDraw();
   },
 
   methods: {
@@ -310,7 +307,7 @@ export default {
         const dx = this.$refs.scrollContainer.scrollLeft;
         const dy = this.$refs.scrollContainer.scrollTop;
         this.$store.dispatch('setScrollingPosition', { dx, dy });
-        this.$refs.stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;
+        stage.getStage().container().style.transform = `translate(${dx}px, ${dy}px)`;
         stage.x(-dx);
         stage.y(-dy);
         stage.batchDraw();
@@ -319,24 +316,43 @@ export default {
     },
 
     canvasOnClick() {
-      console.log('clickedCanvas');
+      // console.log('clickedCanvas');
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
       // this.$eventHub.$emit('clickedCanvas');
     },
 
-    async downloadImage() {
+    adjustCanvasForDownload() {
+      const stage = this.$refs.stage.getStage();
+      this.oldPos = stage.getStage().position();
+      this.$store.dispatch('setScrollingPosition', { dx: 0, dy: 0 });
+      stage.getStage().container().style.transform = 'translate(0px, 0px)';
+      stage.x(0);
+      stage.y(0);
       this.setScale('100');
-      console.log(this.$refs.stage.getStage().scale());
-      const oldSize = this.$refs.stage.getStage().size();
+      this.oldSize = stage.getStage().size();
       const exportSize = this.dimension;
-      this.$refs.stage.getStage().size(exportSize);
-      console.log(this.$refs.stage.getStage().size());
+      stage.getStage().size(exportSize);
       // eslint-disable-next-line no-underscore-dangle
       const ctx = this.$refs.bgLayer.getStage().getContext()._context;
       ctx.imageSmoothingEnabled = false;
-      this.$refs.stage.getStage().draw();
+      stage.getStage().batchDraw();
+    },
 
-      const dataURL = this.$refs.stage.getStage().toDataURL({
+    restoreCanvas() {
+      const stage = this.$refs.stage.getStage();
+      this.setScale(this.currentScale);
+      stage.getStage().size(this.oldSize);
+      this.$store.dispatch('setScrollingPosition', { dx: (this.oldPos.x * -1), dy: (this.oldPos.y * -1) });
+      stage.getStage().container().style.transform = `translate(${(this.oldPos.x * -1)}px, ${(this.oldPos.y * -1)}px)`;
+      stage.position(this.oldPos);
+      stage.getStage().batchDraw();
+
+      this.$store.dispatch('prepareDownload', { status: false });
+    },
+
+    async downloadImage() {
+      const stage = this.$refs.stage.getStage();
+      const dataURL = stage.getStage().toDataURL({
         mimeType: 'image/jpeg',
         quality: 0.9,
         pixelRatio: 1,
@@ -351,10 +367,6 @@ export default {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      this.setScale(this.currentScale);
-      this.$refs.stage.getStage().size(oldSize);
-      this.$refs.stage.getStage().draw();
     },
   },
 

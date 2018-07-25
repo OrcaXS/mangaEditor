@@ -44,11 +44,16 @@
         >
           <span v-t="{ path: 'editor.reset' }" />
         </button>
-        <span
-          v-t="{ path: 'editor.resize_msg' }"
-          v-if="windowNeedResize"
-          class="EditorLayout-msg"
-        />
+        <button
+          class="EditorLayout-toolbarBtn"
+          @click="refreshPage"
+        >
+          <span
+            v-t="{ path: 'editor.resize_msg' }"
+            v-if="windowNeedResize"
+            class="EditorLayout-msg"
+          />
+        </button>
       </div>
     </nav>
     <div
@@ -67,6 +72,16 @@
       v-else
       class="EditorLayout-mainArea"
     >
+      <div
+        v-if="prepareDownload"
+        class="EditorLayout-downloadModal"
+      >
+        <FontAwesomeIcon
+          icon="spinner"
+          spin
+        />
+        <p v-t="{ path: 'editor.prepare_download' }" />
+      </div>
       <aside class="EditorLayout-leftPanel">
         <LeftPanel
           :filename="currentFile.bgImage.name"
@@ -128,16 +143,8 @@ export default {
       return this.$store.state.editor.selected;
     },
 
-    getTouchPoints() {
-      return navigator.maxTouchPoints;
-    },
-
     currentZoomLevel() {
       return this.$store.state.canvas.zoomLevel;
-    },
-
-    getCursorPosition() {
-      return this.$store.state.canvas.currentCursorPosition;
     },
 
     showRightPanel() {
@@ -145,7 +152,11 @@ export default {
     },
 
     windowNeedResize() {
-      return this.$store.state.canvas.windowResized;
+      return this.$store.state.editor.windowResized;
+    },
+
+    prepareDownload() {
+      return this.$store.state.editor.prepareDownload;
     },
 
     // showTextArea() {
@@ -167,9 +178,17 @@ export default {
     // }
   },
 
+  beforeRouteUpdate(to, from, next) {
+    this.$store.dispatch('clearSelection', { type: 'clearAll' });
+    this.$store.dispatch('resetCanvasParameters');
+    this.getFile({ id: to.params.file_id });
+    next();
+  },
+
   beforeDestroy() {
     this.$store.dispatch('clearSelection', { type: 'clearAll' });
     this.$store.dispatch('resetCanvasParameters');
+    this.$eventHub.$off('storageReady');
   },
 
   mounted() {
@@ -181,11 +200,13 @@ export default {
       });
     } else {
       this.isStorageReady = true;
+      // this.$router.go();
     }
   },
 
   methods: {
     async getFile({ id }) {
+      this.isDbFetched = false;
       this.currentFile = await db.getFile({ id });
       this.isDbFetched = true;
     },
@@ -200,12 +221,16 @@ export default {
       this.$eventHub.$emit('textContentUpdated', 'updateAll');
     },
 
+    refreshPage() {
+      window.location.reload();
+    },
+
     addCustomTextArea() {
       this.$store.dispatch('addCustomTextArea', { id: this.$route.params.file_id });
     },
 
     downloadURL() {
-      this.$eventHub.$emit('downloadImage');
+      this.$store.commit('PREPARE_DOWNLOAD', { status: true });
     },
 
     routeToHome() {
@@ -292,6 +317,24 @@ export default {
 
 .EditorLayout-msg {
   color: white;
+}
+
+.EditorLayout-downloadModal {
+  z-index: 20;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2em;
 }
 
 </style>
