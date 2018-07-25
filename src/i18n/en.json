@@ -26,7 +26,7 @@
     "zoom_in": "Zoom in",
     "zoom_out": "Zoom out",
     "reset": "Reset Canvas",
-    "resize_msg": "Window resized, please refresh this page manually",
+    "resize_msg": "Window resized, click to refresh",
     "delete": "Delete element",
     "toggle_visibility": "Hide/Show element",
     "text_content": "Text Content",
@@ -37,10 +37,11 @@
     "font_size": "Size",
     "font_style": "Style",
     "preset": "Preset",
-    "custom": "Custom"
+    "custom": "Custom",
+    "prepare_download": "Preparing for export…"
   },
   "download": {
-    "balloons_downloading": "Downloading balloons..."
+    "balloons_downloading": "Downloading balloons…"
   },
   "welcome": "Welcome",
   "undo": "Undo",

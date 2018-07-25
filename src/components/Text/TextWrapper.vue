@@ -103,7 +103,6 @@ export default {
         width: this.$refs.textElement ? `${this.$refs.textElement.getStage().getAttr('width')}px` : '300px',
       };
     },
-
   },
 
 };
