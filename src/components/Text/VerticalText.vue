@@ -195,7 +195,7 @@ export default {
     },
 
     showEditor(textAreaIdx) {
-      console.log('showEditor');
+      // console.log('showEditor');
       if (this.balloonIdx > -1) {
         this.$store.dispatch('setElementVisibility', {
           id: this.$route.params.file_id, type: 'balloon', idx: this.balloonIdx, status: true,
@@ -211,7 +211,7 @@ export default {
     // },
 
     selectTextArea(textAreaIdx) {
-      console.log('textareaSelected');
+      // console.log('textareaSelected');
       if (this.selectedTextAreaIdx !== textAreaIdx) {
         this.$store.dispatch('setSelection', { type: 'textArea', idx: textAreaIdx });
 
@@ -228,12 +228,6 @@ export default {
         this.showEditor(textAreaIdx);
       }
     },
-
-    // deleteTransformer() {
-    // console.log('clickedOutside');
-    // const stage = this.$parent.$parent.$parent.$parent.$parent.$refs.stage.getStage();
-    // stage.find('Transformer').destroy();
-    // },
 
     generateCharConfig() {
       function measureTextHeight(text, fontSize, fontFamily) {

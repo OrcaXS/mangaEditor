@@ -23,13 +23,13 @@ const vuexPersistEmitter = () => (store) => {
 };
 
 const vuexLocalForage = new VuexPersistence({
-  strictMode: process.env.NODE_ENV !== 'production',
+  strictMode: true,
   storage: localforage,
   asyncStorage: true,
 });
 
 const createStore = () => new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
+  // strict: process.env.NODE_ENV !== 'production',
   state: () => ({
   }),
   mutations: {

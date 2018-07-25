@@ -101,35 +101,47 @@ const canvas = {
     },
 
     PREPARE_CANVAS(state, { id, balloons, balloonCount }) {
-      const flattenedTextAreas = {};
+      let flattenedTextAreas = {};
       const flattenedBalloons = {};
       const balloonIdxArr = Array.from(new Array(balloonCount), (x, i) => i);
       let textAreaIdx = 0;
       balloonIdxArr.forEach((balloonIdx) => {
-        flattenedBalloons[balloonIdx] = balloons[balloonIdx].boundingRect;
-        flattenedBalloons[balloonIdx].visible = false;
+        Vue.set(flattenedBalloons, balloonIdx, {});
+        Vue.set(flattenedBalloons, balloonIdx, balloons[balloonIdx].boundingRect);
+        Vue.set(flattenedBalloons[balloonIdx], 'visible', false);
         const { textRect } = balloons[balloonIdx];
         Object.values(textRect).forEach((textArea) => {
-          flattenedTextAreas[textAreaIdx] = textArea;
-          flattenedTextAreas[textAreaIdx].type = 'originial';
-          flattenedTextAreas[textAreaIdx].balloonIdx = balloonIdx;
-          flattenedTextAreas[textAreaIdx].rectCounts = balloons[balloonIdx].textRectCount;
-          flattenedTextAreas[textAreaIdx].fgColors = defaultFgColors;
-          flattenedTextAreas[textAreaIdx].bgColors = defaultBgColorsTransparent;
-          flattenedTextAreas[textAreaIdx].visible = true;
-          flattenedTextAreas[textAreaIdx].scaleX = 1;
-          flattenedTextAreas[textAreaIdx].scaleY = 1;
-          flattenedTextAreas[textAreaIdx].textContent = null;
-          flattenedTextAreas[textAreaIdx].textAreaEnabled = false;
+          // Vue.set(flattenedTextAreas, textAreaIdx, {});
+          flattenedTextAreas = Object.assign({}, flattenedTextAreas, {
+            [textAreaIdx]: {
+              height: textArea.height,
+              width: textArea.width,
+              x: textArea.x,
+              y: textArea.y,
+              type: 'originial',
+              balloonIdx,
+              rectCounts: balloons[balloonIdx].textRectCount,
+              fgColors: defaultFgColors,
+              bgColors: defaultBgColorsTransparent,
+              visible: true,
+              scaleX: 1,
+              scaleY: 1,
+              textContent: null,
+              textAreaEnabled: false,
+            },
+          });
           textAreaIdx += 1;
         });
       });
-      Vue.set(state.file, id, {
-        textAreas: flattenedTextAreas,
-        balloons: flattenedBalloons,
-        customTextAreas: {},
-        textAreaIdx,
+      const fileObj = Object.assign({}, state.file, {
+        [id]: {
+          textAreas: flattenedTextAreas,
+          balloons: flattenedBalloons,
+          customTextAreas: {},
+          textAreaIdx,
+        },
       });
+      state.file = fileObj;
       // Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
       // Vue.set(state.file[id], 'balloons', flattenedBalloons);
       // Vue.set(state.file[id], 'customTextAreas', {});
@@ -138,22 +150,23 @@ const canvas = {
 
     ADD_CUSTOM_TEXTAREA(state, { id }) {
       const { textAreaIdx } = state.file[id];
-      const newTextArea = {
-        type: 'custom',
-        balloonIdx: -1,
-        bgColors: defaultBgColors,
-        fgColors: defaultFgColors,
-        visible: true,
-        scaleX: 1,
-        scaleY: 1,
-        x: 500,
-        y: 500,
-        width: 500,
-        height: 500,
-        textContent: 'Enter text...',
-        textAreaEnabled: true,
-      };
-      Vue.set(state.file[id].textAreas, textAreaIdx, newTextArea);
+      state.file[id].textAreas = Object.assign({}, state.file[id].textAreas, {
+        [textAreaIdx]: {
+          type: 'custom',
+          balloonIdx: -1,
+          bgColors: defaultBgColors,
+          fgColors: defaultFgColors,
+          visible: true,
+          scaleX: 1,
+          scaleY: 1,
+          x: 500,
+          y: 500,
+          width: 500,
+          height: 500,
+          textContent: 'Enter text...',
+          textAreaEnabled: true,
+        },
+      });
       state.file[id].textAreaIdx = textAreaIdx + 1;
     },
 
