@@ -21,13 +21,13 @@ const editor = {
     SET_SELECTION(state, { type, idx }) {
       if (type === 'textAreaEditor') state.selected.textAreaEditor = idx;
       if (type === 'textArea') state.selected.textArea = idx;
-      if (type === 'balloons') state.selected.balloon = idx;
+      if (type === 'balloon') state.selected.balloon = idx;
     },
 
     CLEAR_SELECTION(state, { type }) {
       if (type === 'textAreaEditor') state.selected.textAreaEditor = null;
       if (type === 'textArea') state.selected.textArea = null;
-      if (type === 'balloons') state.selected.balloon = null;
+      if (type === 'balloon') state.selected.balloon = null;
       if (type === 'clearAll') {
         state.selected.balloon = null;
         state.selected.textArea = null;
