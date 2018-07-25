@@ -3,6 +3,7 @@
     <v-group
       v-for="(balloon, idx) in balloons"
       :key="idx"
+      @click="selectBalloon(idx)"
     >
       <v-image
         v-if="balloon.visible"
@@ -102,6 +103,12 @@ export default {
       this.balloonsLoaded = false;
       this.balloonBlobs = await db.getBalloons({ id: this.$route.params.file_id });
       this.balloonsLoaded = true;
+    },
+
+    selectBalloon(idx) {
+      // this.$store.dispatch('clearSelection', { type: 'textArea', idx });
+      this.$store.dispatch('clearSelection', { type: 'clearAll', idx });
+      // this.$store.dispatch('setSelection', { type: 'balloon', idx });
     },
   },
 
