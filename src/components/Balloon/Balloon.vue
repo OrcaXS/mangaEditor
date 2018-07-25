@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="balloonsLoaded">
     <v-group
       v-for="(balloon, idx) in balloons"
       :key="idx"
@@ -9,7 +9,7 @@
         :config="balloonConfig[idx]"
       />
       <v-rect
-        v-if="idx === currentBalloon"
+        v-if="idx === selectedBalloonIdx"
         :config="balloonBoundingConfig[idx]"
       />
     </v-group>
@@ -17,22 +17,20 @@
 </template>
 
 <script>
+import db from '@/scripts/db';
+
 export default {
   name: 'Balloons',
 
-  props: {
-    balloonBlobs: {
-      type: Object,
-      required: true,
-    },
-  },
-
   data() {
-    return {};
+    return {
+      balloonsLoaded: false,
+      balloonBlobs: {},
+    };
   },
 
   computed: {
-    currentBalloon() {
+    selectedBalloonIdx() {
       return this.$store.state.editor.selected.balloon;
     },
 
@@ -46,17 +44,28 @@ export default {
 
     balloonConfig() {
       const config = {};
-      Object.entries(this.balloons).forEach(([idx, balloon]) => {
-        const balloonImage = new Image();
-        balloonImage.src = URL.createObjectURL(this.balloonBlobs[idx]);
-        config[idx] = {
-          width: balloon.width,
-          height: balloon.height,
-          image: balloonImage,
-          x: balloon.x + 0,
-          y: balloon.y + 0,
-        };
-      });
+      if (!this.balloonsLoaded) {
+        Object.entries(this.balloons).forEach(([idx, balloon]) => {
+          config[idx] = {
+            width: balloon.width,
+            height: balloon.height,
+            x: balloon.x + 0,
+            y: balloon.y + 0,
+          };
+        });
+      } else {
+        Object.entries(this.balloons).forEach(([idx, balloon]) => {
+          const balloonImage = new Image();
+          balloonImage.src = URL.createObjectURL(this.balloonBlobs[idx]);
+          config[idx] = {
+            width: balloon.width,
+            height: balloon.height,
+            image: balloonImage,
+            x: balloon.x + 0,
+            y: balloon.y + 0,
+          };
+        });
+      }
       return config;
     },
 
@@ -76,13 +85,34 @@ export default {
     },
   },
 
-  watch: {
-    currentBalloon(newIdx, oldIdx) {
-      console.log({ oldIdx, newIdx });
-      if (newIdx) {
-        this.$store.dispatch('clearSelection', { type: 'textAreaEditor' });
-      }
+  beforeRouteUpdate(to, from, next) {
+    this.balloonBlobs = {};
+    this.balloonsLoaded = false;
+    this.getBalloons();
+    next();
+  },
+
+  mounted() {
+    this.getBalloons();
+  },
+
+  methods: {
+    async getBalloons() {
+      this.balloonBlobs = {};
+      this.balloonsLoaded = false;
+      this.balloonBlobs = await db.getBalloons({ id: this.$route.params.file_id });
+      this.balloonsLoaded = true;
     },
   },
+
+  // watch: {
+  //   selectedBalloonIdx(newIdx, oldIdx) {
+  //     console.log({ oldIdx, newIdx });
+  //     console.log(this.balloons);
+  //     if (newIdx) {
+  //       this.$store.dispatch('clearSelection', { type: 'textAreaEditor' });
+  //     }
+  //   },
+  // },
 };
 </script>
