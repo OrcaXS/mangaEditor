@@ -119,16 +119,21 @@ const canvas = {
           flattenedTextAreas[textAreaIdx].visible = true;
           flattenedTextAreas[textAreaIdx].scaleX = 1;
           flattenedTextAreas[textAreaIdx].scaleY = 1;
-          flattenedTextAreas[textAreaIdx].textContent = '';
+          flattenedTextAreas[textAreaIdx].textContent = null;
           flattenedTextAreas[textAreaIdx].textAreaEnabled = false;
           textAreaIdx += 1;
         });
       });
-      Vue.set(state.file, id, {});
-      Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
-      Vue.set(state.file[id], 'balloons', flattenedBalloons);
-      Vue.set(state.file[id], 'customTextAreas', {});
-      Vue.set(state.file[id], 'textAreaIdx', textAreaIdx);
+      Vue.set(state.file, id, {
+        textAreas: flattenedTextAreas,
+        balloons: flattenedBalloons,
+        customTextAreas: {},
+        textAreaIdx,
+      });
+      // Vue.set(state.file[id], 'textAreas', flattenedTextAreas);
+      // Vue.set(state.file[id], 'balloons', flattenedBalloons);
+      // Vue.set(state.file[id], 'customTextAreas', {});
+      // Vue.set(state.file[id], 'textAreaIdx', textAreaIdx);
     },
 
     ADD_CUSTOM_TEXTAREA(state, { id }) {

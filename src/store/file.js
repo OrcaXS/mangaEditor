@@ -5,7 +5,6 @@ const file = {
   state: () => ({
     lastId: null,
     fileData: {/* [id: id]: data */},
-    assetsDownloaded: {/* [id: id]: boolean */},
     errInfo: '',
     status: {
       fileUploaded: false,
@@ -54,7 +53,6 @@ const file = {
       // await db.movePreviewToFile({ id: data.info.id });
       commit('SET_STATUS', { type: 'fileUploaded', status: true });
       commit('SET_LASTID', { id: data.info.id });
-      commit('SET_ASSETS_DOWNLOAD_STATUS', { id: data.info.id, status: false });
       commit('SET_FILEDATA', { data });
       commit('PREPARE_CANVAS', { id: data.info.id, balloons: data.balloons, balloonCount: data.info.balloonCount });
       commit('SET_STATUS', { type: 'localStorageRdy', status: true });
