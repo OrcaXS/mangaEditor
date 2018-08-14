@@ -13,8 +13,8 @@
   },
   "config": {
     "font_management": "Custom Font Management",
-    "font_explanation": "Since the browser doesn't have the permission to read the list of fonts installed on your computer, if you want to use them, you have to add them manually.",
-    "fontname_hint": "Enter font-family name...",
+    "font_explanation": "Since the browser doesn't have the permission to read the list of fonts installed on your computer, if you want to use them, you have to add their font-family names manually.",
+    "fontname_hint": "e.g., Helvetica Neue",
     "add_font": "Add",
     "preview_description": "Click the font on the left to preview it"
   },
