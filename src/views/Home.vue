@@ -69,7 +69,7 @@ export default {
       this.savedFiles = files;
       if (files) {
         Object.keys(files).forEach((id) => {
-          this.imageUris[id] = window.URL.createObjectURL(files[id].bgImage);
+          this.$set(this.imageUris, id, window.URL.createObjectURL(files[id].bgImage));
         });
       }
       await this.iidbAvailSpace();
