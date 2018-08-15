@@ -10,8 +10,8 @@
 
 ``` bash
 # add API config
-$ cp config.example.js config.js
-$ $EDITOR config.js
+$ cp .env.local.example .env.local
+$ $EDITOR .env.local
 
 # install dependencies
 $ yarn install
