@@ -1,7 +1,6 @@
-import { apiPrefix } from '~/config';
 import db from './db';
 
-const uploadUrl = `${apiPrefix}upload/v2/`;
+const uploadUrl = `${process.env.VUE_APP_API_PREFIX}upload/v2/`;
 
 async function uploadPicture(formData) {
   try {

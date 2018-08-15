@@ -1,7 +1,6 @@
 const path = require('path');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const glob = require('glob-all');
-const configfile = require('./config_baseUrl');
 
 const resolveConf = {
   resolve: {
@@ -33,9 +32,7 @@ const resolveConf = {
 // }
 
 module.exports = {
-  baseUrl: process.env.NODE_ENV === 'production'
-    ? configfile.baseUrl
-    : '/',
+  baseUrl: process.env.CONF_BASE_URL || '/',
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {
       return {

@@ -13,8 +13,6 @@ import en from '@/i18n/en.json';
 import ja from '@/i18n/ja.json';
 import zh from '@/i18n/zh.json';
 
-import { analyticsID } from '~/config';
-
 import App from './App';
 import router from './router';
 import store from './store';
@@ -25,13 +23,15 @@ Vue.use(VueKonva);
 Vue.use(vClickOutside);
 Vue.use(VueI18n);
 Vue.use(VueCookie);
-Vue.use(VueAnalytics, {
-  id: analyticsID,
-  router,
-  autoTracking: {
-    screenview: true,
-  },
-});
+if (process.env.VUE_APP_ANALYTICS_ID) {
+  Vue.use(VueAnalytics, {
+    id: process.env.VUE_APP_ANALYTICS_ID,
+    router,
+    autoTracking: {
+      screenview: true,
+    },
+  });
+}
 Vue.use(Meta, {
   keyName: 'metaInfo', // the component option name that vue-meta looks for meta info on.
   attribute: 'data-vue-meta', // the attribute name vue-meta adds to the tags it observes
@@ -51,6 +51,10 @@ const i18n = new VueI18n({
   locale: 'en',
   messages: localeStrings,
 });
+
+console.log(process.env.VUE_APP_ANALYTICS_ID);
+console.log(process.env.VUE_APP_API_PREFIX);
+console.log(process.env.BASE_URL);
 
 Vue.config.productionTip = false;
 
