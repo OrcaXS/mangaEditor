@@ -52,10 +52,6 @@ const i18n = new VueI18n({
   messages: localeStrings,
 });
 
-console.log(process.env.VUE_APP_ANALYTICS_ID);
-console.log(process.env.VUE_APP_API_PREFIX);
-console.log(process.env.BASE_URL);
-
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

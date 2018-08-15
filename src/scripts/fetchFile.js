@@ -32,10 +32,10 @@ async function parallelFetchToDb({ id, balloonUrls, balloonCount }) {
   const balloonBlobs = {};
   try {
     for (let i = 0; i < balloonCount; i += 1) {
-      console.log(balloonUrls[i]);
+      // console.log(balloonUrls[i]);
       urlProms[i] = downloadPictureFromUrl(balloonUrls[i], i);
     }
-    console.log(urlProms);
+    // console.log(urlProms);
     // return await urlProm;
     for (let i = 0; i < balloonCount; i += 1) {
       // eslint-disable-next-line no-await-in-loop
@@ -47,7 +47,7 @@ async function parallelFetchToDb({ id, balloonUrls, balloonCount }) {
       balloonBlobs[i] = blob;
     }
     await db.addBalloonBlobsToFile({ id, blobs: balloonBlobs });
-    console.log(balloonBlobs);
+    // console.log(balloonBlobs);
   } catch (e) {
     throw e;
   }
