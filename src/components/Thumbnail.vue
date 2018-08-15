@@ -45,7 +45,7 @@ export default {
   computed: {
     bgImageStyle() {
       return {
-        background: `linear-gradient(0deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url(${this.imgUri})`,
+        backgroundImage: `url(${this.imgUri})`,
         backgroundSize: '100%',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
