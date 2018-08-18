@@ -18,6 +18,7 @@
           v-if="loadKonva"
           ref="stage"
           :config="configKonva"
+          @click="stageOnClick"
         >
           <v-layer
             ref="bgLayer"
@@ -226,6 +227,10 @@ export default {
     //   this.stageBoundingRect = this.$refs.stage.getStage().getContainer().getBoundingClientRect();
     // },
 
+    stageOnClick(e) {
+      if (!e) this.$store.dispatch('clearSelection', { type: 'clearAll' });
+    },
+
     windowResized() {
       const stageWidth = this.$refs.stage.getStage().width();
       const stageHeight = this.$refs.stage.getStage().height();
@@ -316,7 +321,7 @@ export default {
     },
 
     canvasOnClick() {
-      // console.log('clickedCanvas');
+      console.log('clickedCanvas');
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
       // this.$eventHub.$emit('clickedCanvas');
     },
