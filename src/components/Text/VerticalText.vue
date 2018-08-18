@@ -144,12 +144,12 @@ export default {
     this.generateCharConfig();
     this.$eventHub.$on('textContentUpdated', (idx) => {
       if (this.textAreaIdx === idx) {
-        console.log('generateCharConfig');
+        // console.log('generateCharConfig');
         setTimeout(() => this.generateCharConfig(), 0);
         // this.$store.dispatch('clearSelection', { type: 'clearAll' });
       }
       if (idx === 'updateAll') {
-        console.log('generateAllCharConfig');
+        // console.log('generateAllCharConfig');
         setTimeout(() => this.generateCharConfig(), 0);
       }
     });
@@ -170,7 +170,7 @@ export default {
         scaleX: target.scaleX(),
         scaleY: target.scaleY(),
       };
-      console.log(newRect);
+      // console.log(newRect);
       this.$store.dispatch('transformTextArea', {
         id: this.$route.params.file_id,
         idx: this.textAreaIdx,
@@ -185,7 +185,7 @@ export default {
         x: textGroup.x(),
         y: textGroup.y(),
       };
-      console.log(position);
+      // console.log(position);
       this.$store.dispatch('dragTextArea', {
         id: this.$route.params.file_id,
         idx: this.textAreaIdx,
@@ -349,6 +349,7 @@ export default {
               fontFamily: this.textConfig.fontFamily,
               fontStyle: this.textConfig.fontStyle,
               fill: this.textConfig.fgColor,
+              listening: false,
             };
 
             this.charConfig[i] = config;

@@ -141,7 +141,7 @@ export default {
     },
 
     checkFile() {
-      console.log(this.file.type);
+      // console.log(this.file.type);
       if (this.validFileType.indexOf(this.file.type) > -1) {
         this.submitUpload();
       } else {
