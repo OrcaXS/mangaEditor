@@ -260,6 +260,7 @@ export default {
         this.showBgColorPicker = false;
         this.showFgColorPicker = false;
       }
+      this.$eventHub.$emit('textContentUpdated', this.currentTextAreaIdx);
     },
   },
 
