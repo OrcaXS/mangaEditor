@@ -3,7 +3,8 @@
     "language": "Language",
     "config": "Configuration",
     "home": "Home",
-    "footer": "About this project"
+    "footer": "Report issue: contact ljsabc@gmail.com or submit an issue on ",
+    "footer_ext": "."
   },
   "upload": {
     "choose_file": "Choose a file...",

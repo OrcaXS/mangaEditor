@@ -57,6 +57,11 @@
     <slot/>
     <footer class="DefaultLayout-footer">
       <span v-t="{ path: 'misc.footer' }" />
+      <a
+        class="DefaultLayout-footerAnchor"
+        href="https://github.com/OrcaXS/mangaEditor"
+      >GitHub</a>
+      <span v-t="{ path: 'misc.footer_ext' }" />
     </footer>
   </div>
 </template>
@@ -64,7 +69,6 @@
 <script>
 export default {
   name: 'LayoutDefault',
-
   components: {
   },
   data() {
@@ -140,12 +144,15 @@ export default {
   color: config('colors.black');
 }
 
-
 .DefaultLayout-footer {
   text-align: center;
   font-size: .9em;
   color: config('colors.grey');
-  margin-top: 1em;
+  margin: 2em 0;
+}
+
+.DefaultLayout-footerAnchor {
+  color: config('colors.grey');
 }
 
 </style>

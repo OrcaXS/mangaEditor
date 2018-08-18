@@ -3,7 +3,8 @@
     "language": "语言",
     "config": "设置",
     "home": "主页",
-    "footer": "About this project"
+    "footer": "报告问题： ljsabc@gmail.com 或于 ",
+    "footer_ext": " 提交 issue."
   },
   "upload": {
     "choose_file": "选择图片……",
