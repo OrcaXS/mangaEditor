@@ -205,6 +205,7 @@ export default {
     this.loadKonva = true;
     setTimeout(() => this.setScale(this.currentScale), 0);
     setTimeout(() => this.windowResized(), 0);
+    setTimeout(() => this.customScroll(), 0);
     // window.setTimeout(this.adjustCanvasOnRefresh(), 10000);
     // this.fitStageIntoContainer();
     // this.fitImageIntoStage();
