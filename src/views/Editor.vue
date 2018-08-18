@@ -167,15 +167,6 @@ export default {
   created() {
     const id = this.$route.params.file_id;
     this.getFile({ id });
-    // if (typeof this.$store.state.canvas.file[id] === 'object') {
-      // this.isStorageReady = true;
-      // window.location.reload(true);
-    // } else {
-      // eslint-disable-next-line no-underscore-dangle
-      // this.$eventHub.$on('storageReady', () => {
-      //   this.isStorageReady = true;
-      // });
-    // }
   },
 
   beforeRouteUpdate(to, from, next) {
