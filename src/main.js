@@ -5,6 +5,7 @@ import VueI18n from 'vue-i18n';
 import VueCookie from 'vue-cookie';
 import VueAnalytics from 'vue-analytics';
 import Meta from 'vue-meta';
+import Ads from 'vue-google-adsense';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import WebFontLoader from '@/scripts/webFontLoader';
@@ -18,6 +19,9 @@ import router from './router';
 import store from './store';
 
 // Vue.config.devtools = true;
+Vue.use(require('vue-script2'));
+
+Vue.use(Ads.Adsense);
 
 Vue.use(VueKonva);
 Vue.use(vClickOutside);

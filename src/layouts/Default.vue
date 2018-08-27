@@ -55,6 +55,9 @@
       </div>
     </nav>
     <slot/>
+    <Adsense
+      :data-ad-client="adsense.client"
+      :data-ad-slot="adsense.slot" />
     <footer class="DefaultLayout-footer">
       <span v-t="{ path: 'misc.footer' }" />
       <a
@@ -78,6 +81,10 @@ export default {
         { id: 'zh', text: '中文' },
         { id: 'en', text: 'English' },
       ],
+      adsense: {
+        client: process.env.VUE_APP_ADSENSE_CLIENT,
+        slot: process.env.VUE_APP_ADSENSE_SLOT,
+      },
     };
   },
   methods: {
