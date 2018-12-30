@@ -1,10 +1,12 @@
 # mangaEditor (Manga Editor)
-
+### Note: this web app is not compatible with mobile browsers.
 ## Features
-
-## Recent Updates
+- Automatically detects balloons in a manga/comic, powered by ML.
+- Replace text inside the original manga with your favored one.
+- Use fonts installed on your OS.
 
 ## Todo
+- [ ] Translation
 
 ## Build Setup
 
