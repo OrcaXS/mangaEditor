@@ -32,7 +32,7 @@ const resolveConf = {
 // }
 
 module.exports = {
-  baseUrl: process.env.CONF_BASE_URL || '/',
+  publicPath: process.env.CONF_PUBLIC_PATH || '/',
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {
       return {
