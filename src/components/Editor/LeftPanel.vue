@@ -107,7 +107,7 @@
             <div
               v-for="(textArea, tIdx) in originalTextAreas"
               v-if="textArea.balloonIdx === parseInt(bIdx, 10) && accordionOpen.indexOf(bIdx) > -1"
-              :key="tIdx"
+              :key="textArea.x.toString() + textArea.y.toString()"
               :class="{ 'LeftPanel-item--textArea--active': tIdx === selected.textArea }"
               class="LeftPanel-item--textArea"
             >

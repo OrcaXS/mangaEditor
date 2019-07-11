@@ -322,7 +322,7 @@ export default {
     },
 
     canvasOnClick() {
-      console.log('clickedCanvas');
+      // console.log('clickedCanvas');
       this.$store.dispatch('clearSelection', { type: 'clearAll' });
       // this.$eventHub.$emit('clickedCanvas');
     },
