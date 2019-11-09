@@ -118,8 +118,8 @@ export default {
 
   width: 360px;
   height: 240px;
-  border: 2px dashed config('colors.peach-shade-2');
-  color: config('colors.peach-shade-1');
+  border: 2px dashed theme('colors.peach-shade-2');
+  color: theme('colors.peach-shade-1');
   font-size: 8em;
   /* line-height: 5.0; */
 }

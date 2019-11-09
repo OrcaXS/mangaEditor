@@ -241,15 +241,15 @@ export default {
 <style scoped lang="postcss">
 .LeftPanel {
   height: calc(100vh - 3rem);
-  /* border: 1px solid config('colors.grey-light'); */
-  background-color: config('colors.peach-lighter');
-  border-right: 1px solid config('colors.peach');
+  /* border: 1px solid theme('colors.gray-light'); */
+  background-color: theme('colors.peach-lighter');
+  border-right: 1px solid theme('colors.peach');
   overflow: auto;
   line-height: 1.3;
 }
 
 .LeftPanel-category {
-  background-color: config('colors.peach-light-1');
+  background-color: theme('colors.peach-light-1');
   text-align: center;
   padding: .25rem 0;
   font-size: .9em;
@@ -259,7 +259,7 @@ export default {
 .LeftPanel-layer {
   font-weight: 500;
   padding: .25rem 0;
-  color: config('colors.peach-mono-3');
+  color: theme('colors.peach-mono-3');
 }
 
 .LeftPanel-balloonName {
@@ -300,13 +300,13 @@ export default {
 }
 
 .LeftPanel-elementSelected {
-  background-color: config('colors.peach-mono-3');
-  color: config('colors.peach-lighter');
+  background-color: theme('colors.peach-mono-3');
+  color: theme('colors.peach-lighter');
 }
 
 .LeftPanel-elementSelected--alt {
-  background-color: config('colors.peach-shade-3');
-  color: config('colors.peach-lighter');
+  background-color: theme('colors.peach-shade-3');
+  color: theme('colors.peach-lighter');
 }
 
 .LeftPanel-accordionBtn {
@@ -330,8 +330,8 @@ export default {
   width: 100%;
   padding: .1em .2em;
   font-size: .9em;
-  background-color: config('colors.peach-mono-3');
-  color: config('colors.peach-lighter');
+  background-color: theme('colors.peach-mono-3');
+  color: theme('colors.peach-lighter');
 }
 
 .LeftPanel-item--textArea {
@@ -349,8 +349,8 @@ export default {
   width: 100%;
   font-size: .9em;
   padding: .1em 0 .1em 1.25em;
-  background-color: config('colors.peach-mono-3');
-  color: config('colors.peach-lighter');
+  background-color: theme('colors.peach-mono-3');
+  color: theme('colors.peach-lighter');
 }
 
 .LeftPanel-item--balloons {
@@ -369,13 +369,13 @@ export default {
 .LeftPanel-layerControlBtn {
   padding: 0 .1em;
   font-size: .9em;
-  color: config('colors.peach-mono-2');
+  color: theme('colors.peach-mono-2');
 }
 
 .LeftPanel-layerControlBtn--alt {
   padding: 0 .1em;
   font-size: .9em;
-  color: config('colors.peach-light');
+  color: theme('colors.peach-light');
 }
 
 .list-enter-active, .list-leave-active {

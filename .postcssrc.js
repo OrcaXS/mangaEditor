@@ -17,7 +17,7 @@ module.exports = () => ({
       }),
     },
     'postcss-url': {},
-    tailwindcss: './tailwind.js',
+    tailwindcss: "./tailwind.config.js",
     'postcss-preset-env': {
       stage: 3,
       features: {

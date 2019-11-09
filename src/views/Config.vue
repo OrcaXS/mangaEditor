@@ -179,7 +179,7 @@ export default {
 .Config-previewDescription {
   font-size: .8em;
   padding-top: .2em;
-  color: config('colors.grey-darker');
+  color: theme('colors.gray-darker');
 }
 
 .Config-fontItem {

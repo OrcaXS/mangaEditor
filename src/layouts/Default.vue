@@ -117,7 +117,7 @@ export default {
 }
 
 .DefaultLayout-nav {
-  background-color: config('colors.black');
+  background-color: theme('colors.black');
   height: 3rem;
 
   display: flex;
@@ -140,26 +140,26 @@ export default {
   padding: 1em;
 
   &:hover {
-    background-color: config('colors.grey-lighter');
-    color: config('colors.black');
+    background-color: theme('colors.gray-lighter');
+    color: theme('colors.black');
   }
 }
 
 .DefaultLayout-btn--active {
   padding: 1em;
-  background-color: config('colors.grey-lighter');
-  color: config('colors.black');
+  background-color: theme('colors.gray-lighter');
+  color: theme('colors.black');
 }
 
 .DefaultLayout-footer {
   text-align: center;
   font-size: .9em;
-  color: config('colors.grey');
+  color: theme('colors.gray');
   margin: 2em 0;
 }
 
 .DefaultLayout-footerAnchor {
-  color: config('colors.grey');
+  color: theme('colors.gray');
 }
 
 </style>

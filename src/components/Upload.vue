@@ -51,7 +51,7 @@
     <div
       v-if="isUploading"
       role="alert"
-      class="Upload-errInfo border border-blue-light rounded bg-blue-lightest px-4 py-3 text-blue-dark">
+      class="Upload-errInfo border border-blue-light rounded bg-blue-500-lightest px-4 py-3 text-blue-dark">
       <p v-t="{ path: 'upload.uploading' }" />
     </div>
     <div
@@ -77,7 +77,7 @@
     <div
       v-if="localStorageRdy"
       role="alert"
-      class="Upload-errInfo border border-blue-light rounded bg-blue-lightest px-4 py-3 text-blue-dark"
+      class="Upload-errInfo border border-blue-light rounded bg-blue-500-lightest px-4 py-3 text-blue-dark"
     >
       <AssetsDownload :id="lastFileId"/>
     </div>
@@ -238,8 +238,8 @@ export default {
 
   width: 360px;
   height: 240px;
-  border: 2px dashed config('colors.peach-shade-2');
-  color: config('colors.peach-shade-1');
+  border: 2px dashed theme('colors.peach-shade-2');
+  color: theme('colors.peach-shade-1');
 }
 
 .Upload-hint {

@@ -1,4 +1,4 @@
-@import "tailwindcss/preflight";
+@import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 @import "./dropdown.css";
@@ -12,49 +12,49 @@ button:focus {
 }
 
 .btn-blue {
-  @apply bg-blue text-white;
+  @apply bg-blue-500 text-white;
 }
 
 .btn-blue:hover {
-  @apply bg-blue-dark;
+  @apply bg-blue-700;
 }
 
 .btn-green {
-  @apply bg-green text-white;
+  @apply bg-green-500 text-white;
 }
 
 .btn-green:hover {
-  @apply bg-green-dark;
+  @apply bg-green-700;
 }
 
 .Config-addFontBtn {
-  @apply bg-blue text-white font-semibold py-2 px-4 border border-grey-light rounded shadow;
+  @apply bg-blue-500 text-white font-semibold py-2 px-4 border border-gray-300 rounded shadow;
   margin-left: 1rem;
   height: 2.5em;
 }
 
 .Config-addFontBtn:hover {
-  @apply bg-blue-light text-white font-semibold py-2 px-4 border border-grey-light rounded shadow;
+  @apply bg-blue-300 text-white font-semibold py-2 px-4 border border-gray-300 rounded shadow;
 }
 
 .Config-testArea {
-  @apply max-w-sm rounded overflow-hidden py-2 px-3 bg-grey-light;
+  @apply max-w-sm rounded overflow-hidden py-2 px-3 bg-gray-300;
 }
 
 .Config-fontName {
-  @apply bg-white text-grey-darkest py-1 px-4 border border-grey-light rounded;
+  @apply bg-white text-gray-900 py-1 px-4 border border-gray-300 rounded;
   font-family: sans-serif;
   margin-left: 1em;
 }
 
 .Config-fontName--selected {
-  @apply bg-blue-dark text-white py-1 px-4 border border-grey-light rounded;
+  @apply bg-blue-700 text-white py-1 px-4 border border-gray-300 rounded;
   font-family: sans-serif;
   margin-left: 1em;
 }
 
 .Config-fontName:hover {
-  @apply bg-grey-lightest text-grey-darkest py-1 px-4 border border-grey-light rounded;
+  @apply bg-gray-100 text-gray-900 py-1 px-4 border border-gray-300 rounded;
   font-family: sans-serif;
   margin-left: 1em;
 }
@@ -75,5 +75,5 @@ button:focus {
 }
 
 .DefaultLayout-langmenuItem:hover {
-  @apply bg-grey-light;
+  @apply bg-gray-300;
 }

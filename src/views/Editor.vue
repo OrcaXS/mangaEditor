@@ -240,7 +240,7 @@ export default {
 }
 
 .EditorLayout-topbar {
-  background-color: config('colors.peach-mono-1');
+  background-color: theme('colors.peach-mono-1');
   height: 3rem;
 
   position: fixed;
@@ -276,7 +276,7 @@ export default {
   cursor: default;
 
   &:hover {
-    background-color: config('colors.peach');
+    background-color: theme('colors.peach');
   }
 }
 

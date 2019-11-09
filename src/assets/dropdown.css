@@ -13,8 +13,8 @@
     padding: .2em .5em;
     width: 17em;
     height: 1.75em;
-    background-color: config('colors.peach-lighter');
-    color: config('colors.peach-mono-3');
+    background-color: theme('colors.peach-lighter');
+    color: theme('colors.peach-mono-3');
     font-size: 1em;
     cursor: pointer;
     &:invalid {
@@ -57,8 +57,8 @@
     width: 8em;
     max-width: 100%;
     height: 1.75em;
-    background-color: config('colors.peach-lighter');
-    color: config('colors.peach-mono-3');
+    background-color: theme('colors.peach-lighter');
+    color: theme('colors.peach-mono-3');
     font-size: 1em;
     cursor: pointer;
     &:invalid {
@@ -101,8 +101,8 @@
     width: 4em;
     max-width: 100%;
     height: 1.75em;
-    background-color: config('colors.peach-lighter');
-    color: config('colors.peach-mono-3');
+    background-color: theme('colors.peach-lighter');
+    color: theme('colors.peach-mono-3');
     font-size: 1em;
     cursor: pointer;
     &:invalid {

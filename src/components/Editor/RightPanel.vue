@@ -272,16 +272,16 @@ export default {
 
 .RightPanel {
   font-size: 0.85rem;
-  /* border: 1px solid config('colors.grey-light'); */
-  background-color: config('colors.peach-lighter');
+  /* border: 1px solid theme('colors.gray-light'); */
+  background-color: theme('colors.peach-lighter');
   box-shadow: -2px 2px 10px 1px rgba(0,0,0,0.4);
   border-radius: 1px;
-  border: 1px solid config('colors.peach');
+  border: 1px solid theme('colors.peach');
   overflow: auto;
 }
 
 .RightPanel-category {
-  background-color: config('colors.peach-light-1');
+  background-color: theme('colors.peach-light-1');
   text-align: center;
   padding: .25rem 0;
   /* margin: .1rem 0; */
@@ -290,11 +290,11 @@ export default {
 .RightPanel-layer {
   font-weight: 500;
   padding: .5rem .1rem;
-  color: config('colors.grey-darker');
+  color: theme('colors.gray-darker');
 }
 
 .RightPanel-category {
-  background-color: config('colors.peach-light-1');
+  background-color: theme('colors.peach-light-1');
   text-align: center;
   padding: .25rem 0;
   /* margin: .1rem 0; */
@@ -303,7 +303,7 @@ export default {
 .RightPanel-content {
   font-weight: 500;
   padding: .5rem .1rem;
-  color: config('colors.grey-darker');
+  color: theme('colors.gray-darker');
 }
 
 .RightPanel-currentColor {
@@ -327,7 +327,7 @@ export default {
 }
 
 .RightPanel-description {
-  color: config('colors.peach-mono-3');
+  color: theme('colors.peach-mono-3');
   text-align: center;
   padding-bottom: .2em;
   font-size: .9em;
